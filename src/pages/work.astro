@@ -1,0 +1,41 @@
+---
+import Base from "../layouts/Base.astro";
+import getProjects from "../utils/getProjects";
+import WorkCard from "../components/WorkCard.astro";
+const projects = getProjects().filter(p => p.status !== 'draft');
+const categories = Array.from(new Set(projects.flatMap(p => p.categories||[]))).sort();
+---
+<Base title="Our Work — Fast Events">
+  <section class="container py-10">
+    <h1 class="text-3xl font-extrabold">Our Work</h1>
+    <div id="filters" class="flex flex-wrap gap-2 mt-4">
+      <button data-cat="all" class="px-3 py-1 rounded-full border" style="border-color:var(--brand)">All</button>
+      {categories.map(c => <button data-cat={c} class="px-3 py-1 rounded-full border" style="border-color:var(--brand)">{c}</button>)}
+      <input id="q" placeholder="Search…" class="ml-auto px-3 py-1 rounded border" />
+    </div>
+    <div id="grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
+      {projects.map(p => <WorkCard project={p} />)}
+    </div>
+  </section>
+  <script is:raw>
+    const grid = document.getElementById('grid');
+    const btns = document.querySelectorAll('#filters [data-cat]');
+    const q = document.getElementById('q');
+    function apply() {
+      const active = document.querySelector('#filters [data-cat].__on')?.dataset.cat || 'all';
+      const term = (q.value || '').toLowerCase();
+      for (const card of grid.children) {
+        const cats = [...card.querySelectorAll('.chip')].map(x=>x.textContent);
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const catMatch = active === 'all' || cats.includes(active);
+        const textMatch = !term || title.includes(term);
+        card.style.display = (catMatch && textMatch) ? '' : 'none';
+      }
+    }
+    btns.forEach(b => b.addEventListener('click', () => {
+      btns.forEach(x => x.classList.remove('__on'));
+      b.classList.add('__on'); apply();
+    }));
+    q.addEventListener('input', apply);
+  </script>
+</Base>

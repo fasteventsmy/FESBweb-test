@@ -1,0 +1,17 @@
+---
+import Base from "../../layouts/Base.astro";
+import getProjects from "../../utils/getProjects";
+const all = getProjects();
+const slug = Astro.params.slug!;
+const project = all.find(p => p.slug === slug);
+if (!project) throw new Error(`Project not found: ${slug}`);
+---
+<Base title={`${project.title} — Fast Events`}>
+  <article class="container py-10">
+    <a href="/work" class="text-sm underline">← Back to Work</a>
+    <h1 class="mt-2 text-3xl font-extrabold">{project.title}</h1>
+    {project.client && <p style="color:var(--muted)">{project.client} · {project.location}</p>}
+    <img src={project.cover} alt={project.title} class="w-full rounded mt-4 aspect-[16/9] object-cover" />
+    {project.body && <div class="prose prose-invert mt-6 max-w-none">{project.body}</div>}
+  </article>
+</Base>

@@ -1,0 +1,21 @@
+---
+const data = [
+  { id:'Selangor', label:'Selangor', count:182 },
+  { id:'Sabah', label:'Sabah', count:74 }
+];
+---
+<div class="w-full">
+  <svg viewBox="0 0 600 200" class="w-full h-auto select-none">
+    <g id="Peninsular">
+      <rect id="Selangor" x="60" y="60" width="140" height="80" rx="10" class="region" />
+    </g>
+    <g id="Borneo">
+      <rect id="Sabah" x="360" y="40" width="160" height="120" rx="10" class="region" />
+    </g>
+  </svg>
+  <div class="mt-3 text-sm" style="color:var(--muted)">Hover a region to highlight. (Replace with full-state SVG + data.)</div>
+</div>
+<style>
+  .region{ fill: color-mix(in oklab, var(--brand) 18%, transparent); stroke: var(--brand); stroke-width: 2; transition: transform .15s ease, fill .2s ease; }
+  .region:hover{ transform: scale(1.02); fill: color-mix(in oklab, var(--brand) 30%, transparent); }
+</style>
