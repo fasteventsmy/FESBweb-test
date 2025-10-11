@@ -1,10 +1,17 @@
 ---
 import Base from "../../layouts/Base.astro";
 import getProjects from "../../utils/getProjects";
-const all = getProjects();
-const slug = Astro.params.slug!;
-const project = all.find(p => p.slug === slug);
-if (!project) throw new Error(`Project not found: ${slug}`);
+
+// Tell Astro which /projects/<slug> pages to generate
+export async function getStaticPaths() {
+  const items = getProjects().filter(p => p.status !== 'draft');
+  return items.map(p => ({
+    params: { slug: p.slug },
+    props: { project: p },
+  }));
+}
+
+const { project } = Astro.props;
 ---
 <Base title={`${project.title} — Fast Events`}>
   <article class="container py-10">
