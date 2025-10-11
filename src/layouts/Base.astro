@@ -4,6 +4,10 @@ const THEME =
   Astro.url.searchParams.get('theme') ??
   'b';
 
+let themeHref = "../styles/theme-concept-b.css";
+if (THEME === 'a') themeHref = "../styles/theme-concept-a.css";
+if (THEME === 'c') themeHref = "../styles/theme-concept-c.css";
+
 import "../styles/base.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -15,17 +19,9 @@ const { title = "Fast Events" } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>{title}</title>
-
-    {THEME === 'a' && (
-      <link rel="stylesheet" href={Astro.resolve("../styles/theme-concept-a.css")} />
-    )}
-    {THEME === 'b' && (
-      <link rel="stylesheet" href={Astro.resolve("../styles/theme-concept-b.css")} />
-    )}
-    {THEME === 'c' && (
-      <link rel="stylesheet" href={Astro.resolve("../styles/theme-concept-c.css")} />
-    )}
+    <link rel="stylesheet" href={Astro.resolve(themeHref)} />
   </head>
+
   <body style="background: var(--bg); color: var(--text); font-family: var(--font-sans);">
     <Header />
     <main class="pt-16">
