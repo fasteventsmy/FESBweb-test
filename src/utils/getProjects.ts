@@ -11,7 +11,6 @@ export type Project = {
   status?: string;
 };
 
-// Updated to use query '?raw' instead of deprecated as: 'raw'
 const modules = import.meta.glob('/content/projects/**/project.md', {
   eager: true,
   query: '?raw',
