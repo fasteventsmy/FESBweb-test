@@ -17,16 +17,16 @@ const { title = "Fast Events" } = Astro.props;
     <title>{title}</title>
 
     {THEME === 'a' && (
-      <style is:global>@import "../styles/theme-concept-a.css";</style>
+      <link rel="stylesheet" href={Astro.resolve("../styles/theme-concept-a.css")} />
     )}
     {THEME === 'b' && (
-      <style is:global>@import "../styles/theme-concept-b.css";</style>
+      <link rel="stylesheet" href={Astro.resolve("../styles/theme-concept-b.css")} />
     )}
     {THEME === 'c' && (
-      <style is:global>@import "../styles/theme-concept-c.css";</style>
+      <link rel="stylesheet" href={Astro.resolve("../styles/theme-concept-c.css")} />
     )}
   </head>
-  <body style={`background:var(--bg);color:var(--text);font-family:var(--font-sans)`}>
+  <body style="background: var(--bg); color: var(--text); font-family: var(--font-sans);">
     <Header />
     <main class="pt-16">
       <slot />
