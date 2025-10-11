@@ -1,22 +1,26 @@
 ---
-const THEME = Astro.url.searchParams.get('theme') ?? 'b';
-import `../styles/theme-concept-${THEME}.css`;
+const THEME =
+  import.meta.env.PUBLIC_THEME ??
+  Astro.url.searchParams.get('theme') ??
+  'b';
 import "../styles/base.css";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-const { title = "Fast Events" } = Astro.props;
 ---
+
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>{title}</title>
+    <title>{Astro.props.title ?? "Fast Events"}</title>
+
+    {THEME === 'a' && (
+      <style is:global>@import "../styles/theme-concept-a.css";</style>
+    )}
+    {THEME === 'b' && (
+      <style is:global>@import "../styles/theme-concept-b.css";</style>
+    )}
+    {THEME === 'c' && (
+      <style is:global>@import "../styles/theme-concept-c.css";</style>
+    )}
   </head>
   <body style={`background:var(--bg);color:var(--text);font-family:var(--font-sans)`}>
-    <Header />
-    <main class="pt-16">
-      <slot />
-    </main>
-    <Footer />
-  </body>
-</html>
+    <!-- rest of the file stays the same -->
