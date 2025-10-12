@@ -1,11 +1,16 @@
-<section id="home" class="hero" style={`background-image:url(https://i.imgur.com/TN7ddHX.png);`}>
-  <div class="inner container">
-    <img src="/assets/fast-logo-black.svg" alt="Fast Events" height="44" style="filter: drop-shadow(0 2px 8px rgba(0,0,0,.35));" />
-    <h1>High-impact experiences, built fast.</h1>
-    <p>We design, build, and run events that move people — from launches and roadshows to immersive brand worlds.</p>
-    <div style="display:flex; gap:.6rem; justify-content:center;">
-      <a class="btn btn-black" href="#services">What we do</a>
-      <a class="btn btn-ghost" href="#work">Our work</a>
+---
+const BG = "https://i.imgur.com/TN7ddHX.png";
+---
+<section id="home" style={`background:url(${BG}) center/cover no-repeat, linear-gradient(transparent,transparent)`}>
+  <div style="backdrop-filter:saturate(0.5) brightness(.6);">
+    <div style="max-width:1100px;margin:0 auto;padding:7rem 1rem; text-align:center;">
+      <img src="/assets/fast-logo-black.svg" alt="Fast Events" style="height:56px;filter:none;margin-bottom:1rem;" />
+      <h1 style="margin:0 0 .6rem 0;">High-impact experiences, built fast.</h1>
+      <p style="opacity:.85;max-width:720px;margin:0 auto 1.2rem;">We design, build, and run events that move people — from launches and roadshows to immersive brand worlds.</p>
+      <div style="display:flex;gap:.5rem;justify-content:center;">
+        <a class="button button--dark" href="#services">What we do</a>
+        <a class="button button--mint" href="#work">Our work</a>
+      </div>
     </div>
   </div>
 </section>
