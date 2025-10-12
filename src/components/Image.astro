@@ -1,0 +1,6 @@
+---
+const { src, alt = "", ...rest } = Astro.props;
+const fallback = "https://i.imgur.com/fxI7KNH.png";
+const finalSrc = (typeof src === "string" && src.trim().length > 0) ? src : fallback;
+---
+<img src={finalSrc} alt={alt} loading="lazy" decoding="async" {...rest} />

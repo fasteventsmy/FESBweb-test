@@ -1,0 +1,39 @@
+---
+const current = Astro.url.pathname;
+const isActive = (href: string) => (current === href || current.startsWith(href + '/')) ? 'active' : '';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/src/styles/theme-concept-c.css" />
+    <title>Fast Events — Concept C</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
+        <a href="/" style="display:flex; align-items:center; gap:.75rem; padding:.6rem 0;">
+          <img src="/assets/fast-logo-black.svg" alt="Fast Events" height="28" style="display:block" />
+        </a>
+        <nav class="nav" style="display:flex; gap:.25rem;">
+          <a class={isActive('/')} href="/">Home</a>
+          <a class={isActive('/about')} href="/about">About Us</a>
+          <a class={isActive('/services')} href="/services">Our Services</a>
+          <a class={isActive('/work')} href="/work">Our Work</a>
+          <a class={isActive('/contact')} href="/contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <slot />
+
+    <footer class="site-footer">
+      <div class="container">
+        <p style="opacity:.7">© {new Date().getFullYear()} Fast Events</p>
+      </div>
+    </footer>
+  </body>
+</html>
