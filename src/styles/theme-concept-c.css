@@ -1,2 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap');
-:root{--bg:#F5F7FA;--text:#0A0A0A;--muted:rgba(0,0,0,.70);--card:#FFFFFF;--brand:#4DFF9A;--brand-cta:#0FD778;--font-sans:'Manrope',system-ui,sans-serif}
+
+:root {
+  --bg: #0B0B0B; /* rich black BG for hero-style areas if needed */
+  --text: #FFFFFF; /* white on dark */
+  --muted: rgba(255, 255, 255, 0.72);
+  --card: #111114;
+  --brand: #7F66FF; /* not used now; keep for history */
+  --brand-cta: #4DFF9A; /* neo-mint accent */
+  --font-sans: 'Manrope', system-ui, sans-serif;
+}
