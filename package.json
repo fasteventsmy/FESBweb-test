@@ -1,0 +1,14 @@
+{
+  "name": "fast-events-concept-c",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start": "astro dev"
+  },
+  "dependencies": {
+    "astro": "^4.13.0"
+  }
+}

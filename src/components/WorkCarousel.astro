@@ -1,0 +1,28 @@
+---
+import WorkCard from "./WorkCard.astro";
+
+/** Load cards from /content/work/*.json. New uploads will appear automatically. */
+const glob = import.meta.glob("../../content/work/*.json", { eager: true });
+const items = Object.values(glob)
+  .map((m:any) => m.default)
+  .filter(Boolean)
+  .sort((a:any,b:any) => (b.date || "").localeCompare(a.date || ""))
+  .slice(0, 10);
+
+const hasItems = items.length > 0;
+const lastCard = { title: "See more of our work", cover: "", url: "/work" };
+---
+
+<section id="work" class="section">
+  <div class="container">
+    <h2 style="font-weight: var(--font-heading-2-weight); margin-bottom:.5rem;">Our Work</h2>
+    <div class="carousel">
+      <button class="arrow prev" type="button" aria-label="Previous" onclick="this.nextElementSibling.scrollBy({left:-320, behavior:'smooth'})">‹</button>
+      <div class="carousel-track">
+        {hasItems ? items.map((item:any) => <WorkCard item={item} />) : null}
+        <WorkCard item={lastCard} />
+      </div>
+      <button class="arrow next" type="button" aria-label="Next" onclick="this.previousElementSibling.scrollBy({left:320, behavior:'smooth'})">›</button>
+    </div>
+  </div>
+</section>
