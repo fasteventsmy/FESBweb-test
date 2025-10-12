@@ -1,6 +1,7 @@
 ---
 import "../styles/theme-concept-c.css";
 import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 const { title = "Fast Events — High-impact experiences, built fast." } = Astro.props;
 ---
 
@@ -14,12 +15,9 @@ const { title = "Fast Events — High-impact experiences, built fast." } = Astro
   </head>
   <body>
     <Header />
-    <slot />
-
-    <footer class="site-footer">
-      <div class="container">
-        <p style="opacity:.7">© {new Date().getFullYear()} Fast Events</p>
-      </div>
-    </footer>
+    <main>
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>
