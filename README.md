@@ -18,4 +18,5 @@ Push to `main`. Workflow is in `.github/workflows/pages.yml`.
 5. `categories` accepts either a JSON-style array or a single string — the loader will normalize it.
 
 ## Switch theme
+Default theme is Concept C. Override via URL (`?theme=a|b|c`) or `PUBLIC_THEME` env.
 Append `?theme=a`, `?theme=b`, or `?theme=c` to the URL to preview each concept. Set the default in production with the `PUBLIC_THEME` environment variable (for example in Vercel). A URL query always wins over the environment configuration.

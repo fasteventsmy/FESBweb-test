@@ -9,19 +9,16 @@ const themeMap = {
   c: "../styles/theme-concept-c.css",
 } as const;
 
-const themeParam = Astro.url.searchParams.get("theme")?.toLowerCase();
-const envTheme = import.meta.env.PUBLIC_THEME?.toLowerCase();
+const urlTheme = Astro.url.searchParams.get("theme");
+const envTheme = import.meta.env.PUBLIC_THEME;
+const theme = (urlTheme ?? envTheme ?? "c").toLowerCase();
 
 type ThemeKey = keyof typeof themeMap;
 
-const isThemeKey = (value: string | undefined): value is ThemeKey =>
-  typeof value === "string" &&
+const isThemeKey = (value: string): value is ThemeKey =>
   Object.prototype.hasOwnProperty.call(themeMap, value);
 
-const themeKey: ThemeKey =
-  (isThemeKey(themeParam) && themeParam) ||
-  (isThemeKey(envTheme) && envTheme) ||
-  "b";
+const themeKey: ThemeKey = isThemeKey(theme) ? theme : "c";
 
 const themeHref = themeMap[themeKey];
 
@@ -32,6 +29,12 @@ const { title = "Fast Events" } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap"
+    />
     <link
       rel="stylesheet"
       href={
