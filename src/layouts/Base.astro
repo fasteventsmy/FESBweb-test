@@ -23,6 +23,13 @@ const themeKey: ThemeKey = isThemeKey(theme) ? theme : "c";
 const themeHref = themeMap[themeKey];
 
 const { title = "Fast Events" } = Astro.props;
+
+const debugEnabled = import.meta.env.PUBLIC_DEBUG === "1";
+const commitSha =
+  import.meta.env.VERCEL_GIT_COMMIT_SHA ??
+  import.meta.env.GITHUB_SHA ??
+  "";
+const shortCommitSha = commitSha ? commitSha.slice(0, 7) : "unknown";
 ---
 <html lang="en">
   <head>
@@ -48,5 +55,12 @@ const { title = "Fast Events" } = Astro.props;
       <slot />
     </main>
     <Footer />
+    {debugEnabled && (
+      <div
+        class="fixed bottom-4 right-4 rounded-full bg-[#7f66ff] px-3 py-1 text-xs font-medium text-white shadow-lg"
+      >
+        concept C · {shortCommitSha}
+      </div>
+    )}
   </body>
 </html>
