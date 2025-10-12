@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import getTeam from "../utils/getTeam";
 import OrgChart from "../components/OrgChart.astro";
+import Image from "../components/Image.astro";
 const people = getTeam();
 const directors = people.filter((p:any) => /Director/i.test(p.role));
 const rest = people.filter((p:any) => !/Director/i.test(p.role));
@@ -16,7 +17,7 @@ const rest = people.filter((p:any) => !/Director/i.test(p.role));
     <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
       {directors.map((p:any) => (
         <div class="p-4 rounded" style="background:var(--card)">
-          {p.photo && <img src={p.photo} alt={p.name} class="w-16 h-16 rounded-full object-cover mb-3" />}
+          <Image src={p.photo} alt={p.name} class="w-16 h-16 rounded-full object-cover mb-3" width="64" height="64" />
           <div class="font-semibold">{p.name}</div>
           <div class="text-sm" style="color:var(--muted)">{p.role}</div>
         </div>

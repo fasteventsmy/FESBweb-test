@@ -1,16 +1,6 @@
 ---
-interface Props {
-  src?: string | null;
-  alt?: string;
-  class?: string;
-  loading?: 'eager' | 'lazy';
-  decoding?: 'sync' | 'async' | 'auto';
-}
-const PLACEHOLDER = 'https://i.imgur.com/fxI7KNH.png';
-const resolved = (Astro.props.src && String(Astro.props.src).trim()) ? String(Astro.props.src) : PLACEHOLDER;
-const alt = Astro.props.alt ?? '';
-const clazz = Astro.props.class ?? '';
-const loading = Astro.props.loading ?? 'lazy';
-const decoding = Astro.props.decoding ?? 'async';
+const { src, alt = '', width, height, class: klass = '' } = Astro.props;
+const fallback = 'https://i.imgur.com/fxI7KNH.png';
+const resolved = (src && String(src).trim().length > 0) ? src : fallback;
 ---
-<img src={resolved} alt={alt} class={clazz} loading={loading} decoding={decoding} />
+<img src={resolved} alt={alt} width={width} height={height} class={klass} loading="lazy" decoding="async" />
