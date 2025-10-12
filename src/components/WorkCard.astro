@@ -8,7 +8,7 @@ const { project } = Astro.props;
     <div class="p-4">
       <h3 class="font-bold">{project.title}</h3>
       {project.client && <p class="text-sm" style="color:var(--muted)">{project.client}</p>}
-      {project.categories && <div class="flex flex-wrap gap-1 mt-2">
+      {Array.isArray(project.categories) && project.categories.length > 0 && <div class="flex flex-wrap gap-1 mt-2">
         {project.categories.map((c:any) => <span class="chip">{c}</span>)}
       </div>}
     </div>
