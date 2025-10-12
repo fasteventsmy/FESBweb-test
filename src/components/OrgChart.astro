@@ -1,4 +1,6 @@
 ---
+import Image from "./Image.astro";
+
 interface Person{ name:string; role:string; dept:string; photo?:string }
 const { people } = Astro.props as { people: Person[] };
 const groups = people.reduce((m:any,p)=>{ (m[p.dept]=m[p.dept]||[]).push(p); return m; },{});
@@ -10,7 +12,7 @@ const groups = people.reduce((m:any,p)=>{ (m[p.dept]=m[p.dept]||[]).push(p); ret
       <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {list.map((p: any) => (
           <div class="p-4 rounded" style="background:var(--card)">
-            {p.photo && <img src={p.photo} alt={p.name} class="w-16 h-16 rounded-full object-cover mb-3" />}
+            <Image src={p.photo} alt={p.name} class="w-16 h-16 rounded-full object-cover mb-3" width="64" height="64" />
             <div class="font-semibold">{p.name}</div>
             <div class="text-sm" style="color:var(--muted)">{p.role}</div>
           </div>

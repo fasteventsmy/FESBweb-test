@@ -1,24 +1,46 @@
-/* Concept C — “The Spark” (corrected) */
+/* Concept C — The Spark (global tokens + defaults) */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap');
 
 :root{
-  /* Color system */
-  --bg:   #0A0A0A;                 /* Rich Black (hero / dark areas) */
-  --text: #FFFFFF;                 /* White on dark */
-  --muted: rgba(255, 255, 255, .72);
-  --card: #F5F7FA;                 /* Light Silver (panels / chips / cards) */
-  --brand: #0A0A0A;                /* (reserved, not used right now) */
-  --brand-cta: #4DFF9A;            /* Default Accent (neo-mint) */
+  /* Colors */
+  --bg: #0A0A0A;              /* Rich Black — hero/dark */
+  --text: #FFFFFF;            /* White on dark */
+  --muted: #F5F7FA;           /* Light Silver — panels/nav/cards */
+  --card: #111114;            /* Optional darker card */
+  --brand: #0A0A0A;           /* reserved */
+  --brand-cta: #4DFF9A;       /* Neo-mint accent */
 
-  /* Type */
+  /* Typography */
   --font-sans: 'Manrope', system-ui, sans-serif;
-  --font-heading-weight: 800;      /* default for big headings */
-  --font-display-weight: 700;      /* secondary display weight */
-  --font-body-weight: 500;         /* body default */
-  --font-body-weight-alt: 400;     /* light body/long text */
+  --font-heading-weight: 800; /* big headings */
+  --font-display-weight: 700; /* secondary display */
+  --font-body-weight: 500;    /* body default */
+  --font-body-weight-alt: 400;/* light body */
 }
 
-/* sensible defaults most pages rely on */
+/* Global sensible defaults */
 html, body { font-family: var(--font-sans); }
 body { color: var(--text); background: var(--bg); font-variant-numeric: tabular-nums; }
 h1, h2, h3 { font-weight: var(--font-heading-weight); }
+
+/* Global button system */
+.btn { 
+  display:inline-flex; align-items:center; gap:.5rem; 
+  padding:.6rem .9rem; border-radius:999px; 
+  font-weight:700; text-decoration:none; 
+  border:2px solid transparent; transition:all .2s ease;
+}
+
+.btn-primary { background: var(--brand); color: var(--muted); }
+.btn-primary:hover { filter: brightness(1.12); }
+
+.btn-ghost { background: transparent; color: var(--brand); border-color: var(--brand); }
+.btn-ghost:hover { color: var(--brand-cta); border-color: var(--brand-cta); }
+
+/* Selected/active state */
+.btn.active, .btn[aria-current="page"] {
+  background: var(--brand-cta); color: #0B0B0B; border-color: var(--brand-cta);
+}
+
+/* Card/chip polish for Concept C */
+.card, .chip { background: var(--muted); color: var(--brand); border-radius: 12px; }
