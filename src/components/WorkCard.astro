@@ -1,10 +1,14 @@
 ---
+import Image from "./Image.astro";
+
 interface Props { project: any }
 const { project } = Astro.props;
 ---
 <article class="rounded overflow-hidden" style="background:var(--card)">
   <a href={`/projects/${project.slug}/`} aria-label={project.title}>
-    <img src={project.cover} alt={project.title} class="w-full aspect-[4/3] object-cover" />
+    <div class="w-full aspect-[4/3] overflow-hidden">
+      <Image src={project.cover} alt={project.title} class="thumb w-full h-full object-cover" />
+    </div>
     <div class="p-4">
       <h3 class="font-bold">{project.title}</h3>
       {project.client && <p class="text-sm" style="color:var(--muted)">{project.client}</p>}
