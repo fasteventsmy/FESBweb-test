@@ -1,11 +1,10 @@
----
 import Image from "./Image.astro";
-const { item } = Astro.props; // { title, cover, url }
+const { title, thumbnail } = Astro.props;
 ---
-<article class="card" style="padding: .75rem; width: 100%; max-width: 320px;">
-  <Image src={item.cover} alt={item.title} style="border-radius: 10px; width:100%; height: 180px; object-fit:cover;" />
-  <div style="margin-top:.6rem; display:flex; align-items:center; justify-content:space-between; gap:.5rem;">
-    <h3 style="font-size:1rem; margin:0; font-weight: 700;">{item.title}</h3>
-    {item.url && <a class="btn btn-ghost" href={item.url}>See work</a>}
+<article class="card" style="display:flex;flex-direction:column;gap:.6rem;">
+  <Image src={thumbnail} alt={title} />
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:.5rem;">
+    <strong>{title}</strong>
+    <a href="/404" class="button button--ghost" style="white-space:nowrap;">See work</a>
   </div>
 </article>

@@ -1,6 +1,5 @@
+const { src, alt="" } = Astro.props;
+const PLACEHOLDER = "https://i.imgur.com/fxI7KNH.png";
+const finalSrc = src && String(src).trim() ? src : PLACEHOLDER;
 ---
-const { src, alt = "", ...rest } = Astro.props;
-const fallback = "https://i.imgur.com/fxI7KNH.png";
-const finalSrc = (typeof src === "string" && src.trim().length > 0) ? src : fallback;
----
-<img src={finalSrc} alt={alt} loading="lazy" decoding="async" {...rest} />
+<img src={finalSrc} alt={alt} loading="lazy" decoding="async" style="width:100%;height:auto;display:block;border-radius:12px;" />
