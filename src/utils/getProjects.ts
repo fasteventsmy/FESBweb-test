@@ -74,6 +74,8 @@ export default function getProjects(): Project[] {
             return [trimmed];
           })()
         : [];
+    const cover = typeof fm.cover === 'string' ? fm.cover.trim() : '';
+
     items.push({
       slug,
       title: fm.title || slug,
@@ -82,7 +84,7 @@ export default function getProjects(): Project[] {
       location: fm.location,
       categories,
       tags: fm.tags || [],
-      cover: fm.cover || coverGuess(slug),
+      cover: cover || coverGuess(slug),
       body,
       status: fm.status || 'published',
     });

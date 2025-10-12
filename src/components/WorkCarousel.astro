@@ -1,4 +1,6 @@
 ---
+import WorkCard from "./WorkCard.astro";
+
 const { projects = [] } = Astro.props as { projects: any[] };
 const items = projects ?? [];
 ---
@@ -15,11 +17,16 @@ const items = projects ?? [];
   .card {
     width: min(72vw, 280px);
     scroll-snap-align: start;
+  }
+  .card-see-more {
     background: var(--card);
     border:1px solid rgba(255,255,255,.06);
     border-radius: 12px; overflow: hidden;
   }
-  .thumb { aspect-ratio: 16/9; width:100%; object-fit: cover; background:#0b0b0b; }
+  .card :global(article) {
+    height: 100%;
+  }
+  .card :global(.thumb) { aspect-ratio: 16/9; width:100%; object-fit: cover; background:#0b0b0b; }
   .meta { padding:.6rem .75rem; font-weight:700; font-size:.95rem; }
   .controls{ position:absolute; inset-block:0; pointer-events:none; display:flex; justify-content:space-between; align-items:center; }
   .arrow{
@@ -33,12 +40,11 @@ const items = projects ?? [];
 <div class="rail">
   <div class="scroller" id="work-scroller">
     {items.map(p => (
-      <a class="card" href={`/projects/${p.slug}/`} aria-label={p.title}>
-        <img class="thumb" src={p.cover} alt={p.title} loading="lazy" />
-        <div class="meta">{p.title}</div>
-      </a>
+      <div class="card">
+        <WorkCard project={p} />
+      </div>
     ))}
-    <a class="card" href="/work" aria-label="See more of our work">
+    <a class="card card-see-more" href="/work" aria-label="See more of our work">
       <div class="thumb" style="display:grid;place-items:center;color:#fff;opacity:.9;">See more →</div>
       <div class="meta">See more of our work</div>
     </a>

@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import Image from "../../components/Image.astro";
 import getProjects from "../../utils/getProjects";
 
 // Tell Astro which /projects/<slug> pages to generate
@@ -18,7 +19,7 @@ const { project } = Astro.props;
     <a href="/work" class="text-sm underline">← Back to Work</a>
     <h1 class="mt-2 text-3xl font-extrabold">{project.title}</h1>
     {project.client && <p style="color:var(--muted)">{project.client} · {project.location}</p>}
-    <img src={project.cover} alt={project.title} class="w-full rounded mt-4 aspect-[16/9] object-cover" />
+    <Image src={project.cover} alt={project.title} class="w-full rounded mt-4 aspect-[16/9] object-cover" />
     {project.body && <div class="prose prose-invert mt-6 max-w-none">{project.body}</div>}
   </article>
 </Base>
