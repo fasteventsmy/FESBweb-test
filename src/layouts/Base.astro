@@ -1,8 +1,7 @@
 ---
 import "../styles/theme-concept-c.css";
+import Header from "../components/Header.astro";
 const { title = "Fast Events — High-impact experiences, built fast." } = Astro.props;
-const current = Astro.url.pathname;
-const isActive = (href: string) => (current === href || current.startsWith(href + '/')) ? 'active' : '';
 ---
 
 <!doctype html>
@@ -14,21 +13,7 @@ const isActive = (href: string) => (current === href || current.startsWith(href 
     <title>{title}</title>
   </head>
   <body>
-    <header class="navbar">
-      <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:1rem;">
-        <a href="/" style="display:flex; align-items:center; gap:.75rem; padding:.6rem 0;">
-          <img class="logo" src="/assets/fast-logo-black.svg" alt="Fast Events" style="display:block" />
-        </a>
-        <nav class="nav" style="display:flex; gap:.25rem;">
-          <a class={isActive('/')} href="/">Home</a>
-          <a class={isActive('/about')} href="/about">About Us</a>
-          <a class={isActive('/services')} href="/services">Our Services</a>
-          <a class={isActive('/work')} href="/work">Our Work</a>
-          <a class={isActive('/contact')} href="/contact">Contact</a>
-        </nav>
-      </div>
-    </header>
-
+    <Header />
     <slot />
 
     <footer class="site-footer">
