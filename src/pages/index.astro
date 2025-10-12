@@ -1,34 +1,142 @@
 ---
 import Base from "../layouts/Base.astro";
 import getProjects from "../utils/getProjects";
-import WorkCard from "../components/WorkCard.astro";
-const projects = getProjects().filter(p => p.status !== 'draft').slice(0,6);
+import WorkCarousel from "../components/WorkCarousel.astro";
+import MalaysiaCoverage from "../components/MalaysiaCoverage.astro";
+
+// Latest 10 published
+const projects = getProjects()
+  .filter(p => (p.status ?? "published") !== "draft")
+  .slice(0, 10);
+
+const coverage = [
+  { state: "Johor", count: 12 },
+  { state: "Kedah", count: 8 },
+  { state: "Kelantan", count: 5 },
+  { state: "Melaka", count: 7 },
+  { state: "Negeri Sembilan", count: 6 },
+  { state: "Pahang", count: 9 },
+  { state: "Perak", count: 10 },
+  { state: "Perlis", count: 3 },
+  { state: "Pulau Pinang", count: 11 },
+  { state: "Sabah", count: 15 },
+  { state: "Sarawak", count: 14 },
+  { state: "Selangor", count: 22 },
+  { state: "Terengganu", count: 4 },
+  { state: "W.P. Kuala Lumpur", count: 25 },
+  { state: "W.P. Putrajaya", count: 2 },
+  { state: "W.P. Labuan", count: 1 },
+];
 ---
-<Base title="Fast Events — Home">
-  <section class="container py-12">
-    <h1 class="text-4xl md:text-5xl font-extrabold">High-impact experiences, built fast.</h1>
-    <p class="mt-3 max-w-2xl" style="color:var(--muted)">We design, build, and run events that move people — from launches and roadshows to immersive brand worlds.</p>
-    <div class="mt-6 flex gap-3">
-      <a href="/work" class="px-4 py-2 rounded font-semibold" style="background:var(--brand-cta);color:black">See our work</a>
-      <a href="/services" class="px-4 py-2 rounded font-semibold" style="background:color-mix(in oklab, var(--brand) 25%, transparent)">What we do</a>
+
+<Base title="Fast Events — High-impact experiences, built fast.">
+  <style>
+    :root { scroll-behavior: smooth; }
+
+    .hero {
+      position: relative;
+      background: url("https://i.imgur.com/TN7ddHX.png") center/cover no-repeat;
+      min-height: 72vh;
+      display: grid; place-items: center;
+      text-align: center;
+    }
+    .hero::after{ content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.5)); }
+    .hero-inner{ position: relative; z-index: 1; max-width: 960px; padding: 2rem; color: #fff; }
+    .hero-logo{ width: 140px; height: auto; margin: 0 auto 1rem; filter: drop-shadow(0 6px 16px rgba(0,0,0,.25)); }
+    .kicker { opacity:.85; margin-top:.25rem; font-size:.95rem; }
+
+    .wrap { max-width: 1100px; margin-inline: auto; padding: 4rem 1rem; }
+    .section-title{ font-weight: 800; font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.25rem); margin-bottom: .75rem; }
+    .section-lead{ color: var(--muted); max-width: 70ch; }
+
+    .btn{ display:inline-flex; align-items:center; gap:.5rem; border-radius:999px; padding:.65rem 1rem; font-weight:600; text-decoration:none; border:1px solid rgba(255,255,255,.1); transition: transform .15s ease, background .15s ease, border-color .15s ease; }
+    .btn-cta{ background: var(--brand-cta); color:#121212; border-color:transparent; }
+    .btn-ghost{ color: var(--text); background: transparent; border-color: rgba(255,255,255,.4); }
+    .btn:hover{ transform: translateY(-1px); }
+
+    .grid-2{ display:grid; grid-template-columns: 1fr; gap:1.25rem; }
+    @media (min-width: 900px){ .grid-2{ grid-template-columns: 1.1fr .9fr; } }
+
+    .about-card{ background: var(--card); border: 1px solid rgba(255,255,255,.06); border-radius: 16px; padding: 1.25rem; }
+    .chip-row{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top: .75rem; }
+    .chip{ font-size:.8rem; border-radius:999px; padding:.25rem .6rem; background: rgba(127,102,255,.12); color: #d8d2ff; border:1px solid rgba(127,102,255,.3); }
+
+    .section-anchor{ scroll-margin-top: 84px; }
+
+    .cta{ text-align:center; padding:4rem 1rem 5rem; background: linear-gradient(180deg, rgba(127,102,255,.08), rgba(127,102,255,0)); border-top: 1px solid rgba(255,255,255,.06); }
+  </style>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-inner">
+      <img src="/assets/fast-logo-black.svg" alt="Fast Events" class="hero-logo" />
+      <h1 class="section-title" style="color:#fff;">High-impact experiences, built fast.</h1>
+      <p class="kicker">We design, build, and run events that move people — from launches to roadshows to immersive brand worlds.</p>
+      <div style="margin-top:1rem; display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap;">
+        <a href="#work" class="btn btn-cta">See our work</a>
+        <a href="#services" class="btn btn-ghost">What we do</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about" class="wrap section-anchor">
+    <div class="grid-2">
+      <div>
+        <h2 class="section-title">About us</h2>
+        <p class="section-lead">Fast Events is an experience partner that makes ideas real—quickly. We combine creative, technical, and operations into a single agile team so clients get crisp proposals, decisive execution, and repeatable quality.</p>
+        <div style="margin-top:1rem; display:flex; gap:.75rem; flex-wrap:wrap;">
+          <a href="/about" class="btn btn-cta">See more</a>
+          <a href="#services" class="btn btn-ghost">What we do</a>
+          <a href="#work" class="btn btn-ghost">Our work</a>
+        </div>
+      </div>
+      <div class="about-card">
+        <strong>Core strengths</strong>
+        <div class="chip-row">
+          <span class="chip">End-to-end delivery</span>
+          <span class="chip">Experience design</span>
+          <span class="chip">On-site ops</span>
+          <span class="chip">Fabrication</span>
+          <span class="chip">AV & lighting</span>
+        </div>
+      </div>
     </div>
   </section>
-  <section class="container py-8">
-    <h2 class="text-2xl font-bold mb-4">Featured Projects</h2>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {projects.map(p => <WorkCard project={p} />)}
+
+  <!-- SERVICES -->
+  <section id="services" class="wrap section-anchor">
+    <h2 class="section-title">Our Services</h2>
+    <p class="section-lead">A quick look at what we do. See the full list on the services page.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1rem;">
+      <div class="about-card"><strong>Event Strategy</strong><p class="kicker" style="color:var(--muted)">Objectives, run-of-show, KPI</p></div>
+      <div class="about-card"><strong>Creative & Content</strong><p class="kicker" style="color:var(--muted)">Theme, key visuals, motion</p></div>
+      <div class="about-card"><strong>Production</strong><p class="kicker" style="color:var(--muted)">Stage, lighting, sound, LED</p></div>
+      <div class="about-card"><strong>Fabrication</strong><p class="kicker" style="color:var(--muted)">Booths, sets, brand install</p></div>
+      <div class="about-card"><strong>On-site Ops</strong><p class="kicker" style="color:var(--muted)">Crew, showcalling, vendors</p></div>
+    </div>
+    <div style="margin-top:1rem;">
+      <a class="btn btn-cta" href="/services">More details</a>
     </div>
   </section>
-  <section class="container py-12">
-    <div class="rounded p-6" style="background:var(--card)">
-      <h3 class="text-xl font-bold mb-2">Area of Coverage</h3>
-      <p style="color:var(--muted)">We operate across Malaysia — explore our footprint.</p>
-      <a href="/coverage" class="inline-block mt-3 underline">View the map →</a>
-    </div>
+
+  <!-- WORK -->
+  <section id="work" class="wrap section-anchor">
+    <h2 class="section-title">Our Work</h2>
+    <WorkCarousel {projects} />
   </section>
-  <section class="container py-12">
-    <h3 class="text-xl font-bold mb-2">Talk to us</h3>
-    <p style="color:var(--muted)">Have a brief? Need a quick estimate? We’ll get back fast.</p>
-    <a href="/contact" class="inline-block mt-3 px-4 py-2 rounded font-semibold" style="background:var(--brand-cta);color:black">Contact</a>
+
+  <!-- COVERAGE -->
+  <section id="coverage" class="wrap section-anchor">
+    <h2 class="section-title">Area of Coverage</h2>
+    <p class="section-lead">We operate across Malaysia — explore our footprint.</p>
+    <MalaysiaCoverage data={coverage} />
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2 class="section-title">Have a brief? Let's talk.</h2>
+    <p class="section-lead" style="margin:0 auto 1rem;">Need a quick estimate or a proposal? We'll get back fast.</p>
+    <a class="btn btn-cta" href="/contact">Contact</a>
   </section>
 </Base>
