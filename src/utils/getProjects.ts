@@ -25,15 +25,30 @@ function parseFrontMatter(raw: string) {
   const yaml = m[1];
   const body = m[2] || '';
   const obj: any = {};
+  const parseValue = (raw: string) => {
+    const trimmed = raw.trim();
+    if (trimmed.startsWith("[")) {
+      try {
+        return JSON.parse(trimmed.replace(/'/g, '"'));
+      } catch {
+        return trimmed;
+      }
+    }
+    if (
+      (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+      (trimmed.startsWith("'") && trimmed.endsWith("'"))
+    ) {
+      return trimmed.slice(1, -1);
+    }
+    return trimmed;
+  };
+
   yaml.split(/\n/).forEach((line) => {
     const mm = /^(\w+):\s*(.*)$/.exec(line.trim());
     if (mm) {
       const k = mm[1];
-      let v: any = mm[2].trim();
-      if (v.startsWith('[')) {
-        try { v = JSON.parse(v.replace(/'/g, '"')); } catch {}
-      }
-      obj[k] = String(v).replace(/^"|"$/g, '');
+      const v = parseValue(mm[2]);
+      obj[k] = v;
     }
   });
   return [obj, body];
