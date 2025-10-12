@@ -1,6 +1,0 @@
----
-const { src, alt = '', width, height, class: klass = '' } = Astro.props;
-const fallback = 'https://i.imgur.com/fxI7KNH.png';
-const resolved = (src && String(src).trim().length > 0) ? src : fallback;
----
-<img src={resolved} alt={alt} width={width} height={height} class={klass} loading="lazy" decoding="async" />
