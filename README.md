@@ -27,5 +27,5 @@ status: "published"
 2–3 line description.
 ```
 
-## Switch brand
-Temporary toggle in URL: `?theme=a|b|c`. Later, lock in the chosen theme in `src/layouts/Base.astro`.
+## Switch theme
+Append `?theme=a`, `?theme=b`, or `?theme=c` to the URL to preview each concept. Set the default in production with the `PUBLIC_THEME` environment variable (for example in Vercel). A URL query always wins over the environment configuration.
