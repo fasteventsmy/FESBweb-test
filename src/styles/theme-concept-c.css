@@ -49,12 +49,12 @@ p{margin:.4rem 0}
 
 /* Navbar */
 .navbar .brand{ display:flex; align-items:center; }
-.navbar .logo{ height:56px; display:block; }     /* desktop size */
+.navbar .logo{ height:46px; display:block; }     /* desktop size */
 @media (max-width: 1024px){
-  .navbar .logo{ height:48px; }                  /* tablet */
+  .navbar .logo{ height:38px; }                  /* tablet */
 }
 @media (max-width: 640px){
-  .navbar .logo{ height:44px; }                  /* mobile */
+  .navbar .logo{ height:30px; }                  /* mobile */
 }
 
 /* keep nav links black per Concept C */
