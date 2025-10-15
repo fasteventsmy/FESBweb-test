@@ -1,33 +1,23 @@
 ---
 const links = [
-  { href: "/", text: "Home" },
-  { href: "/about", text: "About" },
-  { href: "/services", text: "Services" },
-  { href: "/work", text: "Work" },
+  { href: "/",        text: "Home" },
+  { href: "/about",   text: "About Us" },
+  { href: "/services",text: "Our Services" },
+  { href: "/work",    text: "Our Work" },
   { href: "/contact", text: "Contact" },
 ];
-
-const normalizePath = (path: string) => {
-  const stripped = path.replace(/\/+$/, "");
-  return stripped === "" ? "/" : stripped;
-};
-
-const currentPath = normalizePath(Astro.url.pathname);
+const current = (Astro.url.pathname || "/").replace(/\/+$/,"") || "/";
+const isActive = (to)=> (to=== "/" ? current === "/" : current.startsWith(to));
 ---
-<header class="navbar" style="position:sticky; top:0; z-index:50;">
-  <nav style="max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:1rem;padding:.6rem 1rem;">
-    <a href="/" style="display:flex;align-items:center;gap:.5rem">
-      <img src="/assets/fast-logo-black.svg" alt="Fast Events" class="logo" />
+<header class="navbar">
+  <div class="navwrap">
+    <a href="/" aria-label="Home">
+      <img src="/assets/fast-logo-black.svg" alt="Fast Events" style="height:22px" />
     </a>
-    <div style="margin-left:auto;display:flex;gap:.3rem;align-items:center;flex-wrap:wrap;">
+    <nav class="navlinks">
       {links.map(l => (
-        <a
-          href={l.href}
-          class:list={["navbar-link", { "is-active": normalizePath(l.href) === currentPath }]}
-        >
-          {l.text}
-        </a>
+        <a class={"navbar-link " + (isActive(l.href) ? "is-active" : "")} href={l.href}>{l.text}</a>
       ))}
-    </div>
-  </nav>
+    </nav>
+  </div>
 </header>
