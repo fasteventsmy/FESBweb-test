@@ -110,3 +110,38 @@ p{margin:.4rem 0}
 
 /* Footer */
 .footer{background:#F7F8FB;border-top:1px solid rgba(0,0,0,.06);padding:2rem 1rem;color:#666}
+
+/* --- A11y helper --- */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* --- Mobile menu toggle --- */
+.nav-toggle{
+  display:none;
+  align-items:center;justify-content:center;
+  width:40px;height:40px;border-radius:12px;
+  border:1.5px solid var(--brand-cta); background:#fff;
+}
+.nav-toggle svg{width:22px;height:22px;color:#0A0A0A}
+
+/* --- Mobile nav drawer --- */
+@media (max-width: 860px){
+  .navwrap{gap:.75rem}
+  .nav-toggle{display:flex}
+
+  .navlinks{
+    position:absolute; right:1rem; top:64px;
+    background:#fff; border:1px solid rgba(0,0,0,.08);
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+    padding:.5rem; border-radius:14px;
+    display:none; flex-direction:column; min-width:220px; z-index:50;
+  }
+  .navlinks.is-open{display:flex}
+
+  .navlinks a{display:block; padding:.625rem .875rem}
+  .navlinks a.is-active{
+    background:rgba(77,255,154,.08);
+    border-radius:10px;
+    border:1px solid var(--brand-cta);
+  }
+}
+
