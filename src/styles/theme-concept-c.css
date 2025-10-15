@@ -48,7 +48,19 @@ p{margin:.4rem 0}
 }
 
 /* Navbar */
-.logo{ height:45px; display:block; } /* bump size; tweak if you want 34–38px */
+.navbar .brand{ display:flex; align-items:center; }
+.navbar .logo{ height:56px; display:block; }     /* desktop size */
+@media (max-width: 1024px){
+  .navbar .logo{ height:48px; }                  /* tablet */
+}
+@media (max-width: 640px){
+  .navbar .logo{ height:44px; }                  /* mobile */
+}
+
+/* keep nav links black per Concept C */
+.navbar a{ color:#0A0A0A; text-decoration:none; }
+.navbar a:hover{ color:#0A0A0A; text-decoration:none; }
+
 .navbar{
   position:sticky;top:0;z-index:40;
   background:var(--card);
