@@ -1,23 +1,63 @@
 ---
 const links = [
-  { href: "/",        text: "Home" },
-  { href: "/about",   text: "About Us" },
-  { href: "/services",text: "Our Services" },
-  { href: "/work",    text: "Our Work" },
-  { href: "/contact", text: "Contact" },
+  { href: "/",         text: "Home" },
+  { href: "/about",    text: "About Us" },
+  { href: "/services", text: "Our Services" },
+  { href: "/work",     text: "Our Work" },
+  { href: "/contact",  text: "Contact" },
 ];
+
 const current = (Astro.url.pathname || "/").replace(/\/+$/,"") || "/";
-const isActive = (to)=> (to=== "/" ? current === "/" : current.startsWith(to));
+const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWith(to));
 ---
+
 <header class="navbar">
   <div class="navwrap">
-    <a href="/" aria-label="Home" class="brand">
-      <img src="/assets/fast-logo-black.svg" alt="Fast Events" class="logo" loading="eager" decoding="async" />
+    <a href="/" aria-label="Home">
+      <img src="/assets/fast-logo-black.svg" alt="Fast Events" class="logo" />
     </a>
-    <nav class="navlinks">
-      {links.map(l => (
-        <a class={"navbar-link " + (isActive(l.href) ? "is-active" : "")} href={l.href}>{l.text}</a>
+
+    <!-- Mobile menu toggle -->
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span class="sr-only">Open menu</span>
+    </button>
+
+    <!-- Primary nav -->
+    <nav id="site-nav" class="navlinks">
+      {links.map((l) => (
+        <a class={"navbar-link " + (isActive(l.href) ? "is-active" : "")} href={l.href}>
+          {l.text}
+        </a>
       ))}
     </nav>
   </div>
+
+  <!-- Small client script for toggle -->
+  <script is:inline>
+    const btn = document.querySelector<HTMLButtonElement>(".nav-toggle");
+    const nav = document.getElementById("site-nav");
+    if (btn && nav) {
+      const close = () => {
+        btn.setAttribute("aria-expanded", "false");
+        nav.classList.remove("is-open");
+      };
+      btn.addEventListener("click", () => {
+        const open = btn.getAttribute("aria-expanded") === "true";
+        btn.setAttribute("aria-expanded", String(!open));
+        nav.classList.toggle("is-open", !open);
+      });
+      nav.querySelectorAll("a").forEach(a =>
+        a.addEventListener("click", close)
+      );
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
+      });
+      document.addEventListener("click", (e) => {
+        if (!nav.contains(e.target as Node) && !btn.contains(e.target as Node)) close();
+      });
+    }
+  </script>
 </header>
