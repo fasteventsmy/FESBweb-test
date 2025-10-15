@@ -6,21 +6,21 @@ import WorkCard from "../../components/WorkCard.astro";
 import { statSync } from "node:fs";
 export const prerender = true;
 const pageTitle = "Work — Fast Events";
-const modules = import.meta.glob("../../content/work/*.json", { eager: true });
-const allItems = Object.entries(modules).map(([path, mod]) => {
-  const data = typeof mod === "object" && mod !== null && "default" in mod ? mod.default : mod;
-  const parsedDate = data?.date ? new Date(data.date) : undefined;
-  const hasValidDate = parsedDate instanceof Date && !Number.isNaN(parsedDate?.valueOf?.());
-  const fileUrl = new URL(path, import.meta.url);
-  const fileTime = statSync(fileUrl).mtime.getTime();
-  return {
-    key: path,
-    title: data?.title ?? "Untitled",
-    thumbnail: data?.thumbnail ?? "",
-    sortValue: hasValidDate ? parsedDate.getTime() : fileTime,
-  };
-});
-const workItems = allItems
+const modules = import.meta.glob("../content/work/*.json", { eager: true });
+const workItems = Object.entries(modules)
+  .map(([path, mod]) => {
+    const data = typeof mod === "object" && mod !== null && "default" in mod ? mod.default : mod;
+    const parsedDate = data?.date ? new Date(data.date) : undefined;
+    const hasValidDate = parsedDate instanceof Date && !Number.isNaN(parsedDate?.valueOf?.());
+    const fileUrl = new URL(path, import.meta.url);
+    const fileTime = statSync(fileUrl).mtime.getTime();
+    return {
+      key: path,
+      title: data?.title ?? "Untitled",
+      thumbnail: data?.thumbnail ?? "",
+      sortValue: hasValidDate ? parsedDate.getTime() : fileTime,
+    };
+  })
   .sort((a, b) => b.sortValue - a.sortValue)
   .slice(0, 12);
 ---
@@ -46,9 +46,9 @@ const workItems = allItems
           ))}
         </div>
       ) : (
-        <div style="display:flex;justify-content:center;">
-          <div class="card" style="max-width:420px;padding:2.5rem 1.5rem;text-align:center;">
-            <p style="margin-bottom:1.5rem;">Nothing here yet</p>
+        <div style="display:flex;align-items:center;justify-content:center;">
+          <div class="card" style="max-width:420px;padding:2.5rem 1.5rem;text-align:center;display:flex;flex-direction:column;gap:1.5rem;align-items:center;">
+            <p style="margin:0;">Nothing here yet</p>
             <a class="button button--mint" href="/contact">Get in touch</a>
           </div>
         </div>
