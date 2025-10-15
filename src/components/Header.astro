@@ -1,12 +1,18 @@
 ---
 const links = [
-  { href: "/",             text: "Home",        id: "home" },
-  { href: "/#about",       text: "About Us",    id: "about" },
-  { href: "/#services",    text: "Our Services",id: "services" },
-  { href: "/#work",        text: "Our Work",    id: "work" },
-  { href: "/#contact",     text: "Contact",     id: "contact" },
+  { href: "/", text: "Home" },
+  { href: "/about", text: "About" },
+  { href: "/services", text: "Services" },
+  { href: "/work", text: "Work" },
+  { href: "/contact", text: "Contact" },
 ];
-const currentHash = (Astro.url.hash || "").replace("#","");
+
+const normalizePath = (path: string) => {
+  const stripped = path.replace(/\/+$/, "");
+  return stripped === "" ? "/" : stripped;
+};
+
+const currentPath = normalizePath(Astro.url.pathname);
 ---
 <header class="navbar" style="position:sticky; top:0; z-index:50;">
   <nav style="max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:1rem;padding:.6rem 1rem;">
@@ -15,9 +21,10 @@ const currentHash = (Astro.url.hash || "").replace("#","");
     </a>
     <div style="margin-left:auto;display:flex;gap:.3rem;align-items:center;flex-wrap:wrap;">
       {links.map(l => (
-        <a href={l.href}
-           class={(currentHash===l.id || (l.id==="home" && !currentHash)) ? "button navbar-link active button--mint" : "button navbar-link button--ghost"}
-           style="padding:.45rem .8rem;">
+        <a
+          href={l.href}
+          class:list={["navbar-link", { "is-active": normalizePath(l.href) === currentPath }]}
+        >
           {l.text}
         </a>
       ))}

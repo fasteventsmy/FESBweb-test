@@ -23,10 +23,11 @@ body{color:var(--text); background:var(--bg); font-variant-numeric:tabular-nums;
 h1,h2,h3{font-weight:var(--font-heading-weight);}
 
 /* Reusable UI */
-.navbar{background:var(--card); color:#0A0A0A; border-bottom:1px solid rgba(0,0,0,.06);}
-.navbar a{color:#4B3CF0; text-decoration:none;}               /* link tone on silver */
-.navbar a.active{color:#0A0A0A; background:var(--brand-cta);} /* mint active pill */
-.navbar .logo{height:28px;}
+.navbar{background:var(--muted); color:#0A0A0A; border-bottom:1px solid rgba(0,0,0,.06);}
+.navbar a{color:var(--card); text-decoration:none; display:inline-block; padding:.45rem .8rem; transition:color .2s ease;}
+.navbar a:hover{color:var(--brand);}
+.navbar a.is-active{font-weight:600; border-bottom:2px solid var(--brand-cta); color:var(--card);}
+.navbar .logo{height:30px;}
 
 .button{display:inline-block; padding:.6rem 1rem; border-radius:999px; font-weight:700;}
 .button--dark{background:#0A0A0A; color:#fff;}
