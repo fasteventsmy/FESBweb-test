@@ -17,15 +17,17 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
       <img src="/assets/fast-logo-black.svg" alt="Fast Events" class="logo" />
     </a>
 
-    <!-- Mobile menu toggle -->
-    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+    <!-- Hidden checkbox drives the mobile menu open/close -->
+    <input id="nav-check" class="nav-check" type="checkbox" aria-hidden="true" />
+
+    <!-- Label acts as the toggle button -->
+    <label class="nav-toggle" for="nav-check" aria-controls="site-nav">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
         <path d="M3 6h18M3 12h18M3 18h18" stroke-width="2" stroke-linecap="round"/>
       </svg>
       <span class="sr-only">Open menu</span>
-    </button>
+    </label>
 
-    <!-- Primary nav -->
     <nav id="site-nav" class="navlinks">
       {links.map((l) => (
         <a class={"navbar-link " + (isActive(l.href) ? "is-active" : "")} href={l.href}>
@@ -34,30 +36,4 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
       ))}
     </nav>
   </div>
-
-  <!-- Small client script for toggle -->
-  <script is:inline>
-    const btn = document.querySelector<HTMLButtonElement>(".nav-toggle");
-    const nav = document.getElementById("site-nav");
-    if (btn && nav) {
-      const close = () => {
-        btn.setAttribute("aria-expanded", "false");
-        nav.classList.remove("is-open");
-      };
-      btn.addEventListener("click", () => {
-        const open = btn.getAttribute("aria-expanded") === "true";
-        btn.setAttribute("aria-expanded", String(!open));
-        nav.classList.toggle("is-open", !open);
-      });
-      nav.querySelectorAll("a").forEach(a =>
-        a.addEventListener("click", close)
-      );
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") close();
-      });
-      document.addEventListener("click", (e) => {
-        if (!nav.contains(e.target as Node) && !btn.contains(e.target as Node)) close();
-      });
-    }
-  </script>
 </header>
