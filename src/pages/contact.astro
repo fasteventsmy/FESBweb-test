@@ -1,27 +1,10 @@
 ---
-import "../styles/theme-concept-c.css";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-export const prerender = true;
-const pageTitle = "Contact — Fast Events";
+import Base from "../layouts/Base.astro";
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="/favicon.ico" />
-    <title>{pageTitle}</title>
-  </head>
-  <body>
-    <Header />
-    <main style="max-width:700px;margin:0 auto;padding:3rem 1rem;">
-      <h2 style="margin-bottom:1rem;">Contact</h2>
-      <p style="margin-bottom:2rem;">
-        Share a few details about your project and we’ll respond within two business days with next steps and a suggested kickoff call.
-      </p>
-      <a class="button button--mint" href="mailto:hello@fastevents.my">Email us</a>
-    </main>
-    <Footer />
-  </body>
-</html>
+<Base title="Contact — Placeholder">
+  <div class="container" style="text-align:center">
+    <h1>Contact — Placeholder</h1>
+    <p>We’ll wire the contact form later.</p>
+    <a class="navbar-link" href="/">Back to Home</a>
+  </div>
+</Base>

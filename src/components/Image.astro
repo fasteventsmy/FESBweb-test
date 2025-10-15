@@ -1,5 +1,5 @@
-const { src, alt="" } = Astro.props;
-const PLACEHOLDER = "https://i.imgur.com/fxI7KNH.png";
-const finalSrc = src && String(src).trim() ? src : PLACEHOLDER;
 ---
-<img src={finalSrc} alt={alt} loading="lazy" decoding="async" style="width:100%;height:auto;display:block;border-radius:12px;" />
+const { src } = Astro.props;
+const safe = src && String(src).trim().length ? src : "https://i.imgur.com/fxI7KNH.png";
+---
+<img src={safe} alt="" loading="lazy" decoding="async" />
