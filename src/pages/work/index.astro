@@ -1,0 +1,59 @@
+---
+import "../../styles/theme-concept-c.css";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import WorkCard from "../../components/WorkCard.astro";
+import { statSync } from "node:fs";
+export const prerender = true;
+const pageTitle = "Work — Fast Events";
+const modules = import.meta.glob("../../content/work/*.json", { eager: true });
+const allItems = Object.entries(modules).map(([path, mod]) => {
+  const data = typeof mod === "object" && mod !== null && "default" in mod ? mod.default : mod;
+  const parsedDate = data?.date ? new Date(data.date) : undefined;
+  const hasValidDate = parsedDate instanceof Date && !Number.isNaN(parsedDate?.valueOf?.());
+  const fileUrl = new URL(path, import.meta.url);
+  const fileTime = statSync(fileUrl).mtime.getTime();
+  return {
+    key: path,
+    title: data?.title ?? "Untitled",
+    thumbnail: data?.thumbnail ?? "",
+    sortValue: hasValidDate ? parsedDate.getTime() : fileTime,
+  };
+});
+const workItems = allItems
+  .sort((a, b) => b.sortValue - a.sortValue)
+  .slice(0, 12);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <Header />
+    <main style="max-width:1100px;margin:0 auto;padding:3rem 1rem 4rem;">
+      <div style="margin-bottom:2.5rem;">
+        <h2 style="margin-bottom:.5rem;">All Work</h2>
+        <p style="opacity:.8;">Latest 12 entries shown.</p>
+      </div>
+      {workItems.length > 0 ? (
+        <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
+          {workItems.map((item) => (
+            <WorkCard title={item.title} thumbnail={item.thumbnail} key={item.key} />
+          ))}
+        </div>
+      ) : (
+        <div style="display:flex;justify-content:center;">
+          <div class="card" style="max-width:420px;padding:2.5rem 1.5rem;text-align:center;">
+            <p style="margin-bottom:1.5rem;">Nothing here yet</p>
+            <a class="button button--mint" href="/contact">Get in touch</a>
+          </div>
+        </div>
+      )}
+    </main>
+    <Footer />
+  </body>
+</html>

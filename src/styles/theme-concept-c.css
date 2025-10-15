@@ -39,4 +39,3 @@ h1,h2,h3{font-weight:var(--font-heading-weight);}
 
 .carousel-arrow{position:absolute; top:50%; transform:translateY(-50%); width:40px;height:40px;border-radius:999px; background:var(--card); color:#0A0A0A; display:grid;place-items:center; box-shadow:0 2px 8px rgba(0,0,0,.08);}
 .carousel-arrow:hover{background:#fff;}
-}

@@ -1,5 +1,29 @@
 ---
-import Placeholder from "./_placeholders/About.astro";
+import "../styles/theme-concept-c.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 export const prerender = true;
+const pageTitle = "About Fast Events";
 ---
-<Placeholder />
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <Header />
+    <main style="max-width:800px;margin:0 auto;padding:3rem 1rem;">
+      <h2 style="margin-bottom:1rem;">About us</h2>
+      <p style="margin-bottom:2rem;">
+        Fast Events is a collective of producers, creatives, and technologists focused on delivering high-impact experiences with precision and pace.
+        We believe great events combine bold ideas, thoughtful storytelling, and seamless execution, and we partner with clients who share that vision.
+        From strategy to showtime, our team streamlines the journey so you can focus on what matters most — engaging your audience and creating lasting impressions.
+      </p>
+      <a class="button button--ghost" href="/">Back to Home</a>
+    </main>
+    <Footer />
+  </body>
+</html>
