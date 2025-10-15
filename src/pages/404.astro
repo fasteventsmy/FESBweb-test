@@ -1,30 +1,9 @@
 ---
-import "../styles/theme-concept-c.css";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-export const prerender = true;
-const pageTitle = "404 — Fast Events";
+import Base from "../layouts/Base.astro";
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="/favicon.ico" />
-    <title>{pageTitle}</title>
-  </head>
-  <body>
-    <Header />
-    <main style="max-width:720px;margin:0 auto;padding:4rem 1rem;text-align:center;">
-      <div class="card" style="padding:3rem 1.5rem;">
-        <h1 style="font-size:clamp(3rem,8vw,5rem);margin-bottom:1rem;">404</h1>
-        <p style="margin-bottom:2rem;">We can’t find the page you’re after, but these links will get you back on track.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;">
-          <a class="button button--ghost" href="/">Go home</a>
-          <a class="button button--mint" href="/work">Explore our work</a>
-        </div>
-      </div>
-    </main>
-    <Footer />
-  </body>
-</html>
+<Base title="Not found">
+  <div class="container" style="text-align:center">
+    <h1>404 — Not found</h1>
+    <a class="navbar-link" href="/">Back to Home</a>
+  </div>
+</Base>

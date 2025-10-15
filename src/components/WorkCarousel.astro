@@ -1,33 +1,24 @@
+---
 import WorkCard from "./WorkCard.astro";
 const modules = import.meta.glob("../../content/work/*.json", { eager: true });
-const items = Object.values(modules)
-  .map((m:any) => m.default || m)
-  .filter(Boolean)
-  .sort((a:any,b:any) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  .slice(0,10);
+const items = Object.values(modules).map(m=>m.default).filter(Boolean)
+  .sort((a,b)=> new Date(b.date||"") - new Date(a.date||"")).slice(0,10);
 ---
-<section id="work" style="max-width:1100px;margin:0 auto;padding:3rem 1rem; position:relative;">
+<section id="work" class="container">
   <h2>Our Work</h2>
-  <div style="display:grid; grid-auto-flow:column; grid-auto-columns:minmax(260px, 1fr); overflow-x:auto; gap:1rem; padding-bottom:1rem; scroll-snap-type:x mandatory;">
-    {items.length > 0 ? (
-      <>
-        {items.map((i:any) => (
-          <div style="scroll-snap-align:start">
-            <WorkCard title={i.title} thumbnail={i.thumbnail} />
-          </div>
-        ))}
-        <div style="scroll-snap-align:start">
-          <article class="card" style="display:grid;place-items:center;min-height:100%;">
-            <a href="/work" class="button button--mint">See more of our work</a>
-          </article>
-        </div>
-      </>
-    ) : (
-      <div style="scroll-snap-align:start;display:grid;place-items:center;">
-        <article class="card" style="display:grid;place-items:center;min-height:100%;text-align:center;">
-          <a href="/work" class="button button--mint">Add your first project</a>
-        </article>
+  <div class="scroll-x">
+    {items.map(i => (
+      <div class="scroll-snap-align:start">
+        <WorkCard title={i.title} thumbnail={i.thumbnail} />
       </div>
-    )}
+    ))}
+    {items.length > 0
+      ? (<article class="card" style="display:grid;place-items:center;min-height:100%">
+           <a href="/work" class="button button--mint">See more of our work</a>
+         </article>)
+      : (<article class="card" style="display:grid;place-items:center;min-height:100%">
+           <a href="/work" class="button button--mint">Add your first project</a>
+         </article>)
+    }
   </div>
 </section>

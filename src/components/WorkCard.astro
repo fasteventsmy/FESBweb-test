@@ -1,10 +1,11 @@
+---
 import Image from "./Image.astro";
 const { title, thumbnail } = Astro.props;
 ---
-<article class="card" style="display:flex;flex-direction:column;gap:.6rem;">
-  <Image src={thumbnail} alt={title} />
-  <div style="display:flex;justify-content:space-between;align-items:center;gap:.5rem;">
+<article class="card workcard">
+  <Image src={thumbnail} />
+  <div style="display:flex;align-items:center;justify-content:space-between">
     <strong>{title}</strong>
-    <a href="/work" class="button button--ghost" style="white-space:nowrap;">See work</a>
+    <a href="/work" class="button button--ghost" style="white-space:nowrap">See work</a>
   </div>
 </article>
