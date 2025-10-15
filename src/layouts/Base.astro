@@ -1,16 +1,18 @@
 ---
-import "../styles/theme-concept-c.css";
+// Base layout – global wrapper.
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-const { title = "Fast Events — High-impact experiences, built fast." } = Astro.props;
+
+// ✅ Pull in Concept-C theme globally
+import "../styles/theme-concept-c.css";
+
+const { title = "Fast Events" } = Astro.props;
 ---
 
-<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="/favicon.ico" />
     <title>{title}</title>
   </head>
   <body>
