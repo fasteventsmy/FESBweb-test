@@ -330,3 +330,10 @@ a.button--outline:hover{
 .hero .cta a:last-child:hover{
   background: color-mix(in srgb, var(--accent-teal, #2EE4C4) 12%, transparent);
 }
+
+/* === HERO subtitle colour =============================================== */
+.hero p,
+.hero .subhead,
+.hero .lead {
+  color: var(--muted, #F5F7FA);
+}
