@@ -464,3 +464,48 @@ html, body { max-width: 100%; overflow-x: hidden; }
 :root body.has-fixed-header{
   padding-top: var(--header-h, 72px);      /* fallback height */
 }
+
+/* --- ABOUT (centered) --- */
+:root .section-about{
+  padding-block: clamp(56px, 8vw, 96px);
+}
+:root .section-about .about-wrap{
+  max-width: 900px;
+  margin-inline: auto;
+  text-align: center;
+  padding-inline: clamp(16px, 4vw, 32px);
+}
+:root .section-about .about-title{
+  font-size: clamp(28px, 4.2vw, 36px);
+  line-height: 1.15;
+  letter-spacing: .01em;
+  margin: 0 0 .5rem 0;
+  color: #0A0A0A; /* Rich Black */
+}
+:root .section-about .about-lede{
+  font-size: clamp(16px, 2.1vw, 18px);
+  line-height: 1.6;
+  color: #0A0A0A; /* body color on light background */
+  opacity: .92;
+  margin: 0 auto;
+}
+:root .section-about .about-cta{
+  margin-top: 1rem;
+}
+:root .section-about .link-more{
+  display: inline-block;
+  padding: .25rem .5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  border: 1px solid rgba(10,10,10,.12);
+  transition: transform .18s ease, border-color .18s ease, background-color .18s ease;
+}
+:root .section-about .link-more:hover,
+:root .section-about .link-more:focus{
+  border-color: rgba(10,10,10,.28);
+  background-color: rgba(10,10,10,.04);
+  transform: translateY(-1px);
+}
+@media (prefers-reduced-motion: reduce){
+  :root .section-about .link-more{ transition: none; }
+}
