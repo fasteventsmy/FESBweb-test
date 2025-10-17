@@ -353,3 +353,17 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .hero h1 { font-size: clamp(2.1rem, 7vw, 2.75rem); line-height: 1.12; }
   .hero .cta{ gap: .75rem; }
 }
+/* ==== Hero headline anti-clip & period spacing ==== */
+.hero .hero-title,
+.hero h1.hero-title {
+  overflow: visible;              /* make sure descenders aren’t clipped */
+  word-break: keep-all;           /* keep words intact */
+  hyphens: manual;                /* avoid auto hyphenation */
+  padding-right: .25em;           /* tiny breathing room on the right */
+}
+
+.hero .hero-title .period {
+  display: inline-block;          /* treat as a box so spacing is reliable */
+  margin-left: .06em;             /* nudge dot off the last letter */
+  line-height: 1;                 /* align nicely with the baseline */
+}
