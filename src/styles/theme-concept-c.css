@@ -91,6 +91,14 @@ p{margin:.4rem 0}
 }
 .button + .button{margin-left:.5rem}
 
+/* Remove hero overlay — we want the raw artwork behind black text */
+.hero::before,
+.hero::after{
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
 /* Hero (dark) */
 .hero{
   color:var(--text);
