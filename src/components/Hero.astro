@@ -1,97 +1,131 @@
 ---
-// Hero with centered black logo and Concept-C accent highlights
 ---
-<section id="hero" class="hero">
-  <div class="hero-inner">
+<section id="hero" class="hero hero--concept-a">
+  <div class="container hero-shell">
     <img
-      src="/assets/fast-logo-black.svg"
+      src="/assets/fast-logo-white.svg"
       alt="Fast Events"
-      class="hero-logo"
+      class="logo logo--hero"
       width="320"
       height="80"
       decoding="async"
     />
 
+    <p class="eyebrow">Concept-A experiential specialists</p>
+
     <h1>
-      <span class="line1">Make <span class="accent">moments</span></span>
-      <span class="line2">that move people.</span>
+      We <span class="hl">accelerate</span> ideas into
+      <span class="hl-alt">high-energy reality</span>.
     </h1>
 
     <p class="lead">
-      We design, build, and run <span class="accent">brand experiences</span>—from
-      launches and roadshows to <span class="accent">immersive worlds</span>. Fast, crisp, on point.
+      Production, creative, and operations for bold, memorable brand experiences.
     </p>
 
-    <div class="cta">
-      <a href="#services" class="button button--mint">What we do</a>
-      <a href="#work" class="button button--ghost">Our work</a>
+    <div class="actions">
+      <a class="button button--primary" href="#services">What we do</a>
+      <a class="button button--ghost" href="#work">Our work</a>
     </div>
   </div>
 </section>
 
 <style>
-  /* Layout */
   .hero {
-    position: relative;
-    min-height: clamp(560px, 70vh, 760px);
-    display: grid;
-    place-items: center;
-    text-align: center;
-    color: var(--bg); /* Rich Black (#0A0A0A) */
+    background: var(--bg);
   }
 
-  /* Light Silver overlay wash (Concept-C) */
-  .hero::before {
+  .hero-shell {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: clamp(1rem, 3vw, 2.5rem);
+    justify-items: center;
+    padding: clamp(5rem, 16vh, 7rem) 1.25rem clamp(4rem, 12vh, 6rem);
+  }
+
+  .hero--concept-a {
+    position: relative;
+    overflow: hidden;
+    color: var(--on-dark);
+    text-align: center;
+  }
+
+  .hero--concept-a::before,
+  .hero--concept-a::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(245, 247, 250, .78); /* Light Silver #F5F7FA */
     pointer-events: none;
+    z-index: 0;
   }
 
-  .hero-inner {
-    width: min(1100px, 92vw);
-    margin-inline: auto;
-    position: relative;
-    z-index: 1;
+  .hero--concept-a::before {
+    background: radial-gradient(
+        140% 120% at 90% 10%,
+        rgba(255, 46, 155, 0.58),
+        rgba(255, 46, 155, 0) 55%
+      ),
+      radial-gradient(120% 140% at 10% 100%, rgba(46, 228, 196, 0.24), rgba(46, 228, 196, 0) 60%),
+      var(--bg);
   }
 
-  /* Logo — ~4× bigger overall, responsive */
-  .hero-logo {
-    height: clamp(120px, 18vw, 200px);
-    margin: 0 auto .5rem;
-    display: block;
+  .hero--concept-a::after {
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0) 0%, rgba(10, 10, 10, 0.55) 100%);
   }
 
-  /* Headline */
+  .hero-shell .eyebrow {
+    margin: 0;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
   .hero h1 {
-    font-family: var(--font-sans);
-    font-weight: var(--font-heading-weight, 800);
-    letter-spacing: -0.015em;
+    margin: 0;
+    max-width: 22ch;
+    font-size: clamp(2.8rem, 6.5vw, 4.8rem);
     line-height: 1.05;
-    font-size: clamp(2.8rem, 7vw, 5.2rem);
-    margin: 0 0 .3rem;
-  }
-  .hero h1 .line1,
-  .hero h1 .line2 {
-    display: block;
   }
 
-  /* Subtitle */
-  .lead {
-    font-weight: var(--font-body-weight, 500);
-    font-size: clamp(1.06rem, 1.8vw, 1.3rem);
-    line-height: 1.55;
-    margin: .5rem auto 1.25rem;
-    max-width: 62ch;
+  .hero h1 .hl-alt {
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-contrast) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    white-space: nowrap;
   }
 
-  /* Accent highlight (Default Accent mint) */
-  .accent { color: var(--brand-cta); }
+  .hero p.lead {
+    margin: 0;
+    max-width: 60ch;
+    color: rgba(255, 255, 255, 0.88);
+  }
 
-  /* CTA row (kept as-is) */
-  .cta {
-    display: inline-flex;
-    gap: .8rem;
+  .hero .actions {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero .actions .button {
+    min-width: 180px;
+  }
+
+  @media (max-width: 640px) {
+    .hero-shell {
+      padding-top: clamp(4.5rem, 20vh, 6rem);
+    }
+
+    .hero-shell .eyebrow {
+      letter-spacing: 0.22em;
+      font-size: 0.72rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 10vw, 3.4rem);
+    }
   }
 </style>
