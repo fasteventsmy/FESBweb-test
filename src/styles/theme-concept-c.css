@@ -218,15 +218,15 @@ p{margin:.4rem 0}
 
 /* 1) Ensure hero never clips descenders (the trailing “y.” issue) and center the stack */
 .hero, #hero{
-  min-height: 100svh;              /* full safe viewport height on mobile */
+  min-height: 100svh;                     /* full safe viewport height on mobile */
   display: grid;
   place-items: center;
-  padding: 5rem 1.25rem 2.5rem;    /* room for sticky nav */
+  padding: 5rem 1.25rem 2.5rem;           /* room for sticky nav */
   box-sizing: border-box;
-  overflow: visible;               /* prevent clipping of descenders/punctuation */
+  overflow: visible;                      /* prevent clipping of descenders/punctuation */
 }
 
-/* Generic inner stack (no markup change required: target common names) */
+/* Stack inside the hero */
 .hero .hero-inner, .hero .inner, #hero .hero-inner, #hero .inner{
   display: grid;
   justify-items: center;
@@ -236,6 +236,7 @@ p{margin:.4rem 0}
 
 /* Title sizing & rhythm (keeps descenders safe) */
 .hero h1, .hero .hero-title, #hero .hero-title{
+  font-size: clamp(2.2rem, 7vw + 0.6rem, 4.2rem);
   line-height: 1.08;
   letter-spacing: -0.01em;
 }
@@ -247,6 +248,7 @@ p{margin:.4rem 0}
 .hero .hero-sub, .hero .subtitle, #hero .hero-sub, #hero .subtitle{
   max-width: 60ch;
   font-size: clamp(1rem, 2.5vw + .6rem, 1.125rem);
+  color: var(--text);
   opacity: .92;
 }
 
