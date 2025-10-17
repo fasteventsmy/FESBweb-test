@@ -432,20 +432,22 @@ html, body { max-width: 100%; overflow-x: hidden; }
 @media (max-width:640px){
   :root .hero .hero-subtitle{ font-size:clamp(14px, 3.4vw, 16px); }
 }
-/* --- HEADER SMART HIDE --- */
+/* --- HEADER SMART HIDE (FIXED) --- */
 :root .site-header{
-  position: sticky;        /* follows content; change to fixed if your layout needs it */
-  top: 0;
-  z-index: 50;
+  position: fixed;           /* fixed to viewport */
+  inset: 0 auto auto 0;      /* top:0; left:0 */
+  width: 100%;
+  z-index: 1000;
+  padding-top: max(0px, env(safe-area-inset-top));
   transition: transform .24s ease, background-color .2s ease, box-shadow .2s ease;
   will-change: transform;
 }
 :root .site-header.is-hidden{
-  transform: translateY(-100%);
+  transform: translateY(calc(-100% - max(0px, env(safe-area-inset-top))));
 }
 :root .site-header.is-scrolled{
   background: rgba(10,10,10,.72);            /* Rich Black w/ alpha */
-  backdrop-filter: saturate(140%) blur(8px);  /* subtle glass look */
+  backdrop-filter: saturate(140%) blur(8px);
   -webkit-backdrop-filter: saturate(140%) blur(8px);
   box-shadow: 0 6px 20px rgba(0,0,0,.25);
 }
@@ -453,8 +455,12 @@ html, body { max-width: 100%; overflow-x: hidden; }
 @media (prefers-reduced-motion: reduce){
   :root .site-header{ transition: none; }
 }
-
-/* Optional: when mobile menu is open, keep header visible */
+/* Keep visible when menu is open */
 :root .site-header.menu-open{
   transform: none !important;
+}
+
+/* Reserve space for fixed header */
+:root body.has-fixed-header{
+  padding-top: var(--header-h, 72px);      /* fallback height */
 }

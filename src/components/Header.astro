@@ -124,3 +124,26 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
     }
   })();
 </script>
+
+<script>
+  (function(){
+    const header = document.getElementById('site-header');
+    if(!header) return;
+
+    function setHeaderSpace(){
+      const h = Math.ceil(header.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--header-h', h + 'px');
+      document.body.classList.add('has-fixed-header');
+    }
+
+    // Initial and on changes
+    setHeaderSpace();
+    window.addEventListener('resize', setHeaderSpace, { passive: true });
+
+    // Recalculate after fonts/images (if any) affect size
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(setHeaderSpace).catch(()=>{});
+    }
+    window.addEventListener('load', setHeaderSpace, { once: true });
+  })();
+</script>
