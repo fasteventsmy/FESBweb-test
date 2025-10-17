@@ -509,3 +509,58 @@ html, body { max-width: 100%; overflow-x: hidden; }
 @media (prefers-reduced-motion: reduce){
   :root .section-about .link-more{ transition: none; }
 }
+/* --- ABOUT (fullscreen + accent CTA) --- */
+:root .section-about--fullscreen{
+  /* Fill viewport, minus fixed header height */
+  min-height: calc(100vh - var(--header-h, 72px));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+:root .section-about .about-wrap{
+  max-width: 980px;
+  margin-inline: auto;
+  text-align: center;
+  padding-inline: clamp(16px, 4vw, 36px);
+}
+:root .section-about .about-title{
+  font-size: clamp(32px, 4.8vw, 44px); /* bigger title */
+  line-height: 1.12;
+  letter-spacing: .005em;
+  margin: 0 0 .9rem 0; /* extra gap above paragraph */
+  color: #0A0A0A;
+}
+:root .section-about .about-lede{
+  font-size: clamp(16px, 2.1vw, 18px);
+  line-height: 1.65;
+  color: #0A0A0A;
+  opacity: .92;
+  margin: 0 auto;
+}
+:root .section-about .about-cta{
+  margin-top: 1.15rem;
+}
+:root .section-about .link-more{
+  display: inline-block;
+  padding: .5rem .9rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform .18s ease, border-color .18s ease, background-color .18s ease, color .18s ease, box-shadow .18s ease;
+}
+/* Accent version: magenta outline, teal text */
+:root .section-about .link-more--accent{
+  border: 2px solid #FF2E9B;   /* Electric Magenta */
+  color: #2EE4C4;               /* Vibrant Teal text */
+  background: transparent;
+  box-shadow: 0 8px 24px rgba(255,46,155,0.08);
+}
+:root .section-about .link-more--accent:hover,
+:root .section-about .link-more--accent:focus{
+  background: rgba(255,46,155,0.10); /* soft magenta wash */
+  transform: translateY(-1px);
+  outline: none;
+}
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  :root .section-about .link-more{ transition: none; }
+}
