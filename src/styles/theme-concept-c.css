@@ -91,7 +91,7 @@ p{margin:.4rem 0}
 
 /* Header + hero logos */
 .logo{ height:36px; display:block; }
-.logo--hero{ height:96px; }
+.logo--hero{ height:160px; } /* ~2× bigger */
 
 /* Buttons */
 .button{
@@ -115,6 +115,8 @@ p{margin:.4rem 0}
   background: var(--accent);
   color:#fff;
 }
+.button--teal{ border-color: var(--accent-contrast); color: var(--accent-contrast); }
+.button--teal:hover{ background: var(--accent-contrast); color:#0A0A0A; }
 .button + .button{margin-left:.5rem}
 
 /* Hero */
