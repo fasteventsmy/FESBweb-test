@@ -99,6 +99,11 @@ p{margin:.4rem 0}
   background: none !important;
 }
 
+/* Hero overlay enforcement */
+.hero::before{
+  background: rgba(245,247,250,.78); /* Light Silver */
+}
+
 /* Hero (dark) */
 .hero{
   color:var(--text);
