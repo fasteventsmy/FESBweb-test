@@ -432,3 +432,29 @@ html, body { max-width: 100%; overflow-x: hidden; }
 @media (max-width:640px){
   :root .hero .hero-subtitle{ font-size:clamp(14px, 3.4vw, 16px); }
 }
+/* --- HEADER SMART HIDE --- */
+:root .site-header{
+  position: sticky;        /* follows content; change to fixed if your layout needs it */
+  top: 0;
+  z-index: 50;
+  transition: transform .24s ease, background-color .2s ease, box-shadow .2s ease;
+  will-change: transform;
+}
+:root .site-header.is-hidden{
+  transform: translateY(-100%);
+}
+:root .site-header.is-scrolled{
+  background: rgba(10,10,10,.72);            /* Rich Black w/ alpha */
+  backdrop-filter: saturate(140%) blur(8px);  /* subtle glass look */
+  -webkit-backdrop-filter: saturate(140%) blur(8px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.25);
+}
+/* Don’t animate for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce){
+  :root .site-header{ transition: none; }
+}
+
+/* Optional: when mobile menu is open, keep header visible */
+:root .site-header.menu-open{
+  transform: none !important;
+}
