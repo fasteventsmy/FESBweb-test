@@ -337,3 +337,19 @@ a.button--outline:hover{
 .hero .lead {
   color: var(--muted, #F5F7FA);
 }
+
+/* === Prevent horizontal scroll (white strip on the right) =============== */
+html, body { max-width: 100%; overflow-x: hidden; }
+.hero, .hero * { overflow-x: clip; }   /* avoid wide pseudo/gradients poking out */
+
+/* === Mobile hero fit: full viewport height, comfy spacing =============== */
+@media (max-width: 640px){
+  .hero{
+    min-height: 100svh;            /* fits on iOS/Android with dynamic bars */
+    padding: 6rem 1rem 2.75rem;
+  }
+  /* keep big logo & headline responsive without clipping */
+  .hero .logo { width: clamp(140px, 34vw, 220px); height: auto; }
+  .hero h1 { font-size: clamp(2.1rem, 7vw, 2.75rem); line-height: 1.12; }
+  .hero .cta{ gap: .75rem; }
+}
