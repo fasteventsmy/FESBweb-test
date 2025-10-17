@@ -300,3 +300,33 @@ a.button--outline:hover{
   color: #0A0A0A;
 }
 /* === /HERO FIX BUNDLE === */
+
+/* === HERO CTA buttons: shape + colours + white text ====================== */
+.hero .cta a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: .95rem 1.35rem;
+  border-radius: 9999px;           /* pill */
+  font-weight: 700;
+  line-height: 1;
+  border: 2px solid transparent;
+  text-decoration: none;
+}
+
+/* First button = solid magenta */
+.hero .cta a:first-child{
+  background: var(--accent-pink, #FF2E9B);
+  color: #fff !important;          /* keep white text */
+  box-shadow: 0 6px 18px rgba(255,46,155,.25);
+}
+
+/* Second button = teal outline with WHITE text */
+.hero .cta a:last-child{
+  background: transparent;
+  border-color: var(--accent-teal, #2EE4C4);
+  color: #fff !important;          /* force white text */
+}
+.hero .cta a:last-child:hover{
+  background: color-mix(in srgb, var(--accent-teal, #2EE4C4) 12%, transparent);
+}
