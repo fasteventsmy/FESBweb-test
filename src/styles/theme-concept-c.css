@@ -198,3 +198,87 @@ p{margin:.4rem 0}
   }
 }
 
+/* === HERO FIX BUNDLE (clip fix + mobile fit + button text) === */
+
+/* 1) Ensure hero never clips descenders (the trailing “y.” issue) and center the stack */
+.hero, #hero{
+  min-height: 100svh;              /* full safe viewport height on mobile */
+  display: grid;
+  place-items: center;
+  padding: 5rem 1.25rem 2.5rem;    /* room for sticky nav */
+  box-sizing: border-box;
+  overflow: visible;               /* prevent clipping of descenders/punctuation */
+}
+
+/* Generic inner stack (no markup change required: target common names) */
+.hero .hero-inner, .hero .inner, #hero .hero-inner, #hero .inner{
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 1.15rem;
+}
+
+/* Title sizing & rhythm (keeps descenders safe) */
+.hero h1, .hero .hero-title, #hero .hero-title{
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+
+/* Optional: if you render the final dot in a span, keep a touch of breathing space */
+.hero .dot{ margin-left: 0.05em; }
+
+/* Subtitle */
+.hero .hero-sub, .hero .subtitle, #hero .hero-sub, #hero .subtitle{
+  max-width: 60ch;
+  font-size: clamp(1rem, 2.5vw + .6rem, 1.125rem);
+  opacity: .92;
+}
+
+/* Logo sizing in hero (will only apply if those classes exist) */
+.hero img.logo, .hero .hero-logo, #hero .hero-logo{
+  max-width: min(340px, 60vw);
+  height: auto;
+}
+
+/* CTA row */
+.hero .hero-cta, .hero .cta, #hero .hero-cta, #hero .cta{
+  display: flex;
+  gap: .8rem;
+  flex-wrap: wrap;
+  margin-top: .2rem;
+}
+
+/* Small phones: tighten spacing just a bit more */
+@media (max-width: 420px){
+  .hero, #hero{ padding-top: 4.25rem; }
+  .hero .hero-inner, .hero .inner, #hero .hero-inner, #hero .inner{ gap: .9rem; }
+  .hero img.logo, .hero .hero-logo, #hero .hero-logo{ max-width: min(300px, 62vw); }
+}
+
+/* 2) Outline button (“Our work”) — keep teal outline, make label white, and invert on hover */
+.button--outline,
+.button.button--outline,
+a.button--outline{
+  background: transparent;
+  border: 1.5px solid var(--accent-teal);
+  color: #fff;                           /* ✅ white text for the teal outline button */
+}
+
+.button--outline:hover,
+.button.button--outline:hover,
+a.button--outline:hover{
+  background: var(--accent-teal);
+  color: #0A0A0A;                        /* strong contrast on teal */
+}
+
+/* Fallback: if your outline variant is expressed as a “ghost” style anywhere */
+.button--ghost.is-outline{
+  background: transparent;
+  border: 1.5px solid var(--accent-teal);
+  color: #fff;
+}
+.button--ghost.is-outline:hover{
+  background: var(--accent-teal);
+  color: #0A0A0A;
+}
+/* === /HERO FIX BUNDLE === */
