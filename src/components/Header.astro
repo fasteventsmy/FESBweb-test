@@ -11,7 +11,7 @@ const current = (Astro.url.pathname || "/").replace(/\/+$/,"") || "/";
 const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWith(to));
 ---
 
-<header class="navbar">
+<header id="site-header" class="navbar site-header">
   <div class="navwrap">
     <a href="/" aria-label="Home">
       <img src="/assets/fast-logo-white.svg" alt="Fast Events" class="logo" />
@@ -21,7 +21,7 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
     <input id="nav-check" class="nav-check" type="checkbox" aria-hidden="true" />
 
     <!-- Label acts as the toggle button -->
-    <label class="nav-toggle" for="nav-check" aria-controls="site-nav">
+    <label class="nav-toggle" for="nav-check" aria-controls="site-nav" data-nav-toggle aria-expanded="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
         <path d="M3 6h18M3 12h18M3 18h18" stroke-width="2" stroke-linecap="round"/>
       </svg>
@@ -37,3 +37,90 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
     </nav>
   </div>
 </header>
+
+<script>
+  // Smart hide header on scroll (sticky), with scroll-up reveal.
+  (function(){
+    const header = document.getElementById('site-header');
+    if(!header) return;
+
+    const toggleBtn = header.querySelector('[data-nav-toggle]');
+    const navCheck = header.querySelector('.nav-check');
+    let lastY = window.scrollY || 0;
+    let ticking = false;
+    const THRESHOLD = 8;     // minimum delta to trigger
+    const SHOW_AT = 80;      // start hiding only after this y
+    const SCROLLED = 8;      // add blur backdrop after this y
+
+    function menuIsOpen(){
+      if (navCheck instanceof HTMLInputElement && navCheck.checked) return true;
+      // Heuristic: aria-expanded="true" or a class set on header/html by existing menu code.
+      if (toggleBtn && (toggleBtn.getAttribute('aria-expanded') === 'true')) return true;
+      return header.classList.contains('menu-open') || document.documentElement.classList.contains('nav-open');
+    }
+
+    function syncMenuState(open){
+      if (open){
+        header.classList.add('menu-open');
+        header.classList.remove('is-hidden');
+      } else {
+        header.classList.remove('menu-open');
+      }
+      if (toggleBtn){
+        toggleBtn.setAttribute('aria-expanded', String(open));
+      }
+    }
+
+    function onScroll(){
+      const y = window.scrollY || 0;
+      const diff = Math.abs(y - lastY);
+      const scrollingDown = y > lastY;
+
+      // Backdrop/blur when scrolled a bit
+      if (y > SCROLLED) header.classList.add('is-scrolled');
+      else header.classList.remove('is-scrolled');
+
+      if (!menuIsOpen()){
+        if (y > SHOW_AT && scrollingDown && diff > THRESHOLD){
+          header.classList.add('is-hidden');
+        } else if (diff > THRESHOLD && !scrollingDown){
+          header.classList.remove('is-hidden');
+        }
+        // Guard: near top always show
+        if (y <= SHOW_AT) header.classList.remove('is-hidden');
+      }
+
+      lastY = y;
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function(){
+      if (!ticking){
+        window.requestAnimationFrame(onScroll);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Ensure header shows when menu opens
+    if (toggleBtn){
+      toggleBtn.addEventListener('click', () => {
+        const open = !menuIsOpen();
+        header.classList.remove('is-hidden');
+        if (navCheck instanceof HTMLInputElement){
+          window.requestAnimationFrame(() => {
+            syncMenuState(navCheck.checked);
+          });
+        } else {
+          syncMenuState(open);
+        }
+      });
+    }
+
+    if (navCheck instanceof HTMLInputElement){
+      navCheck.addEventListener('change', () => {
+        syncMenuState(navCheck.checked);
+      });
+      syncMenuState(navCheck.checked);
+    }
+  })();
+</script>
