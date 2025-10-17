@@ -1,17 +1,88 @@
 ---
-// Hero.astro — centered, responsive hero
+// Hero with centered black logo and Concept-C accent highlights
 ---
 <section id="hero" class="hero">
   <div class="hero-inner">
-    <h1>Make moments that move people</h1>
-    <p class="lede">
-      We design, build, and run brand experiences from launches and roadshows to immersive worlds.
-      Fast, crisp, and on point.
+    <img
+      src="/assets/fast-logo-black.svg"
+      alt="Fast Events"
+      class="hero-logo"
+      width="160"
+      height="40"
+      decoding="async"
+    />
+
+    <h1>
+      Make <span class="accent">moments</span> that move people
+    </h1>
+
+    <p class="lead">
+      We <span class="accent">design</span>, <span class="accent">build</span>, and
+      <span class="accent">run</span> brand experiences—from
+      <span class="accent">launches</span> and <span class="accent">roadshows</span>
+      to <span class="accent">immersive</span> worlds. Fast, crisp, on point.
     </p>
 
-    <div class="hero-ctas">
+    <div class="cta">
       <a href="#services" class="button button--mint">What we do</a>
       <a href="#work" class="button button--ghost">Our work</a>
     </div>
   </div>
 </section>
+
+<style>
+  /* Layout */
+  .hero {
+    position: relative;
+    min-height: clamp(560px, 70vh, 760px);
+    display: grid;
+    place-items: center;
+    text-align: center;
+    /* IMPORTANT: remove any visual darkening; background image stays as-is */
+    color: var(--bg); /* Rich Black (#0A0A0A) */
+  }
+
+  /* Kill any existing overlay coming from global styles */
+  .hero::before,
+  .hero::after { content: none !important; display: none !important; }
+
+  .hero-inner {
+    width: min(1100px, 92vw);
+    margin-inline: auto;
+  }
+
+  /* Logo */
+  .hero-logo {
+    height: clamp(38px, 5vw, 56px);
+    margin: 0 auto 0.75rem;
+    display: block;
+  }
+
+  /* Headline */
+  .hero h1 {
+    font-family: var(--font-sans);
+    font-weight: var(--font-heading-weight, 800);
+    letter-spacing: -0.015em;
+    line-height: 1.05;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    margin: 0 0 .4rem;
+  }
+
+  /* Subtitle */
+  .lead {
+    font-weight: var(--font-body-weight, 500);
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    line-height: 1.55;
+    margin: .25rem auto 1.25rem;
+    max-width: 62ch;
+  }
+
+  /* Accent highlight (Default Accent mint) */
+  .accent { color: var(--brand-cta); }
+
+  /* CTA row (kept as-is) */
+  .cta {
+    display: inline-flex;
+    gap: .8rem;
+  }
+</style>
