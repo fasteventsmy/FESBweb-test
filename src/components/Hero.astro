@@ -29,6 +29,11 @@
 
 <style>
   .hero {
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    padding: 5rem 1.25rem 2.5rem;
+    box-sizing: border-box;
     background: var(--bg);
   }
 
@@ -36,16 +41,20 @@
     position: relative;
     z-index: 1;
     display: grid;
-    gap: clamp(1rem, 3vw, 2.5rem);
+    gap: 1.15rem;
     justify-items: center;
-    padding: clamp(5rem, 16vh, 7rem) 1.25rem clamp(4rem, 12vh, 6rem);
+    text-align: center;
+  }
+
+  .hero .logo--hero {
+    max-width: min(340px, 60vw);
+    height: auto;
   }
 
   .hero--concept-a {
     position: relative;
     overflow: hidden;
     color: var(--on-dark);
-    text-align: center;
   }
 
   .hero--concept-a::before,
@@ -83,8 +92,8 @@
   .hero h1 {
     margin: 0;
     max-width: 22ch;
-    font-size: clamp(2.8rem, 6.5vw, 4.8rem);
-    line-height: 1.05;
+    font-size: clamp(2.2rem, 7vw + 0.6rem, 4.2rem);
+    line-height: 1.08;
   }
 
   .hero h1 .hl-alt {
@@ -98,7 +107,9 @@
   .hero p.lead {
     margin: 0;
     max-width: 60ch;
-    color: rgba(255, 255, 255, 0.88);
+    font-size: clamp(1rem, 2.5vw + 0.6rem, 1.125rem);
+    color: var(--text);
+    opacity: 0.92;
   }
 
   .hero .actions {
@@ -106,6 +117,7 @@
     gap: 0.8rem;
     flex-wrap: wrap;
     justify-content: center;
+    margin-top: 0.2rem;
   }
 
   .hero .actions .button {
@@ -113,17 +125,23 @@
   }
 
   @media (max-width: 640px) {
-    .hero-shell {
-      padding-top: clamp(4.5rem, 20vh, 6rem);
-    }
-
     .hero-shell .eyebrow {
       letter-spacing: 0.22em;
       font-size: 0.72rem;
     }
+  }
 
-    .hero h1 {
-      font-size: clamp(2.4rem, 10vw, 3.4rem);
+  @media (max-width: 420px) {
+    .hero {
+      padding-top: 4.25rem;
+    }
+
+    .hero-shell {
+      gap: 0.9rem;
+    }
+
+    .hero .logo--hero {
+      max-width: min(300px, 62vw);
     }
   }
 </style>
