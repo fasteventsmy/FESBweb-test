@@ -564,3 +564,91 @@ html, body { max-width: 100%; overflow-x: hidden; }
 @media (prefers-reduced-motion: reduce){
   :root .section-about .link-more{ transition: none; }
 }
+
+/* --- ABOUT (2-column split) --- */
+:root .section-about--fullscreen{
+  min-height: calc(100vh - var(--header-h, 72px));
+  display: flex;
+  align-items: center;
+}
+:root .section-about .about-wrap{
+  width: min(1160px, 92vw);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 3.2vw, 24px);
+}
+:root .section-about .about-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 4vw, 48px);
+  align-items: center;
+}
+
+/* Left: image */
+:root .section-about .about-media{
+  margin: 0;
+}
+:root .section-about .about-img{
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;          /* force 1:1 */
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 10px 32px rgba(0,0,0,.14);
+}
+
+/* Right: content */
+:root .section-about .about-content{
+  text-align: left;
+}
+:root .section-about .about-title{
+  font-size: clamp(32px, 4.8vw, 44px);
+  line-height: 1.12;
+  margin: 0 0 1rem 0;           /* extra gap before body */
+  color: #0A0A0A;
+}
+:root .section-about .about-lede{
+  font-size: clamp(16px, 2.1vw, 18px);
+  line-height: 1.65;
+  color: #0A0A0A;
+  opacity: .92;
+  margin: 0;
+}
+:root .section-about .about-cta{
+  margin-top: 1.15rem;
+}
+
+/* CTA: magenta outline + MAGENTA TEXT */
+:root .section-about .link-more{
+  display: inline-block;
+  padding: .55rem 1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform .18s ease, border-color .18s ease, background-color .18s ease, color .18s ease, box-shadow .18s ease;
+}
+:root .section-about .link-more--accent{
+  border: 2px solid #FF2E9B;  /* magenta outline */
+  color: #FF2E9B;              /* magenta text as requested */
+  background: transparent;
+  box-shadow: 0 8px 24px rgba(255,46,155,0.08);
+}
+:root .section-about .link-more--accent:hover,
+:root .section-about .link-more--accent:focus{
+  background: rgba(255,46,155,.10);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+/* Responsive: stack on small screens */
+@media (max-width: 900px){
+  :root .section-about .about-grid{
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 4vw, 28px);
+  }
+  :root .section-about .about-content{
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  :root .section-about .link-more{ transition: none; }
+}
