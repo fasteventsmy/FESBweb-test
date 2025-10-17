@@ -8,6 +8,8 @@
   --card: #F5F7FA;
   --accent: #FF2E9B;              /* Electric Magenta */
   --accent-contrast: #2EE4C4;     /* Vibrant Teal */
+  --accent-pink: #FF2E9B;         /* Pink accent for filled buttons */
+  --accent-teal: #2EE4C4;         /* Teal accent for outline buttons */
   --on-dark: #FFFFFF;             /* text on dark */
 
   /* Type */
@@ -94,30 +96,35 @@ p{margin:.4rem 0}
 .logo--hero{ height:160px; } /* ~2× bigger */
 
 /* Buttons */
-.button{
-  display:inline-flex;align-items:center;justify-content:center;
-  padding:.6rem 1rem;border-radius:999px;text-decoration:none;font-weight:700;border:0;
-  transition:.2s ease;
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: .2s ease;
+  font-weight: 700;
+  border-radius: 14px;
+  padding: .9rem 1.25rem;
 }
-.button--mint{ /* rename kept for compatibility */ }
-.button--primary,
-.button--mint,
-.button--accent{
-  background: var(--accent);
-  color:#fff;
+
+/* Filled (pink) – your “What we do” */
+.button--primary {
+  background: var(--accent-pink);
+  color: #0A0A0A;
+  border: 1.5px solid transparent;
 }
-.button--ghost{
+.button--primary:hover { filter: brightness(1.05); }
+
+/* Outline (teal) – your “Our work” */
+.button--outline {
   background: transparent;
-  border:2px solid var(--accent);
-  color:#fff;
+  border: 1.5px solid var(--accent-teal);
+  color: #fff;                                 /* ✅ white text */
 }
-.button--ghost:hover{
-  background: var(--accent);
-  color:#fff;
+.button--outline:hover {
+  background: var(--accent-teal);
+  color: #0A0A0A;                              /* good contrast on teal */
 }
-.button--teal{ border-color: var(--accent-contrast); color: var(--accent-contrast); }
-.button--teal:hover{ background: var(--accent-contrast); color:#0A0A0A; }
-.button + .button{margin-left:.5rem}
 
 /* Hero */
 .hero{
