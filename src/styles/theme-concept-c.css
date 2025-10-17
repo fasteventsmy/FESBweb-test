@@ -412,3 +412,23 @@ html, body { max-width: 100%; overflow-x: hidden; }
   background: rgba(46,228,196,.12);  /* subtle teal wash */
   outline: none;
 }
+
+/* --- HERO SUBTITLE FIX (scoped) --- */
+:root .hero .hero-subtitle{
+  color:#F5F7FA;             /* Light Silver */
+  line-height:1.5;
+  letter-spacing:.01em;
+  max-width:68ch;
+  margin-inline:auto;
+  opacity:.92;               /* tiny soften on dark bg */
+}
+:root .hero .hero-subtitle .magenta{ color:#FF2E9B; }
+:root .hero .hero-subtitle .teal{ color:#2EE4C4; }
+
+/* Defensive: if any global paragraph color forces dark text, keep hero light */
+:root .hero p.hero-subtitle{ color:#F5F7FA; }
+
+/* Optional small-type clamp for mobile */
+@media (max-width:640px){
+  :root .hero .hero-subtitle{ font-size:clamp(14px, 3.4vw, 16px); }
+}
