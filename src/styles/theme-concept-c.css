@@ -367,3 +367,19 @@ html, body { max-width: 100%; overflow-x: hidden; }
   margin-left: .06em;             /* nudge dot off the last letter */
   line-height: 1;                 /* align nicely with the baseline */
 }
+/* ==== Hero outline CTA: white text + teal ring ==== */
+.hero .button-ghost {
+  color: #ffffff !important;          /* force white label in hero */
+  border-color: #2EE4C4 !important;   /* vibrant teal ring */
+  background: transparent;
+  border-width: 2px;
+  border-radius: 9999px;              /* pill */
+  padding: .9rem 1.4rem;              /* keep the pill feel */
+}
+
+.hero .button-ghost:hover,
+.hero .button-ghost:focus-visible {
+  color: #ffffff !important;
+  background: rgba(46, 228, 196, 0.12);  /* subtle teal wash on hover */
+  outline: none;
+}
