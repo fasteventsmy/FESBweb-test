@@ -91,17 +91,42 @@ p{margin:.4rem 0}
 }
 .button + .button{margin-left:.5rem}
 
-/* Remove hero overlay — we want the raw artwork behind black text */
+/* ------------------------------------------
+   HERO OVERLAY — enforce Light Silver, kill dark washes
+ -------------------------------------------*/
+/* Nuke any previous dark overlay layers */
+section#hero.hero::before,
+section#hero.hero::after,
 .hero::before,
-.hero::after{
-  content: none !important;
-  display: none !important;
-  background: none !important;
+.hero::after,
+.hero .backdrop::before,
+.hero .backdrop::after {
+  background: transparent !important;
 }
 
-/* Hero overlay enforcement */
-.hero::before{
-  background: rgba(245,247,250,.78); /* Light Silver */
+/* Apply the Light Silver wash once, above */
+section#hero.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(245, 247, 250, 0.78) !important; /* Light Silver */
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure the actual content sits above the wash */
+.hero,
+.hero .hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Guardrails: disable any legacy filters/box-shadows that try to darken */
+.hero,
+.hero .backdrop,
+.hero .image {
+  filter: none !important;
+  box-shadow: none !important;
 }
 
 /* Hero (dark) */
