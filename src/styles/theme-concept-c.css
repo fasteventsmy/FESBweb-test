@@ -851,3 +851,48 @@ html, body { max-width: 100%; overflow-x: hidden; }
 @media (max-width: 900px){
   :root .section-about .about-grid{ grid-template-columns: 1fr; }
 }
+/* --- ABOUT (wider text column, tighter leading, tighter page paddings) --- */
+:root .section-about .about-wrap{
+  width: min(1500px, 98.5vw);              /* wider container so columns can breathe */
+  padding-inline: clamp(8px, 1.6vw, 16px); /* much smaller side padding */
+}
+
+:root .section-about .about-grid{
+  /* Give more space to the RIGHT column (text) without shrinking the image */
+  grid-template-columns: 0.95fr 1.05fr;    /* text column is wider than image column */
+  gap: clamp(18px, 2.6vw, 36px);           /* slightly smaller inter-column gap */
+  align-items: center;
+}
+
+/* Right column: remove tight max-width to allow wider paragraph measure */
+:root .section-about .about-content{
+  text-align: left;
+  max-width: none;                         /* allow full column width */
+}
+
+/* Paragraph: tighter line-height like before (NOT loose) */
+:root .section-about .about-lede{
+  font-size: clamp(18px, 2.2vw, 21px);     /* keep current size */
+  line-height: 1.48;                       /* tighter leading */
+  letter-spacing: 0;
+  opacity: .92;
+  margin: 0;
+}
+
+/* Headline spacing: keep compact gap before paragraph */
+:root .section-about .about-title{
+  margin: 0 0 .9rem 0;
+}
+
+/* Keep existing mobile behavior */
+@media (max-width: 900px){
+  :root .section-about .about-grid{
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 4vw, 28px);
+  }
+  :root .section-about .about-content{
+    max-width: none;
+    text-align: center;
+    padding-inline: clamp(12px, 4vw, 20px);
+  }
+}
