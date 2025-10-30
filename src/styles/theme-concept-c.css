@@ -681,3 +681,73 @@ html, body { max-width: 100%; overflow-x: hidden; }
 @media (prefers-reduced-motion: reduce){
   :root .section-about .link-more--accent{ transition:none; }
 }
+
+/* --- ABOUT (scale up + solid magenta CTA) --- */
+:root .section-about .about-wrap{
+  width: min(1280px, 96vw);                 /* was ~1160/92vw */
+  padding-inline: clamp(20px, 4vw, 32px);
+}
+:root .section-about .about-grid{
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;       /* slightly bigger image column */
+  gap: clamp(28px, 5vw, 56px);              /* a touch more breathing room */
+  align-items: center;
+}
+
+/* Image stays 4:3 but appears larger via container width increase */
+:root .section-about .about-img{
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+  box-shadow: 0 14px 40px rgba(0,0,0,.16);
+}
+
+/* Typography scale-up */
+:root .section-about .about-title{
+  font-size: clamp(36px, 5.6vw, 52px);      /* bigger headline */
+  line-height: 1.08;
+  margin: 0 0 1.15rem 0;                    /* slightly larger gap */
+}
+:root .section-about .about-lede{
+  font-size: clamp(17px, 2.2vw, 20px);      /* larger body */
+  line-height: 1.7;
+  opacity: .94;
+}
+
+/* CTA: SOLID MAGENTA (white text) */
+:root .section-about .link-more{
+  display: inline-block;
+  padding: .65rem 1.1rem;                   /* bigger pill */
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform .18s ease, background-color .18s ease, box-shadow .18s ease;
+}
+:root .section-about .link-more--accent{
+  border: 0;
+  background: #FF2E9B;                      /* Electric Magenta */
+  color: #ffffff;                            /* white label */
+  box-shadow: 0 12px 30px rgba(255,46,155,.30);
+}
+:root .section-about .link-more--accent:hover,
+:root .section-about .link-more--accent:focus{
+  background: #e22684;                      /* slightly darker on hover */
+  transform: translateY(-1px);
+  outline: none;
+  box-shadow: 0 14px 36px rgba(226,38,132,.34);
+}
+
+/* Responsive: keep single column on small screens */
+@media (max-width: 900px){
+  :root .section-about .about-grid{
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 4vw, 28px);
+  }
+  :root .section-about .about-title{ text-align:center; }
+  :root .section-about .about-lede{ text-align:center; }
+  :root .section-about .about-cta{ text-align:center; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  :root .section-about .link-more{ transition:none; }
+}
+
