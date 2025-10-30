@@ -797,3 +797,57 @@ html, body { max-width: 100%; overflow-x: hidden; }
     padding-inline: clamp(12px, 4vw, 20px);
   }
 }
+/* --- ABOUT (10% scale-up for image, type, button) --- */
+:root .section-about .about-wrap{
+  width: min(1400px, 98vw); /* a bit wider container to let elements grow */
+}
+
+:root .section-about .about-grid{
+  grid-template-columns: 1.2fr 0.8fr;  /* give more width to the image */
+  gap: clamp(18px, 3vw, 40px);
+}
+
+/* Bigger image (still 4:3) */
+:root .section-about .about-img{
+  aspect-ratio: 4 / 3;
+  border-radius: 22px;                  /* subtle scale-up from prior radius */
+  box-shadow: 0 16px 44px rgba(0,0,0,.16);
+}
+
+/* ~10% larger title */
+:root .section-about .about-title{
+  font-size: clamp(40px, 6.2vw, 58px);  /* was ~36→52 */
+  line-height: 1.06;
+  margin: 0 0 1.1rem 0;
+}
+
+/* ~10% larger body, keep tighter leading from earlier */
+:root .section-about .about-lede{
+  font-size: clamp(18px, 2.3vw, 21px);  /* was ~16→19 */
+  line-height: 1.52;
+  opacity: .92;
+}
+
+/* ~10% larger button */
+:root .section-about .link-more{
+  font-size: 1.1rem;                    /* scale label */
+  padding: .72rem 1.2rem;               /* scale pill */
+}
+:root .section-about .link-more--accent{
+  /* remains solid magenta with white text (from earlier step) */
+  background: #FF2E9B;
+  color: #fff;
+  border: 0;
+  box-shadow: 0 14px 34px rgba(255,46,155,.32);
+}
+:root .section-about .link-more--accent:hover,
+:root .section-about .link-more--accent:focus{
+  background: #e22684;
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(226,38,132,.36);
+}
+
+/* Mobile stacking unchanged */
+@media (max-width: 900px){
+  :root .section-about .about-grid{ grid-template-columns: 1fr; }
+}
