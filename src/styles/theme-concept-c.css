@@ -751,3 +751,49 @@ html, body { max-width: 100%; overflow-x: hidden; }
   :root .section-about .link-more{ transition:none; }
 }
 
+/* --- ABOUT (tighter paddings + wider text + tighter leading) --- */
+:root .section-about .about-wrap{
+  width: min(1360px, 98vw);               /* wider container */
+  padding-inline: clamp(12px, 2.2vw, 20px);/* less side padding */
+}
+
+:root .section-about .about-grid{
+  grid-template-columns: 1.05fr 0.95fr;   /* a touch more space to the right */
+  gap: clamp(20px, 3.2vw, 44px);          /* slightly smaller gap */
+  align-items: center;
+}
+
+/* Right column: allow a wider text block */
+:root .section-about .about-content{
+  text-align: left;
+  max-width: 760px;                       /* previously narrower; widen the text box */
+}
+
+/* Tighter body leading (closer to earlier look) */
+:root .section-about .about-lede{
+  font-size: clamp(16px, 2.05vw, 19px);
+  line-height: 1.52;                      /* was ~1.7; tighter */
+  letter-spacing: 0;                      /* keep clean */
+  opacity: .92;
+  margin: 0;
+}
+
+/* Keep the headline scale from the last step */
+:root .section-about .about-title{
+  font-size: clamp(36px, 5.6vw, 52px);
+  line-height: 1.08;
+  margin: 0 0 1.0rem 0;                   /* small gap above body */
+}
+
+/* Mobile remains stacked */
+@media (max-width: 900px){
+  :root .section-about .about-grid{
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 4vw, 28px);
+  }
+  :root .section-about .about-content{
+    max-width: none;
+    text-align: center;
+    padding-inline: clamp(12px, 4vw, 20px);
+  }
+}
