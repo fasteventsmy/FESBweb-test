@@ -652,3 +652,32 @@ html, body { max-width: 100%; overflow-x: hidden; }
 @media (prefers-reduced-motion: reduce){
   :root .section-about .link-more{ transition: none; }
 }
+
+/* --- ABOUT (image 4:3 + solid teal CTA) --- */
+:root .section-about .about-img{
+  display:block;
+  width:100%;
+  aspect-ratio: 4 / 3;        /* 4:3 crop */
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 10px 32px rgba(0,0,0,.14);
+}
+
+/* Solid teal CTA (white label) */
+:root .section-about .link-more--accent{
+  border: 0;
+  background: #2EE4C4;        /* Vibrant Teal */
+  color: #ffffff;              /* white text */
+  box-shadow: 0 10px 26px rgba(46,228,196,0.30);
+}
+:root .section-about .link-more--accent:hover,
+:root .section-about .link-more--accent:focus{
+  background: #23c6a6;        /* a touch darker on hover */
+  transform: translateY(-1px);
+  outline: none;
+  box-shadow: 0 12px 32px rgba(35,198,166,0.35);
+}
+
+@media (prefers-reduced-motion: reduce){
+  :root .section-about .link-more--accent{ transition:none; }
+}
