@@ -11,30 +11,34 @@ const current = (Astro.url.pathname || "/").replace(/\/+$/,"") || "/";
 const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWith(to));
 ---
 
-<header id="site-header" class="navbar site-header">
-  <div class="navwrap">
-    <a href="/" aria-label="Home">
-      <img src="/assets/fast-logo-white.svg" alt="Fast Events" class="logo" />
-    </a>
-
-    <!-- Hidden checkbox drives the mobile menu open/close -->
-    <input id="nav-check" class="nav-check" type="checkbox" aria-hidden="true" />
-
-    <!-- Label acts as the toggle button -->
-    <label class="nav-toggle" for="nav-check" aria-controls="site-nav" data-nav-toggle aria-expanded="false">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-        <path d="M3 6h18M3 12h18M3 18h18" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-      <span class="sr-only">Open menu</span>
-    </label>
-
-    <nav id="site-nav" class="navlinks">
-      {links.map((l) => (
-        <a class={"navbar-link " + (isActive(l.href) ? "is-active" : "")} href={l.href}>
-          {l.text}
+<header id="site-header" class="site-header">
+  <div class="glass-nav">
+    <div class="glass-bar">
+      <div class="navwrap">
+        <a href="/" aria-label="Home">
+          <img src="/assets/fast-logo-white.svg" alt="Fast Events" class="logo" />
         </a>
-      ))}
-    </nav>
+
+        <!-- Hidden checkbox drives the mobile menu open/close -->
+        <input id="nav-check" class="nav-check" type="checkbox" aria-hidden="true" />
+
+        <!-- Label acts as the toggle button -->
+        <label class="nav-toggle" for="nav-check" aria-controls="site-nav" data-nav-toggle aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path d="M3 6h18M3 12h18M3 18h18" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="sr-only">Open menu</span>
+        </label>
+
+        <nav id="site-nav" class="navlinks">
+          {links.map((l) => (
+            <a class={"navbar-link " + (isActive(l.href) ? "is-active" : "")} href={l.href}>
+              {l.text}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
   </div>
 </header>
 
