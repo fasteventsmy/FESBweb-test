@@ -18,6 +18,12 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
         <img src="/assets/fast-logo-white.svg" alt="Fast" class="logo" />
       </a>
 
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+
       <nav class="nav-links" aria-label="Primary">
         {links.map((l) => (
           <a href={l.href} class:list={{ "nav-link": true, "is-active": isActive(l.href) }}>
@@ -27,6 +33,16 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
       </nav>
     </div>
   </div>
+
+  <div class="mobile-sheet" hidden>
+    <nav class="mobile-menu" aria-label="Mobile">
+      {links.map((l) => (
+        <a href={l.href} class:list={{ "mobile-item": true, "is-active": isActive(l.href) }}>
+          {l.text}
+        </a>
+      ))}
+    </nav>
+  </div>
 </header>
 
 <script>
@@ -35,8 +51,7 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
     const header = document.getElementById('site-header');
     if(!header) return;
 
-    const toggleBtn = header.querySelector('[data-nav-toggle]');
-    const navCheck = header.querySelector('.nav-check');
+    const toggleBtn = header.querySelector('.nav-toggle');
     let lastY = window.scrollY || 0;
     let ticking = false;
     const THRESHOLD = 8;     // minimum delta to trigger
@@ -44,22 +59,8 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
     const SCROLLED = 8;      // add blur backdrop after this y
 
     function menuIsOpen(){
-      if (navCheck instanceof HTMLInputElement && navCheck.checked) return true;
-      // Heuristic: aria-expanded="true" or a class set on header/html by existing menu code.
       if (toggleBtn && (toggleBtn.getAttribute('aria-expanded') === 'true')) return true;
-      return header.classList.contains('menu-open') || document.documentElement.classList.contains('nav-open');
-    }
-
-    function syncMenuState(open){
-      if (open){
-        header.classList.add('menu-open');
-        header.classList.remove('is-hidden');
-      } else {
-        header.classList.remove('menu-open');
-      }
-      if (toggleBtn){
-        toggleBtn.setAttribute('aria-expanded', String(open));
-      }
+      return header.classList.contains('menu-open') || document.body.classList.contains('menu-open') || document.documentElement.classList.contains('nav-open');
     }
 
     function onScroll(){
@@ -94,24 +95,16 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
 
     // Ensure header shows when menu opens
     if (toggleBtn){
-      toggleBtn.addEventListener('click', () => {
-        const open = !menuIsOpen();
-        header.classList.remove('is-hidden');
-        if (navCheck instanceof HTMLInputElement){
-          window.requestAnimationFrame(() => {
-            syncMenuState(navCheck.checked);
-          });
-        } else {
-          syncMenuState(open);
-        }
-      });
-    }
+      const updateMenuState = () => {
+        header.classList.toggle('menu-open', menuIsOpen());
+      };
 
-    if (navCheck instanceof HTMLInputElement){
-      navCheck.addEventListener('change', () => {
-        syncMenuState(navCheck.checked);
+      toggleBtn.addEventListener('click', () => {
+        header.classList.remove('is-hidden');
+        window.requestAnimationFrame(updateMenuState);
       });
-      syncMenuState(navCheck.checked);
+
+      updateMenuState();
     }
   })();
 </script>
@@ -137,4 +130,23 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
     }
     window.addEventListener('load', setHeaderSpace, { once: true });
   })();
+</script>
+
+<script>
+  const btn = document.querySelector('.nav-toggle');
+  const sheet = document.querySelector('.mobile-sheet');
+  if (btn && sheet) {
+    btn.addEventListener('click', () => {
+      const open = sheet.hasAttribute('hidden') ? false : true;
+      if (open) {
+        sheet.setAttribute('hidden', '');
+        btn.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('menu-open');
+      } else {
+        sheet.removeAttribute('hidden');
+        btn.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('menu-open');
+      }
+    });
+  }
 </script>
