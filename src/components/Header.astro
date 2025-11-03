@@ -14,11 +14,16 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
 <header id="site-header" class="site-header">
   <div class="glass-nav">
     <div class="glass-bar">
-      <a href="/" class="brand">
+      <a href="/" class="brand" aria-label="Fast home">
         <img src="/assets/fast-logo-white.svg" alt="Fast" class="logo" />
       </a>
 
-      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <button
+        class="nav-toggle"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-sheet"
+        type="button">
         <span class="nav-toggle-bar"></span>
         <span class="nav-toggle-bar"></span>
         <span class="nav-toggle-bar"></span>
@@ -26,7 +31,9 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
 
       <nav class="nav-links" aria-label="Primary">
         {links.map((l) => (
-          <a href={l.href} class:list={{ "nav-link": true, "is-active": isActive(l.href) }}>
+          <a
+            href={l.href}
+            class:list={{ "nav-link": true, "is-active": isActive(l.href) }}>
             {l.text}
           </a>
         ))}
@@ -34,14 +41,18 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
     </div>
   </div>
 
-  <div class="mobile-sheet" hidden>
-    <nav class="mobile-menu" aria-label="Mobile">
-      {links.map((l) => (
-        <a href={l.href} class:list={{ "mobile-item": true, "is-active": isActive(l.href) }}>
-          {l.text}
-        </a>
-      ))}
-    </nav>
+  <div id="mobile-sheet" class="mobile-sheet" hidden>
+    <div class="mobile-menu">
+      <nav aria-label="Mobile">
+        {links.map((l) => (
+          <a
+            href={l.href}
+            class:list={{ "mobile-item": true, "is-active": isActive(l.href) }}>
+            {l.text}
+          </a>
+        ))}
+      </nav>
+    </div>
   </div>
 </header>
 
@@ -133,20 +144,51 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
 </script>
 
 <script>
-  const btn = document.querySelector('.nav-toggle');
-  const sheet = document.querySelector('.mobile-sheet');
-  if (btn && sheet) {
-    btn.addEventListener('click', () => {
-      const open = sheet.hasAttribute('hidden') ? false : true;
-      if (open) {
-        sheet.setAttribute('hidden', '');
-        btn.setAttribute('aria-expanded', 'false');
-        document.body.classList.remove('menu-open');
-      } else {
-        sheet.removeAttribute('hidden');
-        btn.setAttribute('aria-expanded', 'true');
-        document.body.classList.add('menu-open');
-      }
+  const header = document.getElementById('site-header');
+  const toggle = header?.querySelector('.nav-toggle');
+  const sheet  = document.getElementById('mobile-sheet');
+
+  // Ensure [hidden] always hides in case CSS misses it:
+  if (!HTMLElement.prototype.hasOwnProperty('hidden')) {
+    Object.defineProperty(HTMLElement.prototype, 'hidden', {
+      set(v){ this.style.display = v ? 'none' : ''; }
     });
   }
+
+  function openSheet(){
+    if (!sheet) return;
+    sheet.removeAttribute('hidden');
+    toggle?.setAttribute('aria-expanded', 'true');
+    header?.classList.add('menu-open');
+    document.body.classList.add('menu-open');
+  }
+  function closeSheet(){
+    if (!sheet) return;
+    sheet.setAttribute('hidden', '');
+    toggle?.setAttribute('aria-expanded', 'false');
+    header?.classList.remove('menu-open');
+    document.body.classList.remove('menu-open');
+  }
+  function isOpen(){ return sheet && !sheet.hasAttribute('hidden'); }
+
+  toggle?.addEventListener('click', () => { isOpen() ? closeSheet() : openSheet(); });
+
+  // Close on link click (delegate)
+  sheet?.addEventListener('click', (e) => {
+    const target = e.target;
+    const a = target instanceof Element ? target.closest('a') : null;
+    if (a) closeSheet();
+  });
+
+  // Close when clicking outside the panel
+  sheet?.addEventListener('mousedown', (e) => {
+    const panel = sheet.querySelector('.mobile-menu');
+    const target = e.target;
+    if (panel && target instanceof Node && !panel.contains(target)) closeSheet();
+  });
+
+  // Close on Escape
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen()) closeSheet();
+  });
 </script>
