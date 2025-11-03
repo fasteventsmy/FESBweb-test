@@ -1148,3 +1148,93 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
 :root body.has-fixed-header{ padding-top: calc(var(--header-h, 72px) + 14px); }
 
+:root .glass-nav{
+  position: fixed;
+  top: max(12px, calc(env(safe-area-inset-top,0px) + 10px));
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1200px, 94vw);
+  z-index: 1000;
+  pointer-events: none;
+}
+:root .glass-nav .glass-bar{
+  pointer-events: auto;
+  display:flex; align-items:center; gap:14px;
+  padding: 12px 16px;
+  border-radius: 9999px;                /* FULLY ROUNDED */
+  background: rgba(255,255,255,0.18);   /* light glass */
+  backdrop-filter: blur(12px) saturate(135%);
+  -webkit-backdrop-filter: blur(12px) saturate(135%);
+  position: relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.50),   /* inner top highlight */
+    inset 0 -1px 0 rgba(0,0,0,0.18),        /* inner bottom shadow */
+    0 14px 34px rgba(0,0,0,0.40);           /* ambient */
+}
+:root .glass-nav .glass-bar::before{
+  /* gradient ring around the whole pill */
+  content:""; position:absolute; inset:0; border-radius:inherit;
+  padding: 1px;
+  background: linear-gradient(90deg, #2EE4C4 0%, rgba(255,255,255,0) 40%, #FF2E9B 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity:.45; pointer-events:none;
+}
+
+/* layout: logo left, nav right */
+:root .glass-bar .brand{ display:inline-block; margin-left:4px; }
+:root .glass-bar .logo{ height:34px; display:block; }
+:root .glass-bar .nav-links{
+  margin-left:auto; display:flex; align-items:center; gap:8px;
+}
+
+/* base links */
+:root .glass-bar .nav-link{
+  position:relative;
+  color:#F5F7FA; text-decoration:none;
+  font-weight:700;
+  padding: 8px 12px;
+  border-radius:12px;
+  transition: color .18s ease, transform .18s ease;
+}
+:root .glass-bar .nav-link:hover{ color:#FF2E9B; transform: translateY(-1px); }
+
+/* ACTIVE = MAGENTA LIQUID GLASS PILL */
+:root .glass-bar .nav-link.is-active{
+  color:#fff;
+  padding: 10px 16px;
+  border-radius:999px;
+  background: linear-gradient(180deg, rgba(255,46,155,0.90) 0%, rgba(255,46,155,0.78) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.55),     /* inner top shine */
+    inset 0 -2px 6px rgba(179, 30, 106, 0.55),/* inner depth */
+    0 8px 20px rgba(255,46,155,0.35);         /* outer glow */
+}
+:root .glass-bar .nav-link.is-active::after{
+  /* soft highlight strip for glass feel */
+  content:""; position:absolute; left:10px; right:10px; top:6px; height:46%;
+  border-radius:999px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0));
+  opacity:.55; pointer-events:none;
+}
+
+/* smart-hide integration */
+:root .site-header{ position:fixed; inset:0 0 auto 0; background:transparent; z-index:1000; transition:transform .24s ease; }
+:root .site-header.is-hidden{ transform: translateY(calc(-100% - 16px)); }
+:root .site-header.is-scrolled .glass-bar{
+  background: rgba(255,255,255,0.22);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+/* mobile */
+@media (max-width: 900px){
+  :root .glass-nav{ width:min(700px, 94vw); }
+  :root .glass-bar{ padding:10px 12px; }
+  :root .glass-bar .nav-links{ gap:6px; }
+}
+
+/* reduced motion/transparency fallbacks */
+@media (prefers-reduced-transparency: reduce){
+  :root .glass-nav .glass-bar{ background:#1C1C1C; backdrop-filter:none; -webkit-backdrop-filter:none; }
+}
