@@ -1366,3 +1366,41 @@ html, body { max-width: 100%; overflow-x: hidden; }
 :root .hero a.button-ghost:hover{
   transform: translateY(-1px);
 }
+/* ============================================
+   Glass pills ring stroke (match navbar style)
+   - Adds subtle light outer ring + darker inner rim
+   - No glossy strip, keeps current liquid-glass fills
+   ============================================ */
+
+/* Ensure targets can host the stroke pseudo-element */
+:root .glass-bar .nav-link.is-active,
+:root .hero a.button-primary,
+:root .hero a.button-ghost{
+  position: relative;
+}
+
+/* Shared ring: light edge + darker inner rim */
+:root .glass-bar .nav-link.is-active::before,
+:root .hero a.button-primary::before,
+:root .hero a.button-ghost::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  pointer-events:none;
+  /* 1) light outer edge (from navbar look)
+     2) soft inner rim to give depth
+  */
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.24),      /* outer light edge */
+    inset 0 0 0 1px rgba(0,0,0,0.35);      /* inner dark rim   */
+  /* keep it crisp but not glossy */
+  opacity: .95;
+}
+
+/* Ensure any previous glossy overlays stay removed */
+:root .glass-bar .nav-link.is-active::after,
+:root .hero a.button-primary::after,
+:root .hero a.button-ghost::after{
+  content: none !important;
+}
