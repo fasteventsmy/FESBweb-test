@@ -989,7 +989,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 }
 /* --- OUR SERVICES (dark section, silver cards, inline head, bullets) --- */
 :root .section-services--dark{
-  background:#0A0A0A;
+  background:transparent;
   color:#F5F7FA;
   padding-block: clamp(64px, 10vw, 120px);
 }
@@ -1656,58 +1656,67 @@ html, body { max-width: 100%; overflow-x: hidden; }
       rgba(var(--teal-rgb),.85) 0%,
       rgba(var(--teal-rgb),.42) 100%) border-box;
 }
-/* =============================
-   Global site background layer
-   ============================= */
-:root{
-  /* Brand tokens (already exist, but re-affirm for clarity) */
+
+/* === Global site background layer (fixed) =============================== */
+:root {
+  /* Palette guard rails (only if not yet defined) */
   --rich-black: #0A0A0A;
-  --teal: #2EE4C4;
-  --magenta: #FF2E9B;
+  --teal-rgb: 46, 228, 196;
+  --magenta-rgb: 255, 46, 155;
 }
 
-/* Reset default margins so nothing creates a gap up top */
-html, body { 
-  margin: 0; 
-  padding: 0; 
+html, body {
+  margin: 0;
+  padding: 0;
   min-height: 100%;
-  background: var(--rich-black); /* fallback */
+  /* Let the fixed gradient layer show through */
+  background: transparent !important;
 }
 
-/* A fixed, full-viewport gradient behind everything */
+/* Fixed, full-viewport gradient behind everything (teal TL, magenta BR) */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -1;                 /* sits behind the site */
+  z-index: -2; /* sits behind the site */
   pointer-events: none;
-
-  /* Layer 1: rich black base */
   background:
-    radial-gradient(35rem 35rem at 8% 6%, rgba(46,228,196,0.28), transparent 60%),
-    radial-gradient(45rem 45rem at 92% 94%, rgba(255,46,155,0.28), transparent 62%),
-    radial-gradient(100rem 70rem at 50% 30%, rgba(255,255,255,0.04), transparent 70%),
-    var(--rich-black);
-  background-attachment: fixed, fixed, fixed, fixed;
-  filter: saturate(1.05) contrast(1.02);
+    /* rich black base */
+    linear-gradient(#0b0f0d, #0b0f0d),
+    /* teal glow top-left */
+    radial-gradient(35rem 35rem at 8% 8%,
+      rgba(var(--teal-rgb), 0.22), transparent 60%),
+    /* magenta glow bottom-right */
+    radial-gradient(45rem 45rem at 92% 82%,
+      rgba(var(--magenta-rgb), 0.28), transparent 62%);
+  background-attachment: fixed, fixed, fixed;
+  filter: contrast(1.02) saturate(1.02);
 }
 
-/* Subtle vignette for depth (optional but nice) */
-body::after{
-  content:"";
+/* Optional subtle vignette for depth */
+body::after {
+  content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: radial-gradient(120rem 90rem at 50% 60%, rgba(0,0,0,0), rgba(0,0,0,0.28));
+  background:
+    radial-gradient(120rem 90rem at 50% 60%,
+      rgba(0,0,0,0), rgba(0,0,0,0.22));
   background-attachment: fixed;
 }
 
-/* Ensure navbar hugs the top edge */
-.site-header,
+/* Ensure the glass navbar hugs the top safely (no visible “gap”) */
+.nav-shell,
 .glass-nav-outer,
-.header-shell,
-.nav-shell {
+.glass-navbar,
+.header-shell {
+  margin-top: max(8px, env(safe-area-inset-top));
+}
+
+/* If any component pushes itself down with extra top margin/padding,
+   neutralize it here so the navbar visually sits flush. */
+body > header:first-of-type {
   margin-top: 0 !important;
-  padding-top: max(8px, env(safe-area-inset-top)); /* tiny breathing room for iOS notch, not a visual gap */
+  padding-top: 0 !important;
 }
