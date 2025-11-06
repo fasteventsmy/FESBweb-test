@@ -33,7 +33,12 @@ const isActive = (to:string) => (to === "/" ? current === "/" : current.startsWi
         {links.map((l) => (
           <a
             href={l.href}
-            class:list={{ "nav-link": true, "is-active": isActive(l.href) }}>
+            class:list={{
+              "nav-link": true,
+              "is-active": isActive(l.href),
+              "liquid-pill": isActive(l.href),
+              "is-magenta": isActive(l.href)
+            }}>
             {l.text}
           </a>
         ))}
