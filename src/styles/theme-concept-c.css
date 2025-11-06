@@ -27,7 +27,7 @@ html{scroll-behavior:smooth}
 body{
   font-family:var(--font-sans);
   color:var(--text);
-  background:#fff;
+  background:transparent;
   line-height:1.6;
   font-weight:var(--font-body-weight);
   -webkit-font-smoothing:antialiased;
@@ -72,7 +72,7 @@ p{margin:.4rem 0}
 
 .navbar{
   position: sticky; top: 0; z-index: 40;
-  background: var(--bg);
+  background: rgba(10,10,10,.6);
   color: var(--muted);
   box-shadow: 0 1px 0 rgba(255,255,255,.06);
 }
@@ -134,13 +134,13 @@ p{margin:.4rem 0}
   display:grid;
   place-items:center;
   min-height:70vh;
-  background: var(--bg);
+  background: rgba(10,10,10,.45);
   overflow: visible;
 }
 .hero--dark:before{
   /* subtle grid stays behind; dark overlay for contrast */
   content:""; position:absolute; inset:0;
-  background: rgba(10,10,10,.86);
+  background: rgba(10,10,10,.68);
   pointer-events:none;
 }
 .hero .container{ position:relative; z-index:1; max-width: 1100px; margin:0 auto; }
@@ -989,7 +989,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 }
 /* --- OUR SERVICES (dark section, silver cards, inline head, bullets) --- */
 :root .section-services--dark{
-  background:#0A0A0A;
+  background:rgba(10,10,10,.32);
   color:#F5F7FA;
   padding-block: clamp(64px, 10vw, 120px);
 }
@@ -1656,58 +1656,46 @@ html, body { max-width: 100%; overflow-x: hidden; }
       rgba(var(--teal-rgb),.85) 0%,
       rgba(var(--teal-rgb),.42) 100%) border-box;
 }
-/* =============================
-   Global site background layer
-   ============================= */
+/* ---- GLOBAL BACKDROP (full page) ---- */
 :root{
-  /* Brand tokens (already exist, but re-affirm for clarity) */
-  --rich-black: #0A0A0A;
-  --teal: #2EE4C4;
-  --magenta: #FF2E9B;
+  --rich-black:#0A0A0A;
+  --teal-rgb: 46,228,196;
+  --magenta-rgb: 255,46,155;
 }
 
-/* Reset default margins so nothing creates a gap up top */
-html, body { 
-  margin: 0; 
-  padding: 0; 
-  min-height: 100%;
-  background: var(--rich-black); /* fallback */
-}
+html,body{margin:0;padding:0;background:transparent;}
 
-/* A fixed, full-viewport gradient behind everything */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;                 /* sits behind the site */
-  pointer-events: none;
-
-  /* Layer 1: rich black base */
+/* fixed gradient that sits behind everything */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  /* base black + two radial lights + soft vignette */
   background:
-    radial-gradient(35rem 35rem at 8% 6%, rgba(46,228,196,0.28), transparent 60%),
-    radial-gradient(45rem 45rem at 92% 94%, rgba(255,46,155,0.28), transparent 62%),
-    radial-gradient(100rem 70rem at 50% 30%, rgba(255,255,255,0.04), transparent 70%),
-    var(--rich-black);
-  background-attachment: fixed, fixed, fixed, fixed;
-  filter: saturate(1.05) contrast(1.02);
+    radial-gradient(35rem 35rem at 8% 6%, rgba(var(--teal-rgb), .28), transparent 60%),
+    radial-gradient(45rem 45rem at 92% 94%, rgba(255,65,155,.28), transparent 62%),
+    linear-gradient(180deg, rgba(0,0,0,.94) 0%, rgba(0,0,0,.94) 100%);
 }
 
-/* Subtle vignette for depth (optional but nice) */
+/* optional subtle vignette on top for depth (still behind content) */
 body::after{
   content:"";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(120rem 90rem at 50% 60%, rgba(0,0,0,0), rgba(0,0,0,0.28));
-  background-attachment: fixed;
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:
+    radial-gradient(22rem 90rem at 50% 60%, rgba(0,0,0,.0), rgba(0,0,0,.20));
 }
 
-/* Ensure navbar hugs the top edge */
-.site-header,
-.glass-nav-outer,
-.header-shell,
-.nav-shell {
-  margin-top: 0 !important;
-  padding-top: max(8px, env(safe-area-inset-top)); /* tiny breathing room for iOS notch, not a visual gap */
-}
+/* Ensure scroll containers don’t clip fixed backdrops */
+html, body { overflow-x:hidden; }
+
+/* ---- HEADER TOP GAP FIX ---- */
+/* Keep the glass navbar flush with the top, but still respect safe areas */
+.glass-nav-outer, .nav-shell{ margin-top:0 !important; padding-top: max(0px, env(safe-area-inset-top)); }
+
+/* Kill first-child margin collapse in main/hero */
+main > :first-child{ margin-top:0 !important; }
+.hero, .hero .container, .hero-title{ margin-top:0 !important; }
