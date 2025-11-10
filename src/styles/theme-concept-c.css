@@ -2322,3 +2322,79 @@ html, body, #__astro, .site-shell {
   outline-width: 2px;
   outline-offset: 2px;
 }
+
+/* ===== Why FAST – layout safety & breathing room ===== */
+:root {
+  /* fallback in case these don’t exist yet */
+  --nav-height: 72px;
+  --space-2xl: clamp(32px, 5vw, 72px);
+  --space-xl: clamp(24px, 3.5vw, 48px);
+  --wrap-max: 1200px; /* balanced for image + 2-col cards */
+}
+
+/* Section shell pins spacing so the title never hides under the glass header */
+.whyfast-shell {
+  position: relative;
+  padding-top: calc(var(--nav-height) + var(--space-xl));
+  padding-bottom: var(--space-2xl);
+  /* light perimeter on very small screens as well */
+  padding-inline: var(--space-xl);
+}
+
+/* Inner width + centering */
+.whyfast-wrap {
+  max-width: var(--wrap-max);
+  margin-inline: auto;
+}
+
+/* Title block */
+.whyfast-head {
+  text-align: center;               /* center the title & description */
+  margin-bottom: var(--space-xl);
+}
+.whyfast-title {
+  line-height: 1.1;
+  margin: 0 0 .35em 0;
+  color: var(--light-silver, #E7E7EA);
+  /* ensure it renders above any gradient filters */
+  position: relative;
+  z-index: 1;
+}
+.whyfast-kicker {
+  margin: 0;
+  color: rgba(231,231,234,.85);     /* light silver readable on dark */
+}
+
+/* Grid that holds the media + cards (re-use your current grid content) */
+.whyfast-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;   /* image left, cards right on desktop */
+  gap: var(--space-xl);
+  align-items: start;               /* keeps top edges aligned */
+}
+
+/* Keep the image first on mobile */
+@media (max-width: 960px) {
+  .whyfast-shell {
+    padding-top: calc(var(--nav-height) + var(--space-xl));
+    padding-bottom: var(--space-xl);
+    padding-inline: var(--space-xl);
+  }
+
+  .whyfast-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+}
+
+/* Card blocks already have glass styles + magenta hover.
+   We only normalize their spacing so rows align nicely. */
+.whyfast-grid .glass-card {
+  /* no visual change—just consistent sizing if needed */
+  min-height: clamp(140px, 18vh, 200px);
+}
+
+/* If any card groups have inconsistent margins from previous CSS, neutralize them */
+.whyfast-grid > * {
+  margin: 0;
+}
