@@ -1699,3 +1699,112 @@ html, body { overflow-x:hidden; }
 /* Kill first-child margin collapse in main/hero */
 main > :first-child{ margin-top:0 !important; }
 .hero, .hero .container, .hero-title{ margin-top:0 !important; }
+/* -----------------------------------------------------------
+   GLOBAL SCROLLING BACKDROP + TRANSPARENT SECTIONS
+   (Overrides – must stay at the very end of the stylesheet)
+----------------------------------------------------------- */
+
+/* tokens (re-affirm; safe if already declared) */
+:root{
+  --rich-black: #0A0A0A;
+  --teal-rgb: 46,224,196;       /* #2EE4C4 */
+  --magenta-rgb: 255,46,155;    /* #FF2E9B */
+}
+
+/* reset default body bg (we’ll paint via ::before that SCROLLS with document) */
+html, body { min-height: 100%; }
+body{
+  position: relative !important;   /* anchor for absolute ::before/::after */
+  background: transparent !important;
+}
+
+/* Scrolling gradient: fills the whole document and moves with content */
+body::before{
+  content: "";
+  position: absolute;  /* <-- NOT fixed (so it scrolls with the page) */
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  /* layered: rich-black base + teal top-left glow + magenta bottom-right glow */
+  background:
+    radial-gradient(1200px 1200px at 8% 6%,
+      rgba(var(--teal-rgb), .28) 0%,
+      rgba(var(--teal-rgb), .16) 32%,
+      rgba(var(--teal-rgb), 0) 64%),
+    radial-gradient(1200px 1200px at 92% 96%,
+      rgba(var(--magenta-rgb), .30) 0%,
+      rgba(var(--magenta-rgb), .18) 36%,
+      rgba(var(--magenta-rgb), 0) 68%),
+    linear-gradient(180deg,
+      rgba(10,10,10,0.98) 0%,
+      rgba(10,10,10,0.99) 50%,
+      rgba(10,10,10,1) 100%);
+}
+
+/* Optional subtle vignette for depth (also SCROLLS because it’s absolute) */
+body::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  box-shadow:
+    inset 0 -140px 220px rgba(0,0,0,.22),
+    inset 0  100px 160px rgba(0,0,0,.15);
+}
+
+/* Nuke any fixed background layers from earlier code (without deleting them) */
+body::before,
+body::after{
+  background-attachment: scroll !important;
+}
+
+/* Make all major sections transparent so the global gradient shows through */
+section,
+.section,
+.hero,
+.hero-shell,
+.hero__bg,
+.hero__overlay,
+.about,
+.services,
+.work,
+.our-work,
+.coverage,
+.area,
+.footer-shell,
+.content-wrap,
+.container,
+.page-shell,
+.main-shell {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Keep layout/spacing (no visual change in heights) */
+section,
+.section,
+.hero,
+.about,
+.services,
+.work,
+.coverage {
+  position: relative;
+}
+
+/* Ensure the glass navbar hugs the very top (no gap) */
+.glass-nav,
+.glass-nav--outer,
+.nav-shell {
+  margin-top: 0 !important;
+  padding-top: max(0px, env(safe-area-inset-top)) !important;
+}
+
+/* If any previous rule used fixed background on the page wrapper, override it */
+html, body, #__astro, .site-shell {
+  background-attachment: scroll !important;
+  background: transparent !important;
+}
+
+/* END OVERRIDES */
