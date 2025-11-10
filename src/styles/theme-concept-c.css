@@ -2216,3 +2216,109 @@ html, body, #__astro, .site-shell {
     grid-template-columns: 1fr;
   }
 }
+/* ============ Why FAST layout & hover upgrade ============ */
+
+/* Two-column shell: left media, right grid */
+.whyfast {
+  display: grid;
+  grid-template-columns: minmax(320px, 520px) 1fr;
+  gap: clamp(20px, 3vw, 36px);
+  align-items: stretch;                 /* same top & bottom across both columns */
+}
+
+/* Media fills column height */
+.whyfast-media {
+  position: relative;
+  display: grid;
+}
+.whyfast-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;                  /* match your glass radius */
+}
+
+/* Card grid: 2 cols x 3 rows, equal heights */
+.whyfast-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  grid-auto-rows: 1fr;                  /* equal row heights so bottom aligns to image */
+  gap: clamp(14px, 2vw, 22px);
+  align-items: stretch;
+}
+.whyfast-cards .why-card {
+  height: 100%;
+  display: grid;
+  /* keep your existing glass base; we just ensure smooth transitions */
+  transition:
+    transform .25s ease,
+    background .28s ease,
+    border-color .28s ease,
+    box-shadow .28s ease,
+    outline-color .2s ease;
+}
+.whyfast-cards .why-card > * { min-height: 0; }
+
+/* ---------- Mobile & tablet flow ---------- */
+@media (max-width: 960px) {
+  .whyfast { grid-template-columns: 1fr; }
+  .whyfast-media { order: -1; }         /* image first on mobile */
+  .whyfast-cards {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;               /* natural height on small screens */
+  }
+}
+
+/* ---------- Magenta liquid-glass hover for cards ---------- */
+/* If your tokens exist, this will pick them up; otherwise fallback rgb values apply */
+:root {
+  --magenta-rgb: 236, 0, 140;           /* fallback to match brand magenta */
+  --light-silver-rgb: 255, 255, 255;    /* used subtly for edge lighting */
+}
+
+/* Base (non-hover) glass card keeps your existing style. We only add a subtle outline
+   to better blend with the navbar glass stroke. */
+.whyfast-cards .why-card {
+  outline: 1px solid rgba(255,255,255,0.06);
+  outline-offset: 0;
+  backdrop-filter: saturate(1.1) blur(10px);
+}
+
+/* Hover/focus state: flip to magenta liquid-glass */
+.whyfast-cards .why-card:hover,
+.whyfast-cards .why-card:focus-visible {
+  /* liquid fill */
+  background:
+    linear-gradient(180deg,
+      rgba(var(--magenta-rgb), .22) 0%,
+      rgba(var(--magenta-rgb), .16) 55%,
+      rgba(var(--magenta-rgb), .12) 100%)
+    , rgba(20,20,20,0.32); /* keep depth on dark mode */
+
+  /* single “lit” stroke like navbar */
+  outline: 1px solid rgba(var(--magenta-rgb), .55);
+
+  /* inner highlight + soft outer glow */
+  box-shadow:
+    inset 0 1px 0 rgba(var(--light-silver-rgb), .25),
+    0 10px 30px rgba(var(--magenta-rgb), .22);
+
+  transform: translateY(-2px);
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .whyfast-cards .why-card {
+    transition: none;
+  }
+  .whyfast-cards .why-card:hover,
+  .whyfast-cards .why-card:focus-visible {
+    transform: none;
+  }
+}
+
+/* Optional focus ring for keyboard nav (keeps magenta theme) */
+.whyfast-cards .why-card:focus-visible {
+  outline-width: 2px;
+  outline-offset: 2px;
+}
