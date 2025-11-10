@@ -11,11 +11,27 @@
 
     <div class="whyfast-cols">
       <!-- LEFT: 3:4 image, dictates column height -->
-      <figure class="whyfast-media glass-silver">
+      <figure class="whyfast-media glass-silver" aria-label="FAST show road visual">
         <img
-          src="/images/sample-road-3x4.jpg"
+          src="/images/whyfast-3x4.jpg"                <!-- use your real image here when ready -->
           alt="FAST show road visual"
           loading="lazy"
+          onerror="this.src='data:image/svg+xml;utf8,\
+<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 600 800%22 width=%22600%22 height=%22800%22>\
+<defs>\
+<linearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22>\
+<stop offset=%220%25%22 stop-color=%22%230c1f1b%22/>\
+<stop offset=%22100%25%22 stop-color=%22%231a0013%22/>\
+</linearGradient>\
+</defs>\
+<rect fill=%22url(#g)%22 width=%22600%22 height=%22800%22 rx=%2240%22/>\
+<g fill=%22%23ffffff%22 opacity=%220.25%22>\
+<circle cx=%22300%22 cy=%22400%22 r=%2290%22/>\
+<rect x=%22180%22 y=%23320%22 width=%22240%22 height=%22160%22 rx=%2218%22/>\
+<rect x=%22220%22 y=%23300%22 width=%22160%22 height=%2240%22 rx=%2212%22/>\
+</g>\
+<text x=%22300%22 y=%22480%22 fill=%22%23ffffff%22 opacity=%220.6%22 font-family=%22Inter,Segoe UI,Arial%22 font-size=%2232%22 text-anchor=%22middle%22>3:4 placeholder</text>\
+</svg>';"
         />
       </figure>
 
