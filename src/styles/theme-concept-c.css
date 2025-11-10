@@ -2398,3 +2398,134 @@ html, body, #__astro, .site-shell {
 .whyfast-grid > * {
   margin: 0;
 }
+/* ========== WHY FAST (aligned image + card grid) ========== */
+.whyfast-shell {
+  /* Preserve generous negative space around the section */
+  padding-block: clamp(64px, 9vw, 140px);
+}
+
+.whyfast-wrap {
+  max-width: 1200px; /* safe width so it fits a screen with side gutters */
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 32px);
+}
+
+.whyfast-head {
+  text-align: center;
+  margin-block-end: clamp(28px, 4.5vw, 56px);
+}
+
+.whyfast-title {
+  /* Bigger, punchy title */
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--light-silver, #e8e8ea);
+  font-size: clamp(28px, 4.2vw, 56px);
+}
+
+.whyfast-sub {
+  margin-top: 10px;
+  color: rgba(232,232,234,0.75);
+  font-size: clamp(14px, 1.5vw, 18px);
+}
+
+/* Two columns: left figure + right card grid */
+.whyfast-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 3vw, 32px);
+  align-items: stretch; /* both columns share top & bottom baselines */
+}
+
+/* LEFT media: keeps 3:4 and sets the master height for the row */
+.whyfast-media {
+  border-radius: 20px;
+  overflow: hidden;
+  /* Aspect + height that fits within a screen while keeping negative space */
+  aspect-ratio: 3 / 4;
+  height: min(72vh, 740px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+}
+.whyfast-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* RIGHT grid: 2 columns x 3 rows, rows are equal => total height matches left */
+.whyfast-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(3, 1fr);
+  gap: clamp(18px, 2.4vw, 24px);
+  height: 100%;            /* <-- stretch to the same height as figure */
+  align-items: stretch;
+}
+
+/* Glass silver baseline style (reuse navbar tone) */
+.glass-silver {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    0 10px 30px rgba(0,0,0,0.30);
+}
+
+/* Card styling */
+.whyfast-card {
+  border-radius: 18px;
+  padding: clamp(16px, 2.2vw, 22px);
+  color: rgba(232,232,234,0.9);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;             /* <-- forces each card to fill its grid row */
+  transition:
+    background 280ms ease,
+    border-color 280ms ease,
+    transform 240ms ease;
+}
+
+.card-icon {
+  font-size: 20px;
+  opacity: 0.85;
+}
+
+.card-title {
+  font-weight: 700;
+  font-size: clamp(16px, 2vw, 20px);
+  color: #fff;
+}
+
+.card-copy {
+  font-size: clamp(13px, 1.6vw, 15px);
+  color: rgba(232,232,234,0.78);
+  line-height: 1.5;
+}
+
+/* Liquid-glass magenta hover for cards (keep image static) */
+.hover-magenta:hover {
+  background:
+    radial-gradient(120px 80px at 35% 0%, rgba(255,255,255,0.20), transparent 65%),
+    radial-gradient(240px 200px at 80% 120%, rgba(255,0,120,0.22), rgba(255,0,120,0.10) 60%, rgba(255,0,120,0.06) 90%),
+    rgba(255,255,255,0.06);
+  border-color: rgba(255,0,120,0.45);
+  transform: translateY(-2px);
+}
+
+/* Mobile: stack, image first, then cards */
+@media (max-width: 900px) {
+  .whyfast-cols {
+    grid-template-columns: 1fr;
+  }
+  .whyfast-media {
+    height: auto;
+    max-height: 64vh;
+  }
+  .whyfast-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none; /* natural height on small screens */
+  }
+}
