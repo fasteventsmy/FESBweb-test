@@ -199,6 +199,7 @@ p{margin:.4rem 0}
   margin-left:auto; display:flex; align-items:center; gap:8px;
 }
 
+
 /* Base links */
 :root .glass-bar .nav-link{
   color:#F5F7FA; text-decoration:none; font-weight:700;
@@ -1993,3 +1994,106 @@ html, body, #__astro, .site-shell {
 :root .section-services--dark {
   background: transparent;
 }
+
+/* === Why FAST: layout ================================================= */
+.why-fast{
+  margin-inline: auto;
+  max-width: 1200px;
+  padding: clamp(28px, 4vw, 44px) clamp(16px, 3vw, 28px);
+  background: transparent;
+}
+
+.why-fast__head{
+  margin-bottom: clamp(18px, 2.5vw, 28px);
+}
+.why-fast__title{ margin: 0 0 .35em; }
+.why-fast__desc{ margin: 0; opacity: .9; }
+
+.why-fast__grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(16px, 2.5vw, 24px);
+}
+@media (min-width: 960px){
+  .why-fast__grid{
+    grid-template-columns: 5fr 7fr; /* media left (5), cards right (7) */
+    align-items: stretch;
+  }
+}
+
+.why-fast__media .ratio{
+  position: relative; width: 100%; height: auto;
+}
+.ratio-3x4{ aspect-ratio: 3 / 4; }
+.ratio img{ width:100%; height:100%; object-fit: cover; border-radius: 12px; }
+
+.why-fast__cards{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(12px, 2vw, 16px);
+}
+@media (min-width: 640px){
+  .why-fast__cards{ grid-template-columns: 1fr 1fr; }
+}
+
+/* === Light-Silver glass, matching navbar ============================== */
+:root{
+  --glass-silver-fill: rgba(255,255,255,0.055);
+  --glass-silver-fill-hover: rgba(255,255,255,0.075);
+  --glass-stroke-1: rgba(255,255,255,0.35);
+  --glass-stroke-2: rgba(255,255,255,0.12);
+  --glass-stroke-3: rgba(0,0,0,0.45);
+  --glass-shadow: 0 8px 24px rgba(0,0,0,.25), 0 1px 0 rgba(255,255,255,.05) inset;
+  --glass-radius: 16px;
+}
+
+.glass-card{
+  position: relative;
+  border-radius: var(--glass-radius);
+  background: var(--glass-silver-fill);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--glass-shadow);
+  overflow: hidden;
+  transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+.glass-card .glass-stroke{
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    180deg,
+    var(--glass-stroke-1) 0%,
+    var(--glass-stroke-2) 48%,
+    var(--glass-stroke-3) 100%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+.glass-card .glass-inner{
+  position: relative;
+  border-radius: calc(var(--glass-radius) - 2px);
+  padding: clamp(14px, 1.6vw, 18px);
+}
+.glass-card:hover{
+  background: var(--glass-silver-fill-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0,0,0,.28), 0 1px 0 rgba(255,255,255,.06) inset;
+}
+
+/* remove any old color fills */
+.why-fast__cards .feature,
+.why-fast__cards .feature .glass-inner,
+.why-fast__media,
+.why-fast__media .glass-inner{
+  background: transparent;
+}
+.why-fast__cards .feature{ background-image: none !important; }
+
+/* icons/typography spacing inside cards */
+.feature .icon{ width:24px; height:24px; margin-bottom:10px; opacity:.9; }
+.feature h3{ margin:0 0 6px; }
