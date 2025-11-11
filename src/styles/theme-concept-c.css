@@ -2759,3 +2759,108 @@ html, body, #__astro, .site-shell {
     margin-right: auto;
   }
 }
+
+/* ---------- Why Brands — internal alignment fixes ---------- */
+
+.why-brands .why-grid {
+  /* your outer grid remains; we only ensure consistent gaps */
+  gap: clamp(20px, 3vw, 28px);
+}
+
+/* Make sure media is always visible on mobile and sized correctly */
+.why-brands .why-media {
+  display: block;
+  border-radius: 24px;
+  overflow: hidden;
+  /* keep existing shadows from your glass system */
+}
+
+.why-brands .why-media-img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 3 / 4;         /* keep 3:4 */
+  object-fit: cover;
+  display: block;
+}
+
+/* Card internal layout: big magenta icon left, text block right, both centered vertically */
+.why-brands .feature-card {
+  display: grid;
+  grid-template-columns: 86px 1fr;   /* big icon column */
+  align-items: center;               /* vertical centering */
+  column-gap: clamp(14px, 2vw, 18px);
+  min-height: clamp(120px, 15vh, 168px);
+  padding-block: clamp(14px, 2.2vw, 22px);
+}
+
+.why-brands .feature-icon {
+  /* size + color for the icon wrapper */
+  width: 86px;
+  height: 86px;
+  display: grid;
+  place-items: center;
+  color: rgb(var(--magenta-rgb, 255, 20, 147)); /* fall back magenta */
+  /* if your icons are SVGs that rely on stroke/fill, force them: */
+}
+.why-brands .feature-icon svg {
+  width: 64px;
+  height: 64px;
+  stroke: currentColor !important;
+  fill: none;
+}
+
+/* Title + description block */
+.why-brands .feature-body {
+  align-self: center;   /* guard to keep text centered vertically too */
+}
+
+.why-brands .feature-title {
+  margin: 0 0 6px 0;
+  font-size: clamp(18px, 1.35vw, 22px);
+  line-height: 1.15;
+}
+
+.why-brands .feature-desc {
+  margin: 0;
+  opacity: .84;
+  font-size: clamp(14px, 1.05vw, 16px);
+  line-height: 1.45;
+}
+
+/* Keep your existing hover (magenta liquid) — just ensure color swap reads well */
+.why-brands .feature-card:hover .feature-icon {
+  filter: drop-shadow(0 0 12px rgba(255, 0, 153, 0.35));
+}
+
+/* ---------- Mobile tweaks ---------- */
+@media (max-width: 768px) {
+  /* Ensure media shows above cards and has the same side alignment */
+  .why-brands .why-grid {
+    gap: 18px;
+  }
+  .why-brands .why-media {
+    order: -1; /* image first on phones */
+    margin-inline: 0; /* align with card edges */
+  }
+
+  /* Cards keep the same left icon/right text composition */
+  .why-brands .feature-card {
+    grid-template-columns: 72px 1fr;
+    min-height: 120px;
+    padding-block: 16px;
+  }
+  .why-brands .feature-icon {
+    width: 72px;
+    height: 72px;
+  }
+  .why-brands .feature-icon svg {
+    width: 52px;
+    height: 52px;
+  }
+  .why-brands .feature-title {
+    font-size: 18px;
+  }
+  .why-brands .feature-desc {
+    font-size: 14px;
+  }
+}
