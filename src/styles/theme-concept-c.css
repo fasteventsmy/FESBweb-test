@@ -2865,163 +2865,88 @@ html, body, #__astro, .site-shell {
   }
 }
 
-/* =========================
-   WHY BRANDS — DESKTOP TIGHT CARDS + VERTICAL CENTER
-   Scope is flexible: it will match either #why-brands or .why-brands if present,
-   and common card/grid class names used in this section.
-   ========================= */
-
-/* 1) Vertically center card column with the left image (desktop only) */
 @media (min-width: 1024px) {
-  :where(#why-brands, .why-brands) {
-    align-items: center; /* assumes 2-column layout already; centers both */
+  /* Layout: image + cards aligned vertically */
+  #why-brands.whybrands {
+    --card-radius: 18px;
+    --card-pad-y: 16px;
+    --card-pad-x: 18px;
+    --card-gap: 18px;
+    --icon-size: 38px;
+    --title-size: 20px;
+    --desc-size: 14px;
+    --column-gap: 40px;
+    --row-gap: 24px;
   }
-  /* Fallback: if the section uses an inner grid wrapper */
-  :where(#why-brands, .why-brands) :is(.feature-wrap, .grid, .row, .cols) {
+
+  /* Two columns: left image, right card grid */
+  #why-brands.whybrands > .section-inner,
+  #why-brands.whybrands {
+    display: grid;
+    grid-template-columns: minmax(420px, 46vw) 1fr;
+    column-gap: var(--column-gap);
+    align-items: center; /* vertical centering of the card column with the image */
+  }
+
+  /* Left image frame stays 3:4 and contained */
+  #why-brands .showcaseFrame {
+    aspect-ratio: 3 / 4;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  #why-brands .showcaseImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Right grid of cards (2 columns x 3 rows) */
+  #why-brands .featureGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+    gap: var(--row-gap) var(--card-gap);
+  }
+
+  /* Card: tight glass box that hugs content */
+  #why-brands .featureCard {
+    display: grid;
+    grid-template-columns: auto 1fr;
     align-items: center;
-  }
-}
-
-/* 2) Make each liquid-glass card frame hug its content on desktop */
-@media (min-width: 1024px) {
-  /* Add/keep any real card class your section uses in this list */
-  :where(#why-brands, .why-brands)
-    :is(.feature-card, .glass-card, .featureItem, .wb-card, article.feature) {
-    display: grid; /* icon | copy */
-    grid-template-columns: clamp(42px, 3.2vw, 56px) 1fr;
-    align-items: center;
-    column-gap: clamp(12px, 1.2vw, 16px);
-
-    /* Tighter frame so it “fits” like phone layout */
-    padding: clamp(14px, 1.4vw, 18px) clamp(16px, 1.6vw, 20px);
-    min-height: unset;       /* remove any inflated min-height */
-    border-radius: 18px;     /* keep the glass look neat */
+    gap: 16px;
+    padding: var(--card-pad-y) var(--card-pad-x);
+    border-radius: var(--card-radius);
+    background: rgba(255,255,255,0.04); /* keeps current glass feel */
+    backdrop-filter: saturate(140%) blur(8px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    /* Remove any legacy sizing */
+    min-height: unset;
   }
 
-  /* Icon sizing + magenta */
-  :where(#why-brands, .why-brands)
-    :is(.feature-card, .glass-card, .featureItem, .wb-card, article.feature)
-    :is(.icon, .feature-icon, [data-icon]) {
-    width: clamp(36px, 3.2vw, 48px);
-    height: clamp(36px, 3.2vw, 48px);
-    color: var(--magenta, #ff2a9e);
-    display: inline-flex;
+  /* Icon sizing and alignment */
+  #why-brands .featureIcon {
+    font-size: var(--icon-size);
+    line-height: 1;
+    display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  /* If the icon is a bare SVG first-child, size it too */
-  :where(#why-brands, .why-brands)
-    :is(.feature-card, .glass-card, .featureItem, .wb-card, article.feature)
-    > svg:first-child {
-    width: clamp(36px, 3.2vw, 48px);
-    height: clamp(36px, 3.2vw, 48px);
-    color: var(--magenta, #ff2a9e);
-    justify-self: start;
-  }
-
-  /* Tighter heading and body spacing inside the card */
-  :where(#why-brands, .why-brands)
-    :is(.feature-card, .glass-card, .featureItem, .wb-card, article.feature)
-    :is(h3, .title) {
-    margin: 0 0 4px 0;
-    line-height: 1.12;
-  }
-  :where(#why-brands, .why-brands)
-    :is(.feature-card, .glass-card, .featureItem, .wb-card, article.feature)
-    :is(p, .desc, .copy) {
-    margin: 0;
-    line-height: 1.45;
-  }
-
-  /* Slightly tighter gaps between cards so the wall feels taut */
-  :where(#why-brands, .why-brands) :is(.feature-grid, .cards, .grid) {
-    gap: clamp(14px, 1.6vw, 20px);
-  }
-}
-
-/* 3) Keep the left media strictly 3:4 with rounded corners (no mobile changes) */
-:where(#why-brands, .why-brands) :is(.image-frame, .wb-media, .media) {
-  aspect-ratio: 3 / 4;
-  border-radius: 22px;
-  overflow: hidden;
-}
-
-/* === Why Brands — compact, desktop-only pass === */
-@media (min-width: 1024px) {
-
-  /* Tighten section shell and align both columns by their vertical middles */
-  #why-brands,
-  section#why-brands {
-    position: relative;
-  }
-  /* Wrapper that holds left image + right grid */
-  :is(#why-brands, section#why-brands) .wb-wrap {
-    display: grid;
-    grid-template-columns: minmax(420px, 1fr) minmax(520px, 640px);
-    align-items: center;                 /* <<< centers right column with left image */
-    gap: clamp(24px, 3vw, 40px);
-  }
-
-  /* Right grid spacing (rows & cols) */
-  :is(#why-brands, section#why-brands) .wb-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(16px, 1.8vw, 22px);       /* tighter inter-card gaps */
-  }
-
-  /* COMPACT CARD: hug content, no extra dead space */
-  :is(#why-brands, section#why-brands) .wb-card {
-    /* force override without touching global sheet */
-    padding: clamp(14px, 1.4vw, 18px) !important;   /* was too big; now compact */
-    border-radius: 18px !important;
-    min-height: auto !important;
-    height: auto !important;
-
-    display: grid !important;
-    grid-template-columns: 56px 1fr;     /* big icon left, text right */
-    align-items: center !important;      /* vertically centers icon+copy inside the card */
-    column-gap: clamp(12px, 1.2vw, 16px);
-
-    /* keep your glass — assume already set elsewhere */
-    /* no change to background/hover; only dimensions/layout */
-  }
-
-  /* Icon sizing + color stays bold but not oversized */
-  :is(#why-brands, section#why-brands) .wb-card .wb-ico {
-    width: clamp(28px, 2.6vw, 36px);
-    height: clamp(28px, 2.6vw, 36px);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--magenta, #ff2b92);
   }
 
   /* Text stack */
-  :is(#why-brands, section#why-brands) .wb-card .wb-text {
-    display: grid;
-    gap: 6px;  /* small breathing room between title and description */
+  #why-brands .featureTitle {
+    margin: 0 0 4px 0;
+    font-size: var(--title-size);
+    line-height: 1.25;
+  }
+  #why-brands .featureDesc {
+    margin: 0;
+    font-size: var(--desc-size);
+    line-height: 1.45;
+    color: rgba(255,255,255,0.85);
   }
 
-  :is(#why-brands, section#why-brands) .wb-card .wb-title {
-    margin: 0 !important;
-    line-height: 1.15;
-    font-weight: 700;
-    font-size: clamp(15px, 1.35vw, 18px);
-  }
-
-  :is(#why-brands, section#why-brands) .wb-card .wb-desc {
-    margin: 0 !important;
-    line-height: 1.35;
-    font-size: clamp(13px, 1.15vw, 15px);
-    opacity: .9;
-  }
-
-  /* Optional: slightly tighten the entire right column width so cards look crisp */
-  :is(#why-brands, section#why-brands) .wb-right {
-    max-width: 680px;
-    margin-inline: auto;
-  }
+  /* Safety: strip any stray min-heights/padding from older rules */
+  #why-brands .featureCard *,
+  #why-brands .featureCard { min-height: unset; }
 }
 
-/* Mobile/tablet untouched by design */
