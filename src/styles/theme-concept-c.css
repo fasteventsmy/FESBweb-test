@@ -2864,3 +2864,86 @@ html, body, #__astro, .site-shell {
     font-size: 14px;
   }
 }
+
+/* =========================
+   WHY BRANDS — DESKTOP TIGHT CARDS + VERTICAL CENTER
+   Scope is flexible: it will match either #why-brands or .why-brands if present,
+   and common card/grid class names used in this section.
+   ========================= */
+
+/* 1) Vertically center card column with the left image (desktop only) */
+@media (min-width: 1024px) {
+  :where(#why-brands, .why-brands) {
+    align-items: center; /* assumes 2-column layout already; centers both */
+  }
+  /* Fallback: if the section uses an inner grid wrapper */
+  :where(#why-brands, .why-brands) :is(.feature-wrap, .grid, .row, .cols) {
+    align-items: center;
+  }
+}
+
+/* 2) Make each liquid-glass card frame hug its content on desktop */
+@media (min-width: 1024px) {
+  /* Add/keep any real card class your section uses in this list */
+  :where(#why-brands, .why-brands)
+    :is(.feature-card, .glass-card, .featureItem, .wb-card, article.feature) {
+    display: grid; /* icon | copy */
+    grid-template-columns: clamp(42px, 3.2vw, 56px) 1fr;
+    align-items: center;
+    column-gap: clamp(12px, 1.2vw, 16px);
+
+    /* Tighter frame so it “fits” like phone layout */
+    padding: clamp(14px, 1.4vw, 18px) clamp(16px, 1.6vw, 20px);
+    min-height: unset;       /* remove any inflated min-height */
+    border-radius: 18px;     /* keep the glass look neat */
+  }
+
+  /* Icon sizing + magenta */
+  :where(#why-brands, .why-brands)
+    :is(.feature-card, .glass-card, .featureItem, .wb-card, article.feature)
+    :is(.icon, .feature-icon, [data-icon]) {
+    width: clamp(36px, 3.2vw, 48px);
+    height: clamp(36px, 3.2vw, 48px);
+    color: var(--magenta, #ff2a9e);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* If the icon is a bare SVG first-child, size it too */
+  :where(#why-brands, .why-brands)
+    :is(.feature-card, .glass-card, .featureItem, .wb-card, article.feature)
+    > svg:first-child {
+    width: clamp(36px, 3.2vw, 48px);
+    height: clamp(36px, 3.2vw, 48px);
+    color: var(--magenta, #ff2a9e);
+    justify-self: start;
+  }
+
+  /* Tighter heading and body spacing inside the card */
+  :where(#why-brands, .why-brands)
+    :is(.feature-card, .glass-card, .featureItem, .wb-card, article.feature)
+    :is(h3, .title) {
+    margin: 0 0 4px 0;
+    line-height: 1.12;
+  }
+  :where(#why-brands, .why-brands)
+    :is(.feature-card, .glass-card, .featureItem, .wb-card, article.feature)
+    :is(p, .desc, .copy) {
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* Slightly tighter gaps between cards so the wall feels taut */
+  :where(#why-brands, .why-brands) :is(.feature-grid, .cards, .grid) {
+    gap: clamp(14px, 1.6vw, 20px);
+  }
+}
+
+/* 3) Keep the left media strictly 3:4 with rounded corners (no mobile changes) */
+:where(#why-brands, .why-brands) :is(.image-frame, .wb-media, .media) {
+  aspect-ratio: 3 / 4;
+  border-radius: 22px;
+  overflow: hidden;
+}
+
