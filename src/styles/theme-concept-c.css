@@ -3025,3 +3025,90 @@ html, body, #__astro, .site-shell {
 }
 
 /* Mobile/tablet untouched by design */
+
+@media (min-width: 1024px) {
+  /* Scope everything to the section to avoid collateral overrides */
+  #why-brands {
+    /* Keep the image + card column vertically centered with each other */
+    display: grid;
+    grid-template-columns: minmax(0,1fr) minmax(0,720px); /* image | cards */
+    align-items: center; /* vertical centering */
+    gap: clamp(24px, 4vw, 48px);
+  }
+
+  /* If your section already lays out columns elsewhere, the above grid may be redundant.
+     In that case, keep your current layout and only leave `align-items:center` on the wrapper
+     that holds the two columns. */
+
+  /* Card grid spacing (right column) */
+  #why-brands .wb-grid,
+  #why-brands .cards,
+  #why-brands .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: clamp(16px, 2.2vw, 24px);
+    align-content: start;
+  }
+
+  /* Make each card a slim, text-hugging rectangle */
+  #why-brands .wb-card {
+    /* Keep your liquid-glass look via existing background/border from your current card class.
+       We only tighten the inside. Apply this class to the same element that already has glass styles. */
+    padding-block: 14px;                 /* ↓ shorter height */
+    padding-inline: clamp(18px, 2vw, 24px);
+    border-radius: 18px;                 /* match your nav look */
+    min-height: unset;                   /* remove any legacy min-height */
+  }
+
+  /* Icon + text in a compact row */
+  #why-brands .wb-card .wb-icon,
+  #why-brands .wb-card .wb-body {
+    display: contents; /* let grid on the card itself arrange children */
+  }
+
+  /* Turn the card itself into a tiny grid for perfect alignment */
+  #why-brands .wb-card {
+    display: grid;
+    grid-template-columns: 56px 1fr;    /* big magenta icon | text */
+    align-items: center;                 /* vertically center icon+text */
+    column-gap: clamp(12px, 1.6vw, 16px);
+  }
+
+  /* Icon size & color (uses your magenta) */
+  #why-brands .wb-card svg,
+  #why-brands .wb-card .wb-icon svg {
+    width: 38px;
+    height: 38px;
+    color: var(--magenta, #ff1493);
+    flex: none;
+  }
+
+  /* Title & copy tightened */
+  #why-brands .wb-card h3,
+  #why-brands .wb-card .title {
+    margin: 0;
+    font-size: clamp(18px, 1.4vw, 20px);
+    line-height: 1.15;
+  }
+
+  #why-brands .wb-card p {
+    margin: 4px 0 0;
+    font-size: clamp(13.5px, 1.1vw, 14.5px);
+    line-height: 1.35;
+    color: var(--text-2, rgba(255,255,255,.78));
+  }
+
+  /* Trim extra inner gaps some legacy styles may add */
+  #why-brands .wb-card > * + * { margin-top: 0 !important; }
+  #why-brands .wb-card h3 + p { margin-top: 4px !important; }
+
+  /* Ensure cards don’t get artificially tall from older rules */
+  #why-brands .wb-card,
+  #why-brands .feature-card,
+  #why-brands .glass {
+    --legacy-min-h: auto;
+    min-height: var(--legacy-min-h) !important;
+  }
+}
+
+/* MOBILE/TABLET LEFT UNCHANGED ON PURPOSE */
