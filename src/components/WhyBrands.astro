@@ -1,0 +1,104 @@
+---
+import imgA from "../assets/why-brands/436ec9309c385244b1e7e529bb712b27.jpg";
+import imgB from "../assets/why-brands/750f2045ac71af188cfdb8fe101dd8ad.jpg";
+
+const media = [imgA, imgB];
+---
+
+<section id="why-brands" class="wb-shell" aria-labelledby="wb-title">
+  <div class="wb-wrap">
+    <header class="wb-head">
+      <h2 id="wb-title" class="wb-title">Why Brands Choose FAST</h2>
+      <p class="wb-sub">Production, creative, and ops aligned so your show runs clean.</p>
+    </header>
+
+    <div class="wb-grid">
+      <!-- MEDIA COLUMN -->
+      <figure class="wb-media">
+        <div class="wb-frame" tabindex="0" aria-label="Event media showcase">
+          <img src={media[0].src} alt="FAST showcase 1" class="wb-img wb-img--active" />
+          <img src={media[1].src} alt="FAST showcase 2" class="wb-img" />
+          <button class="wb-hit wb-hit--prev" aria-label="Previous"></button>
+          <button class="wb-hit wb-hit--next" aria-label="Next"></button>
+        </div>
+        <figcaption class="sr-only">Auto-rotating showcase; click left for previous, right for next.</figcaption>
+      </figure>
+
+      <!-- CARDS -->
+      <div class="wb-cards">
+        <article class="wb-card">
+          <div class="wb-ico">✎</div>
+          <h3 class="wb-card-title">Creative Agility</h3>
+          <p>Ideas fast, on brand, ready to build and approve.</p>
+        </article>
+
+        <article class="wb-card">
+          <div class="wb-ico">▦</div>
+          <h3 class="wb-card-title">Technical Precision</h3>
+          <p>CAD, load, power, and rigging sorted before you hit site.</p>
+        </article>
+
+        <article class="wb-card">
+          <div class="wb-ico">◴</div>
+          <h3 class="wb-card-title">Last-Minute Rescue</h3>
+          <p>Late brief, new VIP, weather shift. We turn it around today.</p>
+        </article>
+
+        <article class="wb-card">
+          <div class="wb-ico">▣</div>
+          <h3 class="wb-card-title">Live Ops Control</h3>
+          <p>Showcaller, comms, and run-of-show locked to the minute.</p>
+        </article>
+
+        <article class="wb-card">
+          <div class="wb-ico">⋮⋮</div>
+          <h3 class="wb-card-title">Modular and Scalable</h3>
+          <p>Kits that snap together for malls, roadshows, expos, and tours.</p>
+        </article>
+
+        <article class="wb-card">
+          <div class="wb-ico">♡</div>
+          <h3 class="wb-card-title">Safe and Compliant</h3>
+          <p>Permits, HSE, risk, and crew briefed and audited.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const root = document.currentScript.closest('.wb-shell');
+      const frame = root.querySelector('.wb-frame');
+      const imgs  = [...root.querySelectorAll('.wb-img')];
+      const prev  = root.querySelector('.wb-hit--prev');
+      const next  = root.querySelector('.wb-hit--next');
+
+      let i = 0, t = 0;
+      const show = (n) => {
+        i = (n + imgs.length) % imgs.length;
+        imgs.forEach((el, idx) => el.classList.toggle('wb-img--active', idx === i));
+      };
+      const stepNext = () => show(i + 1);
+      const stepPrev = () => show(i - 1);
+
+      const stop  = () => { clearInterval(t); t = 0; };
+      const start = () => {
+        if (t) return;
+        t = setInterval(stepNext, 5000);
+      };
+
+      prev.addEventListener('click', stepPrev);
+      next.addEventListener('click', stepNext);
+      frame.addEventListener('mouseenter', stop);
+      frame.addEventListener('mouseleave', start);
+      frame.addEventListener('focusin', stop);
+      frame.addEventListener('focusout', start);
+      frame.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') stepNext();
+        if (e.key === 'ArrowLeft')  stepPrev();
+      });
+
+      start();
+    })();
+  </script>
+</section>
