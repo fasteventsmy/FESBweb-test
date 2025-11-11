@@ -5,63 +5,172 @@ import imgB from "../assets/why-brands/750f2045ac71af188cfdb8fe101dd8ad.jpg";
 const media = [imgA, imgB];
 ---
 
-<section id="why-brands" class="wb-shell" aria-labelledby="wb-title">
+<section id="why-brands" class="wb-shell why-brands section-shell" aria-labelledby="wb-title">
+  <div class="section-head center">
+    <h2 id="wb-title" class="wb-title">Why Brands Choose FAST</h2>
+    <p class="wb-sub">Production, creative, and ops aligned so your show runs clean.</p>
+  </div>
+
   <div class="wb-wrap">
-    <header class="wb-head">
-      <h2 id="wb-title" class="wb-title">Why Brands Choose FAST</h2>
-      <p class="wb-sub">Production, creative, and ops aligned so your show runs clean.</p>
-    </header>
-
-    <div class="wb-grid">
-      <!-- MEDIA COLUMN -->
-      <figure class="wb-media">
-        <div class="wb-frame" tabindex="0" aria-label="Event media showcase">
-          <img src={media[0].src} alt="FAST showcase 1" class="wb-img wb-img--active" />
-          <img src={media[1].src} alt="FAST showcase 2" class="wb-img" />
-          <button class="wb-hit wb-hit--prev" aria-label="Previous"></button>
-          <button class="wb-hit wb-hit--next" aria-label="Next"></button>
-        </div>
-        <figcaption class="sr-only">Auto-rotating showcase; click left for previous, right for next.</figcaption>
-      </figure>
-
-      <!-- CARDS -->
-      <div class="wb-cards">
-        <article class="wb-card">
-          <div class="wb-ico">✎</div>
-          <h3 class="wb-card-title">Creative Agility</h3>
-          <p>Ideas fast, on brand, ready to build and approve.</p>
-        </article>
-
-        <article class="wb-card">
-          <div class="wb-ico">▦</div>
-          <h3 class="wb-card-title">Technical Precision</h3>
-          <p>CAD, load, power, and rigging sorted before you hit site.</p>
-        </article>
-
-        <article class="wb-card">
-          <div class="wb-ico">◴</div>
-          <h3 class="wb-card-title">Last-Minute Rescue</h3>
-          <p>Late brief, new VIP, weather shift. We turn it around today.</p>
-        </article>
-
-        <article class="wb-card">
-          <div class="wb-ico">▣</div>
-          <h3 class="wb-card-title">Live Ops Control</h3>
-          <p>Showcaller, comms, and run-of-show locked to the minute.</p>
-        </article>
-
-        <article class="wb-card">
-          <div class="wb-ico">⋮⋮</div>
-          <h3 class="wb-card-title">Modular and Scalable</h3>
-          <p>Kits that snap together for malls, roadshows, expos, and tours.</p>
-        </article>
-
-        <article class="wb-card">
-          <div class="wb-ico">♡</div>
-          <h3 class="wb-card-title">Safe and Compliant</h3>
-          <p>Permits, HSE, risk, and crew briefed and audited.</p>
-        </article>
+    <!-- MEDIA COLUMN -->
+    <figure class="wb-media">
+      <div class="wb-frame" tabindex="0" aria-label="Event media showcase">
+        <img src={media[0].src} alt="FAST showcase 1" class="wb-img wb-img--active" />
+        <img src={media[1].src} alt="FAST showcase 2" class="wb-img" />
+        <button class="wb-hit wb-hit--prev" aria-label="Previous"></button>
+        <button class="wb-hit wb-hit--next" aria-label="Next"></button>
       </div>
+      <figcaption class="sr-only">Auto-rotating showcase; click left for previous, right for next.</figcaption>
+    </figure>
+
+    <!-- CARDS GRID -->
+    <div class="wb-grid">
+      <article class="feature-card glass">
+        <div class="feature">
+          <span class="feature__icon" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              width="44"
+              height="44"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 20h9" />
+              <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4Z" />
+            </svg>
+          </span>
+          <div class="feature__body">
+            <h3 class="feature__title">Creative Agility</h3>
+            <p class="feature__copy">Ideas fast, on brand, ready to build and approve.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-card glass">
+        <div class="feature">
+          <span class="feature__icon" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              width="44"
+              height="44"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="3" width="7" height="7" />
+              <rect x="14" y="3" width="7" height="7" />
+              <rect x="14" y="14" width="7" height="7" />
+              <rect x="3" y="14" width="7" height="7" />
+            </svg>
+          </span>
+          <div class="feature__body">
+            <h3 class="feature__title">Technical Precision</h3>
+            <p class="feature__copy">CAD, load, power, and rigging sorted before you hit site.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-card glass">
+        <div class="feature">
+          <span class="feature__icon" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              width="44"
+              height="44"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 3" />
+            </svg>
+          </span>
+          <div class="feature__body">
+            <h3 class="feature__title">Last-Minute Rescue</h3>
+            <p class="feature__copy">Late brief, new VIP, weather shift. We turn it around today.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-card glass">
+        <div class="feature">
+          <span class="feature__icon" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              width="44"
+              height="44"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="3" width="20" height="14" rx="2" />
+              <path d="M8 21h8" />
+            </svg>
+          </span>
+          <div class="feature__body">
+            <h3 class="feature__title">Live Ops Control</h3>
+            <p class="feature__copy">Showcaller, comms, and run-of-show locked to the minute.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-card glass">
+        <div class="feature">
+          <span class="feature__icon" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              width="44"
+              height="44"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 3h7v7H3z" />
+              <path d="M14 3h7v7h-7z" />
+              <path d="M14 14h7v7h-7z" />
+              <path d="M3 14h7v7H3z" />
+            </svg>
+          </span>
+          <div class="feature__body">
+            <h3 class="feature__title">Modular and Scalable</h3>
+            <p class="feature__copy">Kits that snap together for malls, roadshows, expos, and tours.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="feature-card glass">
+        <div class="feature">
+          <span class="feature__icon" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              width="44"
+              height="44"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+            </svg>
+          </span>
+          <div class="feature__body">
+            <h3 class="feature__title">Safe and Compliant</h3>
+            <p class="feature__copy">Permits, HSE, risk, and crew briefed and audited.</p>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 
