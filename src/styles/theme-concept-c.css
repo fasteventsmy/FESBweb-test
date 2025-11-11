@@ -159,6 +159,66 @@ p{margin:.4rem 0}
 .hero .actions{ display:flex; gap:.8rem; justify-content:center; margin-top:1.25rem; }
 .hero-ctas{ display:flex; gap:.8rem; justify-content:center; margin-top:1.25rem; flex-wrap:wrap; }
 
+/* --- [START] Fix: 'Why Brands' Desktop Card Spacing --- */
+
+/* This media query ensures these styles ONLY apply to
+   desktop screens (1024px and wider),
+   leaving your mobile/tablet styles untouched. */
+
+@media (min-width: 1024px) {
+
+  /* 1. Main Section Layout (Image Left, Grid Right)
+     This aligns the entire right card column to be
+     vertically centered with the left image. */
+  .whybrands {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem; /* Adjust space between image and card grid */
+  }
+
+  /* 2. Card Grid Layout (Right Column)
+     This sets up the 2-column grid for the cards.
+     We do NOT set a row height, so cards can shrink. */
+  .featureGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem; /* Space between the cards */
+  }
+
+  /* 3. The CORE FIX: Thin, Content-Hugging Cards */
+  .featureCard {
+    display: flex;
+    align-items: center; /* Vertically centers icon to text inside the card */
+    gap: 1.5rem; /* Space between icon and text */
+
+    /* --- THIS IS THE FIX --- */
+
+    /* This makes the card "hug the content" vertically. */
+    height: auto;
+    min-height: 0; /* Overrides any previous min-height */
+
+    /* This creates the "thin rectangle" shape:
+       (1.5rem = 24px) on top/bottom
+       (2rem = 32px) on left/right */
+    padding: 1.5rem 2rem;
+
+    /* --- End FIX --- */
+
+    /* (Your existing glass/border styles will apply here) */
+  }
+
+  /* 4. Ensure icon and text blocks behave as expected */
+  .featureIcon {
+    flex-shrink: 0; /* Prevents the icon from shrinking */
+  }
+
+  .featureText {
+    flex-grow: 1; /* Allows text to fill the remaining space */
+  }
+}
+
+/* --- [END] Fix: 'Why Brands' Desktop Card Spacing --- */
+
 /* --- Glass bar size & centering --- */
 :root .glass-nav{
   position: fixed;
