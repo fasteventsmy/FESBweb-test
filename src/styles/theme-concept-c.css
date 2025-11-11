@@ -3112,3 +3112,56 @@ html, body, #__astro, .site-shell {
 }
 
 /* MOBILE/TABLET LEFT UNCHANGED ON PURPOSE */
+/* === Why Brands — desktop-only slimming & centering ===================== */
+@media (min-width: 1024px) {
+  /* Vertically center the two columns within the section */
+  #why-brands.wb-section {
+    /* in case the section uses grid from earlier styles, these are safe */
+    align-items: center !important;
+  }
+
+  /* Make each glass card a thin rectangle that hugs content */
+  #why-brands .wb-card {
+    min-height: 0 !important;         /* kill legacy fixed heights */
+    padding: 16px 22px !important;     /* trim internal padding */
+    border-radius: 16px;               /* slightly tighter corners */
+    display: flex !important;
+    align-items: center;               /* icon + text vertically centered */
+    gap: 14px;                         /* compact spacing between icon and text */
+  }
+
+  /* Icon sizing/spacing (bold but not oversized) */
+  #why-brands .wb-icon,
+  #why-brands .wb-icon > svg {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+  }
+
+  /* Text block: keep compact, remove extra margins */
+  #why-brands .wb-body h3 {
+    margin: 0 0 4px 0 !important;
+    line-height: 1.15;
+    font-size: clamp(18px, 1.2vw, 20px); /* thin card look */
+  }
+  #why-brands .wb-body p {
+    margin: 0 !important;
+    line-height: 1.4;
+    font-size: clamp(13.5px, 0.95vw, 14.5px);
+    max-width: 52ch; /* prevents overly wide lines in large screens */
+  }
+
+  /* Remove any hidden min-heights that might be on inner wrappers */
+  #why-brands .wb-card > * {
+    min-height: 0 !important;
+  }
+
+  /* Tighten vertical rhythm between rows of cards without touching mobile */
+  #why-brands .right-grid,
+  #why-brands .cards,
+  #why-brands .wb-cards {
+    row-gap: 18px !important; /* slimmer rows */
+  }
+}
+
+ /* ====================================================================== */
