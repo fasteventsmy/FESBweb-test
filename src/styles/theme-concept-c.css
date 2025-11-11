@@ -2864,3 +2864,84 @@ html, body, #__astro, .site-shell {
     font-size: 14px;
   }
 }
+/* === WHY BRANDS — Tighter desktop cards + vertical centering (non-breaking) === */
+@media (min-width: 1024px) {
+  /* Shell/grid for the section (keeps mobile intact) */
+  .why-brands-shell,
+  #why-brands,
+  .why-brands-grid {
+    /* ensure the media and the cards column share a common cross-axis */
+    display: grid !important;
+    grid-template-columns: auto 1fr !important;
+    align-items: center !important;           /* vertical centering between image and cards */
+    column-gap: clamp(24px, 3vw, 40px) !important;
+  }
+
+  /* If your markup uses an explicit wrapper for the cards column, keep it from stretching too tall */
+  .why-brands-cards {
+    align-self: center !important;
+  }
+
+  /* Tighten card frame: reduce outer padding and internal gaps */
+  .why-card,
+  .whyBrands-card,
+  .wb-card {
+    /* glass/shape remains, just shrink the breathing room */
+    padding: clamp(14px, 1.4vw, 18px) !important;
+    border-radius: 18px !important;
+    /* optional: slightly smaller shadow so the frame looks tighter */
+    box-shadow: 0 10px 28px rgba(0,0,0,.28) !important;
+  }
+
+  /* Make the inner layout of each card compact and balanced */
+  .why-card-inner,
+  .why-card .card-inner,
+  .whyBrands-card .card-inner,
+  .wb-card .card-inner {
+    display: grid !important;
+    grid-template-columns: auto 1fr !important; /* icon left, text right */
+    align-items: center !important;
+    column-gap: clamp(12px, 1.4vw, 16px) !important;
+    row-gap: 0 !important;
+  }
+
+  /* Icon sizing stays bold, but not oversized vs. frame */
+  .why-card-icon,
+  .wb-card .icon,
+  .whyBrands-card .icon {
+    width: clamp(28px, 2.6vw, 40px) !important;
+    height: clamp(28px, 2.6vw, 40px) !important;
+    flex: 0 0 auto !important;
+  }
+
+  /* Title + body spacing trimmed */
+  .why-card h4,
+  .wb-card h4,
+  .whyBrands-card h4 {
+    margin: 0 0 6px 0 !important;
+    line-height: 1.1 !important;
+  }
+  .why-card p,
+  .wb-card p,
+  .whyBrands-card p {
+    margin: 0 !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Make the overall card height hug content (prevents “big empty glass”) */
+  .why-card,
+  .whyBrands-card,
+  .wb-card {
+    min-height: unset !important;
+  }
+
+  /* Keep the two-card rows feeling snug without crushing */
+  .why-cards-grid,
+  .why-brands-cards .grid,
+  .whyBrands-cards-grid {
+    gap: clamp(16px, 2vw, 22px) !important;
+  }
+}
+
+/* (No mobile changes – overrides are within min-width:1024px only) */
+/* === END WHY BRANDS OVERRIDES === */
