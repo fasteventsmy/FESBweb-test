@@ -2529,3 +2529,13 @@ html, body, #__astro, .site-shell {
     grid-template-rows: none; /* natural height on small screens */
   }
 }
+
+@media (max-width: 768px) {
+  .whyfast-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .whyfast-media { order: 0; }
+  .whyfast-cards { order: 1; }
+}
