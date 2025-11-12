@@ -1,10 +1,12 @@
 ---
-import { readdirSync } from 'fs';
+import fs from 'node:fs';
+import path from 'node:path';
 import LogoMarquee from '../ui/LogoMarquee.astro';
 
-const logoDir = new URL('../../../public/assets/brands', import.meta.url);
-const logos = readdirSync(logoDir)
-  .filter((file) => /\.(svg|png|jpe?g|webp)$/i.test(file))
+const logoDir = path.join(process.cwd(), 'public', 'assets', 'brands');
+const logos = (fs.existsSync(logoDir)
+  ? fs.readdirSync(logoDir).filter((file) => /\.(png|jpe?g|webp|gif|avif|svg)$/i.test(file))
+  : [])
   .sort((a, b) => a.localeCompare(b, 'en'))
   .map((file) => `/assets/brands/${file}`);
 ---

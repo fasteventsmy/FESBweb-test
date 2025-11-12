@@ -1,5 +1,6 @@
 ---
-import { readdirSync } from 'fs';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const whyData = (await import('../../data/whyBrands.json')).default as Array<{
   icon: string;
@@ -7,9 +8,10 @@ const whyData = (await import('../../data/whyBrands.json')).default as Array<{
   description: string;
 }>;
 
-const imageDir = new URL('../../../public/assets/why-brands', import.meta.url);
-const galleryImages = readdirSync(imageDir)
-  .filter((file) => /\.(png|jpe?g|webp|avif|svg)$/i.test(file))
+const imageDir = path.join(process.cwd(), 'public', 'assets', 'why-brands');
+const galleryImages = (fs.existsSync(imageDir)
+  ? fs.readdirSync(imageDir).filter((file) => /\.(png|jpe?g|webp|gif|avif|svg)$/i.test(file))
+  : [])
   .sort((a, b) => a.localeCompare(b, 'en'))
   .map((file) => `/assets/why-brands/${file}`);
 ---
