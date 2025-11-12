@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
-import { readdirSync } from 'fs';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const workEntries = await getCollection('work');
 const resolved = workEntries
@@ -10,11 +11,16 @@ const resolved = workEntries
     let thumbnail = data.thumbnail;
     if (!thumbnail) {
       try {
-        const dir = new URL(`../../../public/assets/work/${entry.slug}`, import.meta.url);
-        const files = readdirSync(dir)
-          .filter((file) => /\.(png|jpe?g|webp|avif)$/i.test(file))
-          .sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
-        thumbnail = files[0] ? `/assets/work/${entry.slug}/${files[0]}` : undefined;
+        const dir = path.join(process.cwd(), 'public', 'assets', 'work', entry.slug);
+        if (fs.existsSync(dir)) {
+          const files = fs
+            .readdirSync(dir)
+            .filter((file) => /\.(png|jpe?g|webp|gif|avif)$/i.test(file))
+            .sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
+          thumbnail = files[0] ? `/assets/work/${entry.slug}/${files[0]}` : undefined;
+        } else {
+          thumbnail = undefined;
+        }
       } catch (error) {
         thumbnail = undefined;
       }

@@ -1,5 +1,6 @@
 ---
-import { readdirSync, statSync } from 'fs';
+import fs from 'node:fs';
+import path from 'node:path';
 
 let heroConfig: { image?: string; headline?: string; subline?: string } | undefined;
 try {
@@ -8,19 +9,22 @@ try {
   heroConfig = undefined;
 }
 
-const heroDir = new URL('../../../public/assets/hero', import.meta.url);
+const heroDir = path.join(process.cwd(), 'public', 'assets', 'hero');
 let fallbackImage = '';
-try {
-  const files = readdirSync(heroDir)
-    .filter((file) => /\.(jpe?g|png|webp|avif)$/i.test(file))
-    .map((file) => {
-      const stats = statSync(new URL(file, heroDir));
-      return { file, time: stats.mtime.getTime() };
-    })
-    .sort((a, b) => b.time - a.time);
-  fallbackImage = files[0] ? `/assets/hero/${files[0].file}` : '';
-} catch (error) {
-  fallbackImage = '';
+if (fs.existsSync(heroDir)) {
+  try {
+    const files = fs
+      .readdirSync(heroDir)
+      .filter((file) => /\.(png|jpe?g|webp|gif|avif)$/i.test(file))
+      .map((file) => {
+        const stats = fs.statSync(path.join(heroDir, file));
+        return { file, time: stats.mtime.getTime() };
+      })
+      .sort((a, b) => b.time - a.time);
+    fallbackImage = files[0] ? `/assets/hero/${files[0].file}` : '';
+  } catch (error) {
+    fallbackImage = '';
+  }
 }
 
 const backgroundImage = heroConfig?.image ?? fallbackImage;
