@@ -8,17 +8,38 @@ html {
   scroll-behavior: smooth;
 }
 
+html,
+body {
+  background: linear-gradient(
+    135deg,
+    var(--bg-magenta) 0%,
+    var(--bg-black) 45%,
+    var(--bg-teal) 100%
+  );
+  min-height: 100%;
+  color: var(--text);
+}
+
 body {
   margin: 0;
-  background: radial-gradient(circle at 20% 20%, rgba(255, 44, 157, 0.08), transparent 55%),
-    radial-gradient(circle at 80% 10%, rgba(46, 228, 196, 0.1), transparent 45%),
-    var(--color-canvas);
-  color: var(--color-text);
   font-family: var(--font-sans);
   font-size: var(--text-base);
   line-height: 1.55;
   min-height: 100vh;
   overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(80% 60% at 80% -10%, rgba(255, 44, 157, 0.18), transparent 60%),
+    radial-gradient(80% 70% at -10% 100%, rgba(46, 228, 196, 0.12), transparent 60%);
+  mix-blend-mode: screen;
+  opacity: 0.6;
 }
 
 a {
