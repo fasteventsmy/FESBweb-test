@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactTeaser from '../components/sections/ContactTeaser.astro';
+---
+<Base title="Contact FAST Events">
+  <section class="section-shell page-intro">
+    <header>
+      <h1>Contact</h1>
+      <p>Share your brief and we will schedule a working session within two business days.</p>
+    </header>
+    <p>
+      For RFPs, attach any venue information, brand guidelines, and required suppliers. We can also support you in
+      building the scope if you are still exploring options.
+    </p>
+  </section>
+  <ContactTeaser />
+</Base>
+
+<style>
+  .page-intro {
+    gap: var(--spacing-md);
+    padding-top: var(--spacing-2xl);
+  }
+
+  .page-intro h1 {
+    font-size: var(--text-3xl);
+    margin: 0;
+  }
+
+  .page-intro p {
+    color: var(--color-text-muted);
+  }
+</style>

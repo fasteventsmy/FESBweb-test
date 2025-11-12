@@ -1,0 +1,66 @@
+---
+import GlassNav from '../components/ui/GlassNav.astro';
+import '../styles/global.css';
+
+const { isHome = false } = Astro.props as { isHome?: boolean };
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{Astro.props.title ?? 'FAST Events'}</title>
+  </head>
+  <body data-home-sections={isHome ? 'hero,services,work,contact' : undefined}>
+    <GlassNav>
+      <Fragment slot="links">
+        <a
+          href="/"
+          class="nav-link focus-ring"
+          data-glass-nav-link="/"
+        >Home</a>
+        <a
+          href="/about"
+          class="nav-link focus-ring"
+          data-glass-nav-link="/about"
+        >About</a>
+        <a
+          href={isHome ? '#services' : '/services'}
+          class="nav-link focus-ring"
+          data-glass-nav-link={isHome ? '/#services' : '/services'}
+        >Our Services</a>
+        <a
+          href={isHome ? '#work' : '/work'}
+          class="nav-link focus-ring"
+          data-glass-nav-link={isHome ? '/#work' : '/work'}
+        >Our Work</a>
+        <a
+          href={isHome ? '#contact' : '/contact'}
+          class="nav-link focus-ring"
+          data-glass-nav-link={isHome ? '/#contact' : '/contact'}
+        >Contact</a>
+      </Fragment>
+      <Fragment slot="mobile-links">
+        <a href="/" class="mobile-link focus-ring" data-glass-nav-mobile-link="/">Home</a>
+        <a href="/about" class="mobile-link focus-ring" data-glass-nav-mobile-link="/about">About</a>
+        <a
+          href={isHome ? '#services' : '/services'}
+          class="mobile-link focus-ring"
+          data-glass-nav-mobile-link={isHome ? '/#services' : '/services'}
+        >Our Services</a>
+        <a
+          href={isHome ? '#work' : '/work'}
+          class="mobile-link focus-ring"
+          data-glass-nav-mobile-link={isHome ? '/#work' : '/work'}
+        >Our Work</a>
+        <a
+          href={isHome ? '#contact' : '/contact'}
+          class="mobile-link focus-ring"
+          data-glass-nav-mobile-link={isHome ? '/#contact' : '/contact'}
+        >Contact</a>
+      </Fragment>
+    </GlassNav>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>

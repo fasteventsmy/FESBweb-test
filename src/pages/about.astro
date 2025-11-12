@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import WhyBrands from '../components/sections/WhyBrands.astro';
+---
+<Base title="About FAST Events">
+  <section class="section-shell page-intro">
+    <header>
+      <h1>About FAST Events</h1>
+      <p>We are a Malaysia-based team blending creative prototyping, fabrication, and show operations.</p>
+    </header>
+    <p>
+      Our producers, designers, and technical directors have shipped hundreds of pop-ups, mall tours, and product
+      launches. We build with modularity in mind so you can test an idea in one city and scale it nationwide without
+      reinventing the brief.
+    </p>
+  </section>
+  <WhyBrands />
+</Base>
+
+<style>
+  .page-intro {
+    gap: var(--spacing-md);
+    padding-top: var(--spacing-2xl);
+  }
+
+  .page-intro h1 {
+    font-size: var(--text-3xl);
+    margin: 0;
+  }
+
+  .page-intro p {
+    color: var(--color-text-muted);
+  }
+</style>
