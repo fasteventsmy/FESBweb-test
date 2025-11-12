@@ -1,0 +1,373 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { readdirSync } from 'fs';
+
+const workEntries = await getCollection('work');
+const projects = workEntries.map((entry) => {
+  const data = entry.data;
+  const dateValue = data.date instanceof Date ? data.date : new Date(data.date);
+  let thumbnail = data.thumbnail;
+  if (!thumbnail) {
+    try {
+      const dir = new URL(`../../public/assets/work/${entry.slug}`, import.meta.url);
+      const files = readdirSync(dir)
+        .filter((file) => /\.(png|jpe?g|webp|avif)$/i.test(file))
+        .sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
+      thumbnail = files[0] ? `/assets/work/${entry.slug}/${files[0]}` : undefined;
+    } catch (error) {
+      thumbnail = undefined;
+    }
+  }
+  return {
+    slug: entry.slug,
+    title: data.title,
+    brand: data.brand,
+    event: data.event,
+    date: dateValue,
+    categories: data.category ?? [],
+    thumbnail,
+    dateLabel: new Intl.DateTimeFormat('en-MY', { month: 'long', day: 'numeric', year: 'numeric' }).format(dateValue),
+    year: dateValue.getFullYear().toString(),
+  };
+});
+
+projects.sort((a, b) => b.date.getTime() - a.date.getTime());
+
+const brands = Array.from(new Set(projects.map((project) => project.brand))).sort((a, b) =>
+  a.localeCompare(b, 'en', { sensitivity: 'base' })
+);
+const categories = Array.from(new Set(projects.flatMap((project) => project.categories))).sort((a, b) =>
+  a.localeCompare(b, 'en', { sensitivity: 'base' })
+);
+const years = Array.from(new Set(projects.map((project) => project.year))).sort((a, b) => Number(b) - Number(a));
+---
+<Base title="FAST Events Work">
+  <section class="section-shell page-intro">
+    <header>
+      <h1>Our Work</h1>
+      <p>Browse experiential projects, sorted by the needs of your next activation.</p>
+    </header>
+  </section>
+  <section class="section-shell work-controls">
+    <form class="filters" id="work-filters">
+      <label>
+        <span>Sort</span>
+        <select name="sort" id="sort-select">
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+          <option value="title">A–Z</option>
+          <option value="brand">Brand</option>
+        </select>
+      </label>
+      <fieldset>
+        <legend>Brands</legend>
+        {brands.map((brand) => (
+          <label>
+            <input type="checkbox" name="brand" value={brand} />
+            <span>{brand}</span>
+          </label>
+        ))}
+      </fieldset>
+      <fieldset>
+        <legend>Categories</legend>
+        {categories.map((category) => (
+          <label>
+            <input type="checkbox" name="category" value={category} />
+            <span>{category}</span>
+          </label>
+        ))}
+      </fieldset>
+      <fieldset>
+        <legend>Year</legend>
+        {years.map((year) => (
+          <label>
+            <input type="checkbox" name="year" value={year} />
+            <span>{year}</span>
+          </label>
+        ))}
+      </fieldset>
+    </form>
+  </section>
+  <section class="section-shell work-grid" id="work-grid" aria-live="polite">
+    {projects.map((project) => (
+      <article
+        id={project.slug}
+        class="glass work-item focus-ring"
+        data-brand={project.brand}
+        data-categories={project.categories.join('|')}
+        data-year={project.year}
+        data-date={project.date.toISOString()}
+        data-title={project.title}
+        tabindex="0"
+      >
+        {project.thumbnail && (
+          <img src={project.thumbnail} alt={`Preview of ${project.title}`} loading="lazy" />
+        )}
+        <div class="body">
+          <h2>{project.title}</h2>
+          <p>{project.brand} · {project.event}</p>
+          <time dateTime={project.date.toISOString()}>{project.dateLabel}</time>
+          {project.categories.length > 0 && (
+            <ul class="tags">
+              {project.categories.map((category) => (
+                <li>{category}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </article>
+    ))}
+  </section>
+  <script type="application/json" id="projects-data">{JSON.stringify(projects)}</script>
+</Base>
+
+<style>
+  .page-intro {
+    padding-top: var(--spacing-2xl);
+    gap: var(--spacing-md);
+  }
+
+  .page-intro h1 {
+    font-size: var(--text-3xl);
+    margin: 0;
+  }
+
+  .page-intro p {
+    color: var(--color-text-muted);
+  }
+
+  .filters {
+    display: grid;
+    gap: var(--spacing-lg);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  fieldset {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    display: grid;
+    gap: var(--spacing-xs);
+  }
+
+  legend {
+    padding: 0 var(--spacing-xs);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  select,
+  input[type='checkbox'] {
+    accent-color: var(--color-accent-teal);
+  }
+
+  select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    background: rgba(10, 10, 18, 0.6);
+    color: var(--color-text);
+  }
+
+  .work-grid {
+    display: grid;
+    gap: var(--spacing-lg);
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  .work-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+  }
+
+  .work-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: calc(var(--radius-lg) - 12px);
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .body h2 {
+    margin: 0;
+    font-size: var(--text-lg);
+  }
+
+  .body p {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    padding: 0;
+    margin: var(--spacing-xs) 0 0;
+    list-style: none;
+  }
+
+  .tags li {
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    color: var(--color-text-muted);
+    padding: var(--spacing-lg);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+</style>
+
+<script client:load>
+  const dataScript = document.getElementById('projects-data');
+  const container = document.getElementById('work-grid');
+  const form = document.getElementById('work-filters');
+  if (!dataScript || !container || !form) return;
+
+  const projects = JSON.parse(dataScript.textContent || '[]');
+
+  const params = new URLSearchParams(window.location.search);
+
+  const state = {
+    sort: params.get('sort') || 'newest',
+    brand: new Set((params.get('brands') || '').split(',').filter(Boolean)),
+    category: new Set((params.get('categories') || '').split(',').filter(Boolean)),
+    year: new Set((params.get('years') || '').split(',').filter(Boolean)),
+  };
+
+  const updateFormFromState = () => {
+    const sortSelect = form.querySelector('#sort-select');
+    if (sortSelect) {
+      sortSelect.value = state.sort;
+    }
+    form.querySelectorAll("input[name='brand']").forEach((input) => {
+      input.checked = state.brand.has(input.value);
+    });
+    form.querySelectorAll("input[name='category']").forEach((input) => {
+      input.checked = state.category.has(input.value);
+    });
+    form.querySelectorAll("input[name='year']").forEach((input) => {
+      input.checked = state.year.has(input.value);
+    });
+  };
+
+  updateFormFromState();
+
+  const applyFilters = () => {
+    const filtered = projects.filter((project) => {
+      const brandMatch = state.brand.size === 0 || state.brand.has(project.brand);
+      const categoryMatch =
+        state.category.size === 0 || project.categories.some((cat) => state.category.has(cat));
+      const yearMatch = state.year.size === 0 || state.year.has(project.year);
+      return brandMatch && categoryMatch && yearMatch;
+    });
+
+    const sorted = [...filtered].sort((a, b) => {
+      switch (state.sort) {
+        case 'oldest':
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
+        case 'title':
+          return a.title.localeCompare(b.title, 'en', { sensitivity: 'base' });
+        case 'brand':
+          return a.brand.localeCompare(b.brand, 'en', { sensitivity: 'base' });
+        case 'newest':
+        default:
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+      }
+    });
+
+    const fragment = document.createDocumentFragment();
+    sorted.forEach((project) => {
+      const card = container.querySelector(`#${project.slug}`)?.cloneNode(true);
+      if (card instanceof HTMLElement) {
+        card.hidden = false;
+        fragment.appendChild(card);
+      }
+    });
+
+    container.querySelectorAll('.empty-state').forEach((node) => node.remove());
+    container.querySelectorAll('.work-item').forEach((item) => {
+      if (item instanceof HTMLElement) {
+        item.remove();
+      }
+    });
+    container.appendChild(fragment);
+
+    if (sorted.length === 0) {
+      const empty = document.createElement('p');
+      empty.textContent = 'No projects matched your filters yet. Try expanding your selection.';
+      empty.className = 'empty-state';
+      container.appendChild(empty);
+    }
+
+    const nextParams = new URLSearchParams();
+    if (state.sort !== 'newest') {
+      nextParams.set('sort', state.sort);
+    }
+    if (state.brand.size > 0) {
+      nextParams.set('brands', Array.from(state.brand).join(','));
+    }
+    if (state.category.size > 0) {
+      nextParams.set('categories', Array.from(state.category).join(','));
+    }
+    if (state.year.size > 0) {
+      nextParams.set('years', Array.from(state.year).join(','));
+    }
+    const nextUrl = `${window.location.pathname}${nextParams.toString() ? `?${nextParams}` : ''}`;
+    window.history.replaceState({}, '', nextUrl);
+
+    if (window.location.hash) {
+      const target = document.getElementById(window.location.hash.slice(1));
+      if (target) {
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        target.scrollIntoView({ block: 'start', behavior: prefersReduced ? 'auto' : 'smooth' });
+      }
+    }
+  };
+
+  applyFilters();
+
+  form.addEventListener('change', (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement || target instanceof HTMLSelectElement)) {
+      return;
+    }
+    if (target.id === 'sort-select') {
+      state.sort = target.value;
+    }
+    if (target.name === 'brand') {
+      target.checked ? state.brand.add(target.value) : state.brand.delete(target.value);
+    }
+    if (target.name === 'category') {
+      target.checked ? state.category.add(target.value) : state.category.delete(target.value);
+    }
+    if (target.name === 'year') {
+      target.checked ? state.year.add(target.value) : state.year.delete(target.value);
+    }
+    applyFilters();
+  });
+</script>

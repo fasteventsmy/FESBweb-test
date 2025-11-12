@@ -1,0 +1,63 @@
+---
+const services = (await import('../../data/services.json')).default as Array<{
+  title: string;
+  description: string;
+  bullets: string[];
+}>;
+---
+<section id="services" class="section-shell services">
+  <header>
+    <h2>What we do</h2>
+    <p>Turn-key support from concept to live day.</p>
+  </header>
+  <div class="card-grid columns-3">
+    {services.map((service) => (
+      <article class="glass service-card" tabindex="0">
+        <h3>{service.title}</h3>
+        <p class="summary">{service.description}</p>
+        <ul>
+          {service.bullets.map((point) => (
+            <li>{point}</li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .service-card {
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    min-height: 100%;
+  }
+
+  .service-card h3 {
+    margin: 0;
+    font-size: var(--text-xl);
+  }
+
+  .summary {
+    color: var(--color-text-muted);
+    font-size: var(--text-base);
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: var(--spacing-xs);
+  }
+
+  li {
+    color: var(--color-text);
+  }
+
+  @media (max-width: 900px) {
+    .card-grid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+interface Props {
+  items: Array<{ src: string; alt?: string }>;
+}
+
+const { items } = Astro.props as Props;
+---
+<div class="marquee" role="presentation">
+  <div class="marquee-track">
+    {items.concat(items).map((item, index) => (
+      <img
+        src={item.src}
+        alt={item.alt ?? 'Brand logo'}
+        loading="lazy"
+        aria-hidden={index >= items.length ? 'true' : 'false'}
+      />
+    ))}
+  </div>
+</div>
+
+<style>
+  img {
+    height: 42px;
+    width: auto;
+    filter: grayscale(1) contrast(1.15);
+    opacity: 0.65;
+    transition: filter 160ms ease, opacity 160ms ease;
+  }
+
+  img:hover,
+  img:focus-visible {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+</style>

@@ -1,0 +1,212 @@
+---
+import { readdirSync } from 'fs';
+
+const whyData = (await import('../../data/whyBrands.json')).default as Array<{
+  icon: string;
+  title: string;
+  description: string;
+}>;
+
+const imageDir = new URL('../../../public/assets/why-brands', import.meta.url);
+const galleryImages = readdirSync(imageDir)
+  .filter((file) => /\.(png|jpe?g|webp|avif|svg)$/i.test(file))
+  .sort((a, b) => a.localeCompare(b, 'en'))
+  .map((file) => `/assets/why-brands/${file}`);
+---
+<section id="why-brands" class="section-shell why-brands">
+  <header>
+    <h2>Why brands move fast with us</h2>
+    <p>Built for speed, clarity, and calm on show day.</p>
+  </header>
+  <div class="why-grid">
+    <div class="image-stage glass" data-images={JSON.stringify(galleryImages)}>
+      {galleryImages.length > 0 ? (
+        <img src={galleryImages[0]} alt="Brand activation in action" loading="lazy" />
+      ) : (
+        <div class="placeholder">Imagery coming soon</div>
+      )}
+      <button class="hotspot prev" data-direction="prev" aria-label="Previous example"></button>
+      <button class="hotspot next" data-direction="next" aria-label="Next example"></button>
+    </div>
+    <div class="reason-grid">
+      {whyData.map((item) => (
+        <article class="glass reason" tabindex="0">
+          <div class="icon" aria-hidden="true">{item.icon}</div>
+          <div>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </div>
+        </article>
+      ))}
+      <a class="know-more" href="/about">Know more about us →</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-brands {
+    gap: var(--spacing-xl);
+  }
+
+  .why-grid {
+    display: grid;
+    gap: var(--spacing-xl);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .image-stage {
+    position: relative;
+    min-height: 360px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .image-stage img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 220ms ease;
+    opacity: 1;
+  }
+
+  .hotspot {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .hotspot:focus-visible {
+    outline: 2px solid var(--color-accent-teal);
+    outline-offset: -2px;
+  }
+
+  .hotspot.prev {
+    left: 0;
+  }
+
+  .hotspot.next {
+    right: 0;
+  }
+
+  .reason-grid {
+    display: grid;
+    gap: var(--spacing-lg);
+  }
+
+  .reason {
+    padding: var(--spacing-md);
+    display: grid;
+    gap: var(--spacing-sm);
+    grid-template-columns: auto 1fr;
+    align-items: start;
+  }
+
+  .reason h3 {
+    margin: 0 0 var(--spacing-xs) 0;
+    font-size: var(--text-lg);
+  }
+
+  .reason p {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .icon {
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .know-more {
+    justify-self: start;
+    font-weight: 600;
+    color: var(--color-accent-teal);
+    margin-top: var(--spacing-sm);
+  }
+
+  .placeholder {
+    display: grid;
+    place-items: center;
+    color: var(--color-text-muted);
+    height: 100%;
+  }
+</style>
+
+<script client:load>
+  const stage = document.querySelector('.image-stage');
+  const image = stage?.querySelector('img');
+  const hotspots = stage ? Array.from(stage.querySelectorAll('.hotspot')) : [];
+  const data = stage?.dataset.images;
+  const images = data ? JSON.parse(data) : [];
+  let current = 0;
+  let touchStartX = 0;
+
+  if (image) {
+    image.style.opacity = '1';
+  }
+
+  const swap = (nextIndex) => {
+    if (!image || images.length === 0) return;
+    current = (nextIndex + images.length) % images.length;
+    image.style.opacity = '0';
+    requestAnimationFrame(() => {
+      image.src = images[current];
+      image.onload = () => {
+        image.style.opacity = '1';
+      };
+      if (image.complete) {
+        image.style.opacity = '1';
+      }
+    });
+  };
+
+  hotspots.forEach((button) => {
+    button.addEventListener('click', () => {
+      const direction = button.dataset.direction === 'prev' ? -1 : 1;
+      swap(current + direction);
+    });
+    button.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        swap(current - 1);
+      }
+      if (event.key === 'ArrowRight') {
+        swap(current + 1);
+      }
+    });
+  });
+
+  stage?.addEventListener('touchstart', (event) => {
+    touchStartX = event.touches[0]?.clientX ?? 0;
+  });
+
+  stage?.addEventListener('touchend', (event) => {
+    const diff = event.changedTouches[0]?.clientX - touchStartX;
+    if (!diff) return;
+    if (Math.abs(diff) > 45) {
+      swap(current + (diff > 0 ? -1 : 1));
+    }
+  });
+
+  stage?.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') {
+      swap(current - 1);
+    }
+    if (event.key === 'ArrowRight') {
+      swap(current + 1);
+    }
+  });
+
+  stage?.setAttribute('tabindex', '0');
+</script>

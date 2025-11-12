@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import Services from '../components/sections/Services.astro';
+---
+<Base title="FAST Events Services">
+  <section class="section-shell page-intro">
+    <header>
+      <h1>Services</h1>
+      <p>Turn-key experiential production across ideation, fabrication, and live operations.</p>
+    </header>
+    <p>
+      Choose the full stack or plug our team into your existing plans. Every engagement comes with a senior producer,
+      technical director, and logistics lead so you have one tight line of communication from kickoff to wrap.
+    </p>
+  </section>
+  <Services />
+</Base>
+
+<style>
+  .page-intro {
+    gap: var(--spacing-md);
+    padding-top: var(--spacing-2xl);
+  }
+
+  .page-intro h1 {
+    font-size: var(--text-3xl);
+    margin: 0;
+  }
+
+  .page-intro p {
+    color: var(--color-text-muted);
+  }
+</style>
