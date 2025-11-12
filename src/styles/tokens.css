@@ -1,14 +1,39 @@
 :root {
   color-scheme: dark;
-  --color-canvas: #040406;
-  --color-glass: rgba(16, 16, 26, 0.72);
-  --color-glass-border: rgba(255, 255, 255, 0.08);
-  --color-glass-highlight: rgba(255, 255, 255, 0.18);
-  --color-text: #f6f6f8;
-  --color-text-muted: rgba(246, 246, 248, 0.72);
-  --color-accent-magenta: #ff2c9d;
-  --color-accent-teal: #2ee4c4;
+
+  /* Canvas */
+  --bg-magenta: #ff2c9d;
+  --bg-black: #0b0b0f;
+  --bg-teal: #0e2f2a;
+
+  /* Glass (lighter) */
+  --glass: rgba(255, 255, 255, 0.16);
+  --glass-border: rgba(255, 255, 255, 0.38);
+  --glass-inner: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+
+  /* Accent */
+  --accent: #ff2c9d;
+  --accent2: #2ee4c4;
+
+  /* Text */
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.82);
+
+  /* Radii / spacing */
+  --radius-xl: 28px;
+
+  /* Legacy tokens (for existing styles) */
+  --color-canvas: var(--bg-black);
+  --color-glass: var(--glass);
+  --color-glass-border: var(--glass-border);
+  --color-glass-highlight: var(--glass-inner);
+  --color-text: var(--text);
+  --color-text-muted: var(--muted);
+  --color-accent-magenta: var(--accent);
+  --color-accent-teal: var(--accent2);
   --color-border: rgba(255, 255, 255, 0.12);
+
   --shadow-soft: 0 24px 60px rgba(4, 4, 6, 0.6);
   --radius-lg: 20px;
   --radius-pill: 999px;
