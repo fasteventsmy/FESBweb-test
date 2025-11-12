@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Concept & Creative",
+    "description": "Campaign workshops, themed storylines, and launch tactics built to travel fast.",
+    "bullets": [
+      "Experience and brand narrative mapping",
+      "3D renders, floor plans, and tech decks",
+      "Supplier alignment and feasibility"
+    ]
+  },
+  {
+    "title": "Production & Fabrication",
+    "description": "Scenic, staging, and digital interactives produced with the same crew that operates them.",
+    "bullets": [
+      "Modular scenic kits and custom builds",
+      "AV, lighting, and show control integration",
+      "Regulatory, permitting, and HSE support"
+    ]
+  },
+  {
+    "title": "Live Ops & Talent",
+    "description": "Roadshow specialists that manage rehearsals, front-of-house, and high-touch hospitality.",
+    "bullets": [
+      "Brand ambassadors, MCs, and showcallers",
+      "Run-of-show, staffing, and queue systems",
+      "Post-event reporting and lead capture"
+    ]
+  }
+]

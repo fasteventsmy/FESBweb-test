@@ -1,0 +1,254 @@
+<style>
+  nav {
+    position: sticky;
+    top: var(--spacing-sm);
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    margin-top: var(--spacing-sm);
+  }
+
+  .nav-shell {
+    position: relative;
+    width: min(960px, calc(100% - 2 * var(--spacing-lg)));
+    padding: 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    border-radius: var(--radius-pill);
+    background: rgba(10, 10, 18, 0.7);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  }
+
+  .nav-shell::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    pointer-events: none;
+  }
+
+  .nav-links {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    gap: var(--spacing-sm);
+  }
+
+  .nav-link {
+    position: relative;
+    padding: 0.55rem 1.15rem;
+    border-radius: var(--radius-pill);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    transition: color 150ms ease, background 150ms ease;
+  }
+
+  .nav-link:focus-visible {
+    outline: 2px solid var(--color-accent-teal);
+    outline-offset: 2px;
+  }
+
+  .nav-link.active {
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .mobile-toggle {
+    display: none;
+    position: relative;
+    z-index: 3;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(12, 12, 22, 0.8);
+    color: var(--color-text);
+  }
+
+  .mobile-toggle:focus-visible {
+    outline: 2px solid var(--color-accent-teal);
+    outline-offset: 3px;
+  }
+
+  .mobile-sheet {
+    position: fixed;
+    inset: var(--spacing-lg) var(--spacing-lg) auto;
+    background: rgba(10, 10, 18, 0.9);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    transform: translateY(-1rem);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 200ms ease, opacity 200ms ease;
+  }
+
+  .mobile-sheet a {
+    padding: 0.5rem 0;
+  }
+
+  .mobile-sheet.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .mobile-link {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+
+  .mobile-link.active {
+    color: var(--color-text);
+  }
+
+  @media (max-width: 800px) {
+    .nav-shell {
+      justify-content: space-between;
+      width: calc(100% - 2 * var(--spacing-lg));
+    }
+
+    .nav-links {
+      display: none;
+    }
+
+    .mobile-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+  }
+</style>
+
+<nav>
+  <div class="nav-shell">
+    <a class="nav-link focus-ring" href="/" aria-label="FAST Events home">
+      FAST Events
+    </a>
+    <button class="mobile-toggle" type="button" aria-expanded="false" aria-controls="nav-mobile">
+      <span aria-hidden="true">☰</span>
+    </button>
+    <div class="nav-links" role="navigation" aria-label="Primary">
+      <slot name="links" />
+    </div>
+  </div>
+</nav>
+<div class="mobile-sheet" id="nav-mobile" hidden>
+  <slot name="mobile-links" />
+</div>
+
+<script client:load>
+  const navLinks = Array.from(document.querySelectorAll('[data-glass-nav-link]'));
+  const mobileLinks = Array.from(document.querySelectorAll('[data-glass-nav-mobile-link]'));
+  const toggle = document.querySelector('.mobile-toggle');
+  const sheet = document.getElementById('nav-mobile');
+  const homeSectionsAttr = document.body.dataset.homeSections;
+  const isHome = Boolean(homeSectionsAttr);
+  let activeAnchor = null;
+
+  const closeSheet = () => {
+    toggle?.setAttribute('aria-expanded', 'false');
+    sheet?.classList.remove('open');
+    sheet?.setAttribute('hidden', '');
+  };
+
+  toggle?.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    if (expanded) {
+      closeSheet();
+    } else {
+      sheet?.classList.add('open');
+      sheet?.removeAttribute('hidden');
+      sheet?.querySelector('a')?.focus();
+    }
+  });
+
+  sheet?.addEventListener('click', (event) => {
+    if ((event.target instanceof HTMLAnchorElement)) {
+      closeSheet();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeSheet();
+    }
+  });
+
+  const setActive = (href) => {
+    if (activeAnchor === href) return;
+    activeAnchor = href;
+    navLinks.forEach((link) => {
+      if (!(link instanceof HTMLElement)) return;
+      link.classList.toggle('active', link.dataset.glassNavLink === href);
+    });
+    mobileLinks.forEach((link) => {
+      if (!(link instanceof HTMLElement)) return;
+      link.classList.toggle('active', link.dataset.glassNavMobileLink === href);
+    });
+  };
+
+  const normalizeHref = (value = '') => {
+    try {
+      const url = new URL(value, window.location.origin);
+      return url.pathname + url.hash;
+    } catch (error) {
+      return value;
+    }
+  };
+
+  const currentPath = window.location.pathname;
+  setActive(currentPath + window.location.hash);
+
+  navLinks.forEach((link) => {
+    link.addEventListener('click', () => setActive(normalizeHref(link.getAttribute('href') ?? '')));
+  });
+
+  mobileLinks.forEach((link) => {
+    link.addEventListener('click', () => setActive(normalizeHref(link.getAttribute('href') ?? '')));
+  });
+
+  if (!('matchMedia' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.style.scrollBehavior = 'auto';
+  }
+
+  if (isHome && 'IntersectionObserver' in window) {
+    const ids = homeSectionsAttr.split(',');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        if (visible.target.id === 'hero') {
+          setActive('/');
+        } else {
+          setActive('/#' + visible.target.id);
+        }
+      },
+      {
+        threshold: [0.35, 0.6],
+        rootMargin: '-20% 0px -55% 0px',
+      }
+    );
+
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        observer.observe(el);
+      }
+    });
+  }
+</script>

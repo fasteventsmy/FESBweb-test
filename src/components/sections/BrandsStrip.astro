@@ -1,0 +1,23 @@
+---
+import { readdirSync } from 'fs';
+import LogoMarquee from '../ui/LogoMarquee.astro';
+
+const logoDir = new URL('../../../public/assets/brands', import.meta.url);
+const logos = readdirSync(logoDir)
+  .filter((file) => /\.(svg|png|jpe?g|webp)$/i.test(file))
+  .sort((a, b) => a.localeCompare(b, 'en'))
+  .map((file) => `/assets/brands/${file}`);
+---
+<section class="section-shell brands-strip">
+  <header>
+    <h2>Brands that call us first</h2>
+    <p>Collaborations with tech, lifestyle, and FMCG teams.</p>
+  </header>
+  <LogoMarquee items={logos.map((logo) => ({ src: logo }))} />
+</section>
+
+<style>
+  .brands-strip {
+    gap: var(--spacing-lg);
+  }
+</style>
