@@ -16,9 +16,9 @@ const contactData = isHome ? '/#contact' : '/contact';
   margin-inline:auto;
   display:flex; align-items:center; justify-content:space-between;
   gap:18px;
-  padding:15px 18px;                 /* outer padding */
+  padding:12px 18px;                 /* outer padding */
   width: min(1000px, calc(100% - 24px));
-  min-height: 85px;                  /* thicker bar */
+  min-height: 75px;                  /* thinner desktop bar */
   backdrop-filter: blur(14px) saturate(120%);
   background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.12));
   border: 1px solid var(--glass-border);
@@ -32,7 +32,7 @@ const contactData = isHome ? '/#contact' : '/contact';
 /* logo */
 .brand{
   display:flex; align-items:center; justify-content:center;
-  height:55px;
+  height:51px;
   padding:0 20px;
   border-radius:999px;
 }
@@ -44,7 +44,7 @@ const contactData = isHome ? '/#contact' : '/contact';
 /* chips ~55px tall */
 .nav-link{
   display:flex; align-items:center; justify-content:center;
-  height:55px;                       /* target chip height */
+  height:51px;                       /* target chip height */
   padding:0 18px;                    /* inner horizontal */
   border-radius:999px;
   text-decoration:none; font-weight:700;
@@ -67,10 +67,10 @@ const contactData = isHome ? '/#contact' : '/contact';
 }
 
 /* Mobile */
-.hamburger{ display:none; color:#fff; background:transparent; border:0; font-size:18px; padding:8px 12px; border-radius:8px}
+.hamburger{ display:none; color:#fff; background:transparent; border:0; font-size:32px; padding:8px 12px; border-radius:8px}
 @media (max-width: 820px){
   .hamburger{ display:block }
-  .nav-wrap{ width: calc(100% - 24px); min-height:64px; padding:10px 12px; }
+  .nav-wrap{ width: calc(100% - 24px); min-height:70px; padding:10px 12px; }
   .nav-list{
     position: fixed; left:12px; right:12px; top:68px;
     background: linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.10));
