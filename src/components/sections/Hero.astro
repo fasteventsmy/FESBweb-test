@@ -2,16 +2,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-let heroConfig: { image?: string; headline?: string; subline?: string } | undefined;
-try {
-  heroConfig = (await import('../../data/hero.json')).default;
-} catch (error) {
-  heroConfig = undefined;
-}
-
 const heroDir = path.join(process.cwd(), 'public', 'assets', 'hero');
-let fallbackImage = '';
-if (fs.existsSync(heroDir)) {
+const defaultHeroFile = 'hero-main.jpg';
+const defaultHeroPath = path.join(heroDir, defaultHeroFile);
+
+let heroImage = '';
+
+if (fs.existsSync(defaultHeroPath)) {
+  heroImage = `/assets/hero/${defaultHeroFile}`;
+} else if (fs.existsSync(heroDir)) {
   try {
     const files = fs
       .readdirSync(heroDir)
@@ -21,124 +20,204 @@ if (fs.existsSync(heroDir)) {
         return { file, time: stats.mtime.getTime() };
       })
       .sort((a, b) => b.time - a.time);
-    fallbackImage = files[0] ? `/assets/hero/${files[0].file}` : '';
+    heroImage = files[0] ? `/assets/hero/${files[0].file}` : '';
   } catch (error) {
-    fallbackImage = '';
+    heroImage = '';
   }
 }
 
-const backgroundImage = heroConfig?.image ?? fallbackImage;
-const headline = heroConfig?.headline ?? 'Design. Build. Go live.';
-const subline = heroConfig?.subline ??
+const headline = 'Design. Build. Go live.';
+const subline =
   'Pop-ups, roadshows, and brand activations with creative speed and technical calm.';
 ---
-<section id="hero" class="section-shell hero">
-  <div class="hero-content glass">
-    <div class="copy">
-      <p class="eyebrow">FAST Events</p>
-      <h1>{headline}</h1>
-      <p class="lead">{subline}</p>
-      <div class="actions">
-        <a class="btn" href="#services">What we do</a>
-        <a class="btn secondary" href="#work">Our work</a>
-      </div>
+<section id="hero" class="hero">
+  {heroImage && (
+    <div class="hero__background" aria-hidden="true">
+      <img src={heroImage} alt="" loading="eager" decoding="async" fetchpriority="high" />
+    </div>
+  )}
+  <div class="hero__content">
+    <img
+      src="/assets/brands/Fast Events white SVG.svg"
+      alt="FAST Events"
+      class="hero__logo"
+      width="184"
+      height="56"
+      loading="eager"
+    />
+    <h1>{headline}</h1>
+    <p class="hero__subhead">{subline}</p>
+    <div class="hero__actions">
+      <a class="hero__cta hero__cta--primary focus-ring" href="#services">What we do</a>
+      <a class="hero__cta hero__cta--secondary focus-ring" href="#work">Our work</a>
     </div>
   </div>
-  {backgroundImage && (
-    <figure class="hero-visual">
-      <img src={backgroundImage} alt="Experiential activation hero" loading="lazy" />
-      <div class="glow" aria-hidden="true"></div>
-    </figure>
-  )}
 </section>
 
 <style>
   .hero {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--spacing-xl);
-    align-items: center;
-    margin-top: var(--spacing-2xl);
-  }
-
-  .hero-content {
-    padding: var(--spacing-xl);
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 100vh;
+    padding: clamp(120px, 16vh, 180px) var(--spacing-lg) clamp(96px, 14vh, 160px);
     overflow: hidden;
+    background-color: #0a0a0a;
   }
 
-  .hero-content::before {
+  .hero::after {
     content: '';
     position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at top left, rgba(255, 44, 157, 0.18), transparent 60%);
-    opacity: 0.7;
+    inset: auto 0 0 0;
+    height: clamp(180px, 32vh, 320px);
+    background: linear-gradient(
+      to bottom,
+      rgba(10, 10, 10, 0) 0%,
+      rgba(10, 10, 10, 0.55) 65%,
+      #0a0a0a 100%
+    );
     pointer-events: none;
   }
 
-  .copy {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
-  }
-
-  .eyebrow {
-    margin: 0;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-  }
-
-  h1 {
-    font-size: clamp(2.8rem, 2.2rem + 2vw, 4rem);
-    line-height: 1.05;
-    margin: 0;
-  }
-
-  .lead {
-    font-size: var(--text-lg);
-    color: var(--color-text-muted);
-  }
-
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
-    margin-top: var(--spacing-md);
-  }
-
-  .hero-visual {
-    position: relative;
-    border-radius: var(--radius-lg);
+  .hero__background {
+    position: absolute;
+    inset: 0;
     overflow: hidden;
-    min-height: 320px;
-    max-height: 560px;
+    background-color: #0a0a0a;
   }
 
-  .hero-visual img {
+  .hero__background img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
     display: block;
-    filter: saturate(1.05);
   }
 
-  .hero-visual .glow {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 60%, rgba(255, 44, 157, 0.35), transparent 65%);
-    mix-blend-mode: screen;
+  .hero__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(18px, 3vw, 28px);
+    max-width: min(720px, 90vw);
+    color: var(--text);
+    z-index: 1;
+  }
+
+  .hero__logo {
+    width: clamp(140px, 18vw, 220px);
+    height: auto;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2.25rem, 1.7rem + 2vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .hero__subhead {
+    margin: 0;
+    font-size: clamp(1.15rem, 1rem + 0.8vw, 1.5rem);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(12px, 3vw, 16px);
+  }
+
+  .hero__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 55px;
+    padding: 0 clamp(20px, 4vw, 22px);
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.05rem);
+    letter-spacing: 0.015em;
+    text-decoration: none;
+    transition: transform 150ms ease, box-shadow 150ms ease, color 150ms ease, background 150ms ease,
+      border-color 150ms ease;
+    border: 1px solid transparent;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+
+  .hero__cta:hover,
+  .hero__cta:focus-visible {
+    transform: translateY(-1px);
+    color: #ffffff;
+  }
+
+  .hero__cta--primary {
+    color: #ffffff;
+    background:
+      linear-gradient(145deg, rgba(255, 44, 157, 0.96), rgba(255, 44, 157, 0.72)),
+      radial-gradient(160% 200% at 50% -50%, rgba(255, 255, 255, 0.35), transparent 55%);
+    box-shadow:
+      0 10px 24px rgba(255, 44, 157, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.28);
+  }
+
+  .hero__cta--primary:hover,
+  .hero__cta--primary:focus-visible {
+    box-shadow:
+      0 16px 32px rgba(255, 44, 157, 0.36),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.32);
+  }
+
+  .hero__cta--secondary {
+    color: rgba(255, 255, 255, 0.9);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.12));
+    border-color: var(--glass-border);
+    box-shadow:
+      var(--glass-shadow),
+      inset 0 1px 0 var(--glass-inner),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+  }
+
+  .hero__cta--secondary:hover,
+  .hero__cta--secondary:focus-visible {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.16));
+    border-color: rgba(255, 255, 255, 0.48);
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      padding: clamp(110px, 18vh, 150px) var(--spacing-md) clamp(80px, 14vh, 140px);
+    }
   }
 
   @media (max-width: 768px) {
     .hero {
-      grid-template-columns: 1fr;
+      min-height: 80vh;
+      padding: clamp(96px, 12vh, 130px) var(--spacing-md) clamp(72px, 12vh, 120px);
     }
 
-    .hero-content {
-      padding: var(--spacing-lg);
+    .hero__cta {
+      height: 48px;
+      padding: 0 clamp(16px, 5vw, 18px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__cta {
+      transition: none;
+    }
+
+    .hero__cta:hover,
+    .hero__cta:focus-visible {
+      transform: none;
     }
   }
 </style>

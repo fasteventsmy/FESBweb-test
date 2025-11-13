@@ -10,14 +10,7 @@ html {
 
 html,
 body {
-  background:
-    /* main gradient: darker magenta start */
-    linear-gradient(
-      135deg,
-      var(--bg-magenta-deep) 0%,
-      var(--bg-black) 46%,
-      var(--bg-teal) 100%
-    );
+  background: #0a0a0a;
   min-height: 100%;
   color: var(--text);
   font-family: var(--font-sans);
@@ -73,18 +66,6 @@ textarea,
 a {
   font-family: inherit;
   font-weight: inherit;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(80% 60% at 80% -10%, rgba(255, 44, 157, 0.12), transparent 60%),
-    radial-gradient(80% 70% at -10% 100%, rgba(46, 228, 196, 0.08), transparent 60%);
-  mix-blend-mode: screen;
-  opacity: 0.5;
 }
 
 a {
