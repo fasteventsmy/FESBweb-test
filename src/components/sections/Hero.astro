@@ -1,5 +1,5 @@
 ---
-const heroImage = '/assets/hero/hero-main.jpg';
+const heroImage = new URL('../../assets/hero/hero-main.jpg', import.meta.url).href;
 
 const headline = 'Design. Build. Go live.';
 const subline =
