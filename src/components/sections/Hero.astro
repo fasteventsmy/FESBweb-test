@@ -5,11 +5,16 @@ import path from 'node:path';
 const heroDir = path.join(process.cwd(), 'public', 'assets', 'hero');
 const defaultHeroFile = 'hero-main.jpg';
 const defaultHeroPath = path.join(heroDir, defaultHeroFile);
+const basePath = (() => {
+  const base = import.meta.env.BASE_URL ?? '/';
+  return base.endsWith('/') ? base : `${base}/`;
+})();
+const buildHeroPath = (file: string) => `${basePath}assets/hero/${file}`;
 
 let heroImage = '';
 
 if (fs.existsSync(defaultHeroPath)) {
-  heroImage = `/assets/hero/${defaultHeroFile}`;
+  heroImage = buildHeroPath(defaultHeroFile);
 } else if (fs.existsSync(heroDir)) {
   try {
     const files = fs
@@ -20,7 +25,7 @@ if (fs.existsSync(defaultHeroPath)) {
         return { file, time: stats.mtime.getTime() };
       })
       .sort((a, b) => b.time - a.time);
-    heroImage = files[0] ? `/assets/hero/${files[0].file}` : '';
+    heroImage = files[0] ? buildHeroPath(files[0].file) : '';
   } catch (error) {
     heroImage = '';
   }
@@ -29,7 +34,8 @@ if (fs.existsSync(defaultHeroPath)) {
 const headline = 'Design. Build. Go live.';
 const subline =
   'Pop-ups, roadshows, and brand activations with creative speed and technical calm.';
-const isDefaultHero = heroImage === `/assets/hero/${defaultHeroFile}`;
+const defaultHeroPathWithBase = buildHeroPath(defaultHeroFile);
+const isDefaultHero = heroImage === defaultHeroPathWithBase;
 ---
 <section id="hero" class="hero">
   {heroImage && (
@@ -66,11 +72,11 @@ const isDefaultHero = heroImage === `/assets/hero/${defaultHeroFile}`;
   .hero {
     position: relative;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     text-align: center;
     min-height: 100vh;
-    padding: clamp(120px, 16vh, 180px) var(--spacing-lg) clamp(96px, 14vh, 160px);
+    padding: clamp(120px, 16vh, 180px) var(--spacing-lg);
     overflow: hidden;
     background-color: #0a0a0a;
   }
