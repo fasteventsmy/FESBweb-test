@@ -29,11 +29,19 @@ if (fs.existsSync(defaultHeroPath)) {
 const headline = 'Design. Build. Go live.';
 const subline =
   'Pop-ups, roadshows, and brand activations with creative speed and technical calm.';
+const isDefaultHero = heroImage === `/assets/hero/${defaultHeroFile}`;
 ---
 <section id="hero" class="hero">
   {heroImage && (
     <div class="hero__background" aria-hidden="true">
-      <img src={heroImage} alt="" loading="eager" decoding="async" fetchpriority="high" />
+      <img
+        src={heroImage}
+        alt=""
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+        class:list={{ 'hero__background-img': true, 'hero__background-img--default': isDefaultHero }}
+      />
     </div>
   )}
   <div class="hero__content">
@@ -83,13 +91,30 @@ const subline =
     background-color: #0a0a0a;
   }
 
-  .hero__background img {
+  .hero__background-img {
     width: 100%;
-    height: calc(100% + 400px);
+    height: 100%;
     object-fit: cover;
     object-position: top center;
     display: block;
-    transform: translateY(400px);
+    transform: none;
+  }
+
+  .hero__background-img--default {
+    height: calc(100% + 600px);
+    transform: translateY(600px);
+  }
+
+  @media (min-height: 960px) {
+    .hero__background-img {
+      height: calc(100% + 240px);
+      transform: translateY(120px);
+    }
+
+    .hero__background-img--default {
+      height: calc(100% + 840px);
+      transform: translateY(720px);
+    }
   }
 
   .hero__content {
