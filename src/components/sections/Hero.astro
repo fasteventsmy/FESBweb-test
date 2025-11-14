@@ -1,41 +1,9 @@
 ---
-import fs from 'node:fs';
-import path from 'node:path';
-
-const heroDir = path.join(process.cwd(), 'public', 'assets', 'hero');
-const defaultHeroFile = 'hero-main.jpg';
-const defaultHeroPath = path.join(heroDir, defaultHeroFile);
-const basePath = (() => {
-  const base = import.meta.env.BASE_URL ?? '/';
-  return base.endsWith('/') ? base : `${base}/`;
-})();
-const buildHeroPath = (file: string) => `${basePath}assets/hero/${file}`;
-
-let heroImage = '';
-
-if (fs.existsSync(defaultHeroPath)) {
-  heroImage = buildHeroPath(defaultHeroFile);
-} else if (fs.existsSync(heroDir)) {
-  try {
-    const files = fs
-      .readdirSync(heroDir)
-      .filter((file) => /\.(png|jpe?g|webp|gif|avif)$/i.test(file))
-      .map((file) => {
-        const stats = fs.statSync(path.join(heroDir, file));
-        return { file, time: stats.mtime.getTime() };
-      })
-      .sort((a, b) => b.time - a.time);
-    heroImage = files[0] ? buildHeroPath(files[0].file) : '';
-  } catch (error) {
-    heroImage = '';
-  }
-}
+const heroImage = '/assets/hero/hero-main.jpg';
 
 const headline = 'Design. Build. Go live.';
 const subline =
   'Pop-ups, roadshows, and brand activations with creative speed and technical calm.';
-const defaultHeroPathWithBase = buildHeroPath(defaultHeroFile);
-const isDefaultHero = heroImage === defaultHeroPathWithBase;
 ---
 <section id="hero" class="hero">
   {heroImage && (
@@ -46,7 +14,7 @@ const isDefaultHero = heroImage === defaultHeroPathWithBase;
         loading="eager"
         decoding="async"
         fetchpriority="high"
-        class:list={{ 'hero__background-img': true, 'hero__background-img--default': isDefaultHero }}
+        class="hero__background-img"
       />
     </div>
   )}
@@ -103,10 +71,6 @@ const isDefaultHero = heroImage === defaultHeroPathWithBase;
     object-fit: cover;
     object-position: top center;
     display: block;
-  }
-
-  .hero__background-img--default {
-    height: 100%;
   }
 
   .hero__content {
