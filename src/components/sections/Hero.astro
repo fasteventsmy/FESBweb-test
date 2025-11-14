@@ -1,6 +1,7 @@
 ---
-const heroImage = new URL('../../assets/hero/hero-main.jpg', import.meta.url).href;
+import heroImageAsset from '../../assets/hero/hero-main.jpg';
 
+const heroImage = heroImageAsset?.src ?? heroImageAsset;
 const headline = 'Design. Build. Go live.';
 const subline =
   'Pop-ups, roadshows, and brand activations with creative speed and technical calm.';
